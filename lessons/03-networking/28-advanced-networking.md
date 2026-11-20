@@ -124,4 +124,4 @@ MTU problems (VPN, overlay networks) look like "SSH logs in but hangs on big out
 - Packets arrive on the server but the client times out. What do you check next?
 
 ## Next
-Module 4 — Automation: lesson 29, Bash scripting basics.
+[Lesson 29. Bash scripting basics](../04-automation/29-bash-basics.md)
