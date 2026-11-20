@@ -27,7 +27,7 @@ Each lesson has the same shape: **Goal → Theory → Commands → Practice → 
 
 ## Lessons
 
-Status: ✅ ready · ⏳ in progress
+All 67 lessons are ready. ✅ = lesson available.
 
 ### Module 0 — Start
 | # | Lesson | Status |
@@ -136,13 +136,13 @@ Status: ✅ ready · ⏳ in progress
 ### Module 11 — Practice and career
 | # | Lesson | Status |
 |---|---|---|
-| 61 | Troubleshooting playbook | ⏳ |
-| 62 | Dangerous commands | ⏳ |
-| 63 | Real-world scenarios | ⏳ |
-| 64 | Labs with solutions | ⏳ |
-| 65 | Capstone projects | ⏳ |
-| 66 | Interview questions | ⏳ |
-| 67 | Glossary and resources | ⏳ |
+| 61 | [Troubleshooting playbook: "what to do if..."](lessons/11-practice/61-troubleshooting-playbook.md) | ✅ |
+| 62 | [Dangerous commands](lessons/11-practice/62-dangerous-commands.md) | ✅ |
+| 63 | [Real-world scenarios](lessons/11-practice/63-real-world-scenarios.md) | ✅ |
+| 64 | [Labs with solutions](lessons/11-practice/64-labs.md) | ✅ |
+| 65 | [Capstone projects](lessons/11-practice/65-capstone-projects.md) | ✅ |
+| 66 | [Interview questions](lessons/11-practice/66-interview-questions.md) | ✅ |
+| 67 | [Glossary and resources](lessons/11-practice/67-glossary-resources.md) | ✅ |
 
 ## Contributing
 
