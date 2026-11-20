@@ -103,4 +103,4 @@ Do each in a snapshot:
 - Why must you bind-mount `/dev`, `/proc`, `/sys` before chroot?
 
 ## Next
-Module 3 — Networking: lesson 23, Network basics.
+[Lesson 23. Network basics](../03-networking/23-network-basics.md)

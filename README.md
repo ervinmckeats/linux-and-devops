@@ -66,12 +66,12 @@ Status: ✅ ready · ⏳ in progress
 ### Module 3 — Networking
 | # | Lesson | Status |
 |---|---|---|
-| 23 | Network basics: IP, ports, TCP/UDP, DNS | ⏳ |
-| 24 | Network tools: ip, ss, ping, traceroute, dig, curl | ⏳ |
-| 25 | SSH: keys, config, scp, rsync, tunnels | ⏳ |
-| 26 | Firewalls: ufw, firewalld, nftables | ⏳ |
-| 27 | HTTP, TLS, nginx reverse proxy | ⏳ |
-| 28 | Advanced networking: netplan, namespaces, tcpdump | ⏳ |
+| 23 | [Network basics: IP, ports, TCP/UDP, DNS](lessons/03-networking/23-network-basics.md) | ✅ |
+| 24 | [Network tools: ip, ss, ping, traceroute, dig, curl](lessons/03-networking/24-network-tools.md) | ✅ |
+| 25 | [SSH: keys, config, scp, rsync, tunnels](lessons/03-networking/25-ssh.md) | ✅ |
+| 26 | [Firewalls: ufw, firewalld, nftables](lessons/03-networking/26-firewalls.md) | ✅ |
+| 27 | [HTTP, TLS, nginx reverse proxy](lessons/03-networking/27-http-tls-nginx.md) | ✅ |
+| 28 | [Advanced networking: netplan, namespaces, tcpdump](lessons/03-networking/28-advanced-networking.md) | ✅ |
 
 ### Module 4 — Automation
 | # | Lesson | Status |
