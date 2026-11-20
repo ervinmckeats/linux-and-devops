@@ -119,4 +119,4 @@ sudo bpftrace -e 'kprobe:vfs_read { @bytes[comm] = hist(arg2); }'               
 - Which tool shows processes that live for 50 ms and disappear?
 
 ## Next
-Module 7 — Containers: lesson 41, Docker basics.
+[Lesson 41. Docker basics](../07-containers/41-docker-basics.md)
