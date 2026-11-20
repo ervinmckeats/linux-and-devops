@@ -164,4 +164,4 @@ Fine for a single server: small projects, internal tools, a self-hosted monitori
 - Does `depends_on` alone wait until the database accepts connections?
 
 ## Next
-Module 8 — DevOps: lesson 44, CI/CD.
+[Lesson 44. CI/CD concepts and pipelines](../08-devops/44-cicd.md)
