@@ -84,9 +84,9 @@ Status: ✅ ready · ⏳ in progress
 ### Module 5 — Security
 | # | Lesson | Status |
 |---|---|---|
-| 33 | Server hardening | ⏳ |
-| 34 | SELinux, AppArmor, auditd, capabilities | ⏳ |
-| 35 | Secrets and encryption | ⏳ |
+| 33 | [Server hardening](lessons/05-security/33-server-hardening.md) | ✅ |
+| 34 | [SELinux, AppArmor, auditd, capabilities](lessons/05-security/34-mac-audit-capabilities.md) | ✅ |
+| 35 | [Secrets and encryption](lessons/05-security/35-secrets-encryption.md) | ✅ |
 
 ### Module 6 — Internals and performance
 | # | Lesson | Status |

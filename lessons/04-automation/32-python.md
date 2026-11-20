@@ -164,4 +164,4 @@ if __name__ == "__main__":
 - Why sleep `2 ** i` between retries instead of a fixed time?
 
 ## Next
-Module 5 — Security: lesson 33, Server hardening.
+[Lesson 33. Server hardening](../05-security/33-server-hardening.md)
