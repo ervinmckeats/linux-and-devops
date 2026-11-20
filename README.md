@@ -76,10 +76,10 @@ Status: ✅ ready · ⏳ in progress
 ### Module 4 — Automation
 | # | Lesson | Status |
 |---|---|---|
-| 29 | Bash scripting basics | ⏳ |
-| 30 | Bash for professionals | ⏳ |
-| 31 | Git for operations | ⏳ |
-| 32 | Python for operations | ⏳ |
+| 29 | [Bash scripting basics](lessons/04-automation/29-bash-basics.md) | ✅ |
+| 30 | [Bash for professionals](lessons/04-automation/30-bash-pro.md) | ✅ |
+| 31 | [Git for operations](lessons/04-automation/31-git.md) | ✅ |
+| 32 | [Python for operations](lessons/04-automation/32-python.md) | ✅ |
 
 ### Module 5 — Security
 | # | Lesson | Status |
