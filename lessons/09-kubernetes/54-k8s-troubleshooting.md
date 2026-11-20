@@ -177,4 +177,4 @@ Write a one-line "symptom → cause → fix" note for each in your own runbook.
 - A Service has no endpoints. Name two possible reasons.
 
 ## Next
-Module 10 — SRE: lesson 55, Observability.
+[Lesson 55. Observability: metrics, logs, traces](../10-sre/55-observability.md)
