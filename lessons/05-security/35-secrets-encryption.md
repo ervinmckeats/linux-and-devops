@@ -133,4 +133,4 @@ Verify downloaded binaries (kubectl, terraform) against published checksums.
 - What does SOPS encrypt, and why does that help code review?
 
 ## Next
-Module 6 — Internals and performance: lesson 36, Kernel.
+[Lesson 36. Kernel: sysctl, modules, limits](../06-internals/36-kernel-sysctl-limits.md)
