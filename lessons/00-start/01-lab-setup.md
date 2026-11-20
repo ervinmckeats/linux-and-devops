@@ -7,10 +7,10 @@ Get a safe Linux machine you can break and restore in seconds.
 
 You learn Linux by doing, and doing means making mistakes. A lab is a machine where mistakes cost nothing:
 
-- **Virtual machine (VM)** — a full computer emulated by software. Best option: real kernel, real boot, snapshots.
-- **WSL2** (Windows) — a real Linux kernel inside Windows. Good for daily commands, weak for boot, disks and systemd topics.
-- **Cloud VM** — a small server from any provider. Good for networking and SSH lessons. Costs money; destroy it when done.
-- **Container** — fast, but it is *not* a full system (no real boot, no kernel of its own). Use it later, in Module 7.
+- **Virtual machine (VM)**: a full computer emulated by software. Best option: real kernel, real boot, snapshots.
+- **WSL2** (Windows): a real Linux kernel inside Windows. Good for daily commands, weak for boot, disks and systemd topics.
+- **Cloud VM**: a small server from any provider. Good for networking and SSH lessons. Costs money; destroy it when done.
+- **Container**: fast, but it is *not* a full system (no real boot, no kernel of its own). Use it later, in Module 7.
 
 **Snapshot** = a saved state of the VM disk. Take one before every risky task. If you break the system, roll back in seconds.
 
@@ -18,15 +18,19 @@ Recommended distribution for this course: **Ubuntu Server LTS** (24.04 or newer)
 
 ## Commands
 
-Option A. Multipass (Linux, macOS, Windows) — one command per VM:
+Option A. Multipass (Linux, macOS, Windows): one command per VM:
 
 ```bash
 multipass launch --name lab --cpus 2 --memory 2G --disk 20G
-multipass shell lab          # open a shell inside
-multipass snapshot lab       # save state (VM must be stopped: multipass stop lab)
+multipass shell lab
+multipass snapshot lab
 multipass restore lab.snapshot1
-multipass delete --purge lab # remove completely
+multipass delete --purge lab
 ```
+
+- `multipass shell lab`: open a shell inside
+- `multipass snapshot lab`: save state (VM must be stopped: multipass stop lab)
+- `multipass delete --purge lab`: remove completely
 
 Option B. VirtualBox / UTM / VMware with an Ubuntu Server ISO:
 
@@ -43,10 +47,13 @@ wsl --install -d Ubuntu
 First commands in a fresh system:
 
 ```bash
-sudo apt update && sudo apt upgrade -y   # update package lists and packages
+sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl git vim tree htop tldr
-hostnamectl                               # what machine am I on?
+hostnamectl
 ```
+
+- `sudo apt update && sudo apt upgrade -y`: update package lists and packages
+- `hostnamectl`: what machine am I on?
 
 ## Study habits that work
 

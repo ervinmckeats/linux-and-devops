@@ -78,7 +78,7 @@ Recruiters and interviewers rarely read certificates; they do open GitHub. A sma
 - Chaos experiment (pod kill, latency injection) with a hypothesis and results.
 - A game day and a full blameless postmortem published in the repo.
 
-**Skills shown:** SRE practice end-to-end — the strongest signal for SRE roles.
+**Skills shown:** SRE practice end-to-end: the strongest signal for SRE roles.
 
 ## Project 6. Your own tool (any level)
 

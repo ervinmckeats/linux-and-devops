@@ -84,50 +84,50 @@
 All free unless noted.
 
 ### Linux
-- `man` pages, `tldr`, and the documentation of your distribution — always first.
-- *The Linux Command Line* by William Shotts — free book, from first command to scripting.
-- Arch Wiki — excellent documentation for any distribution.
+- `man` pages, `tldr`, and the documentation of your distribution: always first.
+- *The Linux Command Line* by William Shotts: free book, from first command to scripting.
+- Arch Wiki: excellent documentation for any distribution.
 - *Bash Guide* and *Bash Pitfalls* on wooledge.org.
-- ShellCheck — finds bugs in shell scripts.
-- explainshell.com — explains each part of a command line.
-- GTFOBins — how ordinary binaries can be abused for privilege escalation (know it to defend against it).
+- ShellCheck: finds bugs in shell scripts.
+- explainshell.com: explains each part of a command line.
+- GTFOBins: how ordinary binaries can be abused for privilege escalation (know it to defend against it).
 
 ### Networking
-- *Beej's Guide to Network Programming* — sockets in depth.
-- Julia Evans' zines and blog — networking, Linux and debugging explained simply.
+- *Beej's Guide to Network Programming*: sockets in depth.
+- Julia Evans' zines and blog: networking, Linux and debugging explained simply.
 - Mozilla MDN HTTP documentation.
 
 ### Performance and internals
 - Brendan Gregg's site: Linux performance, USE method, flame graphs, eBPF.
-- *Systems Performance* by Brendan Gregg (book, paid) — the reference.
+- *Systems Performance* by Brendan Gregg (book, paid): the reference.
 - The kernel documentation at docs.kernel.org.
 
 ### Containers and Kubernetes
 - Official Docker and Kubernetes documentation (kubernetes.io/docs, including tutorials).
-- *Kubernetes the Hard Way* by Kelsey Hightower — build a cluster by hand once.
-- Killercoda — free interactive Kubernetes and Linux scenarios in the browser.
-- CNCF landscape — the map of cloud-native tools.
+- *Kubernetes the Hard Way* by Kelsey Hightower: build a cluster by hand once.
+- Killercoda: free interactive Kubernetes and Linux scenarios in the browser.
+- CNCF landscape: the map of cloud-native tools.
 
 ### DevOps and IaC
 - Ansible, Terraform/OpenTofu, Argo CD and Flux official docs and tutorials.
 - The *DORA* research reports (State of DevOps).
-- *The Twelve-Factor App* — principles for cloud-native apps.
+- *The Twelve-Factor App*: principles for cloud-native apps.
 
 ### SRE
-- *Site Reliability Engineering* and *The Site Reliability Workbook* (Google) — free online.
+- *Site Reliability Engineering* and *The Site Reliability Workbook* (Google): free online.
 - *Implementing Service Level Objectives* by Alex Hidalgo (book, paid).
-- Public postmortem collections (search "awesome postmortems") — real incidents from many companies.
+- Public postmortem collections (search "awesome postmortems"): real incidents from many companies.
 - OpenTelemetry and Prometheus documentation.
 
 ### Practice
 - Your own VMs: break and fix things on purpose.
-- Cloud free tiers — always set a budget alert first.
+- Cloud free tiers: always set a budget alert first.
 - Contribute docs or fixes to an open-source project you use.
 
 ## What next
 
 1. Finish the labs (lesson 64) and at least two capstone projects (lesson 65).
-2. Pick a direction: platform engineering, SRE, cloud, security, or databases — and go deep.
+2. Pick a direction: platform engineering, SRE, cloud, security, or databases: and go deep.
 3. Optional certifications that are respected in the market: LFCS (Linux), CKA/CKAD/CKS (Kubernetes), a cloud associate-level certificate, Terraform Associate. They help pass HR filters; projects and interviews get you the job.
 4. Keep a public log of what you learn (blog, notes repo). Teaching is the fastest way to understand.
 

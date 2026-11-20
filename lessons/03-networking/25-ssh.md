@@ -13,14 +13,21 @@ Log in to servers securely with keys, move files, and reach private services thr
 ## Keys
 
 ```bash
-ssh-keygen -t ed25519 -C "laptop-2026"       # create (use a passphrase)
-ssh-copy-id user@server                      # install the public key on the server
-ssh user@server                              # log in
+ssh-keygen -t ed25519 -C "laptop-2026"
+ssh-copy-id user@server
+ssh user@server
 ssh -i ~/.ssh/other_key user@server
-eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_ed25519   # type the passphrase once
-ssh-keygen -lf ~/.ssh/id_ed25519.pub         # fingerprint
-ssh-keygen -R server                         # remove an old host key from known_hosts
+eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_ed25519
+ssh-keygen -lf ~/.ssh/id_ed25519.pub
+ssh-keygen -R server
 ```
+
+- `ssh-keygen -t ed25519 -C "laptop-2026"`: create (use a passphrase)
+- `ssh-copy-id user@server`: install the public key on the server
+- `ssh user@server`: log in
+- `eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_ed25519`: type the passphrase once
+- `ssh-keygen -lf ~/.ssh/id_ed25519.pub`: fingerprint
+- `ssh-keygen -R server`: remove an old host key from known_hosts
 
 Permissions matter; SSH refuses keys that others can read:
 
@@ -60,30 +67,39 @@ ssh web1 'uptime; df -h /'
 ssh web1 'sudo systemctl restart nginx'
 scp file.txt web1:/tmp/
 scp -r web1:/var/log/nginx ./logs
-rsync -avzP ./site/ web1:/var/www/site/      # prefer rsync for anything big or repeated
+rsync -avzP ./site/ web1:/var/www/site/
 for h in web1 web2 web3; do ssh "$h" 'hostname; uptime'; done
 ```
 
+- `rsync -avzP ./site/ web1:/var/www/site/`: prefer rsync for anything big or repeated
+
 ## Tunnels
 
-**Local forward** — reach a remote private service from your laptop:
+**Local forward**: reach a remote private service from your laptop:
 
 ```bash
-ssh -L 5432:localhost:5432 db-1        # then: psql -h localhost
-ssh -L 8080:10.0.1.20:80 bastion       # reach an internal web UI through bastion
+ssh -L 5432:localhost:5432 db-1
+ssh -L 8080:10.0.1.20:80 bastion
 ```
 
-**Remote forward** — expose your local port on the server:
+- `ssh -L 5432:localhost:5432 db-1`: then `psql -h localhost`
+- `ssh -L 8080:10.0.1.20:80 bastion`: reach an internal web UI through bastion
+
+**Remote forward**: expose your local port on the server:
 
 ```bash
-ssh -R 9000:localhost:3000 web1        # web1:9000 → your laptop:3000
+ssh -R 9000:localhost:3000 web1
 ```
+
+- `ssh -R 9000:localhost:3000 web1`: web1:9000 → your laptop:3000
 
 **Dynamic (SOCKS proxy)**:
 
 ```bash
-ssh -D 1080 bastion                    # set browser SOCKS5 proxy to localhost:1080
+ssh -D 1080 bastion
 ```
+
+- `ssh -D 1080 bastion`: set browser SOCKS5 proxy to localhost:1080
 
 Add `-N` (no shell) and `-f` (background) for tunnels only.
 
@@ -96,10 +112,14 @@ Add `-N` (no shell) and `-f` (background) for tunnels only.
 ## Troubleshooting
 
 ```bash
-ssh -v user@server              # -vvv for more
-sudo journalctl -u ssh -f       # on the server (unit is "sshd" on RHEL)
-sudo sshd -t                    # test server config before restart
+ssh -v user@server
+sudo journalctl -u ssh -f
+sudo sshd -t
 ```
+
+- `ssh -v user@server`: `-vvv` for more
+- `sudo journalctl -u ssh -f`: on the server (unit is "sshd" on RHEL)
+- `sudo sshd -t`: test server config before restart
 
 Typical causes: wrong permissions on `~/.ssh`, key in the wrong user's `authorized_keys`, `PasswordAuthentication no` without a key, firewall, wrong port.
 

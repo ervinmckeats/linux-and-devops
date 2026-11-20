@@ -7,8 +7,8 @@ Understand how a file name relates to file data, and why "disk full" can happen 
 
 A file has two parts:
 
-- **Inode** — a record with metadata: size, owner, permissions, timestamps, and where the data blocks are. **The inode does not store the name.**
-- **Directory entry** — a pair *name → inode number*. A directory is just a table of these pairs.
+- **Inode**: a record with metadata: size, owner, permissions, timestamps, and where the data blocks are. **The inode does not store the name.**
+- **Directory entry**: a pair *name → inode number*. A directory is a table of these pairs.
 
 ```
 directory /home/alice        inode 1234             data blocks
@@ -41,17 +41,28 @@ A small file that contains a **path** to another file. Works across filesystems 
 ## Commands
 
 ```bash
-ls -i file                 # inode number
-stat file                  # inode, links, times
-ln file hardlink           # hard link
-ln -s /path/target link    # symlink
-ls -l link                 # shows link -> target
-readlink -f link           # resolve full path
-find . -xtype l            # broken symlinks
-find / -inum 1234 2>/dev/null   # all names of an inode
-df -i                      # inode usage per filesystem
-lsof +L1                   # open files with zero links (deleted but held)
+ls -i file
+stat file
+ln file hardlink
+ln -s /path/target link
+ls -l link
+readlink -f link
+find . -xtype l
+find / -inum 1234 2>/dev/null
+df -i
+lsof +L1
 ```
+
+- `ls -i file`: inode number
+- `stat file`: inode, links, times
+- `ln file hardlink`: hard link
+- `ln -s /path/target link`: symlink
+- `ls -l link`: shows link -> target
+- `readlink -f link`: resolve full path
+- `find . -xtype l`: broken symlinks
+- `find / -inum 1234 2>/dev/null`: all names of an inode
+- `df -i`: inode usage per filesystem
+- `lsof +L1`: open files with zero links (deleted but held)
 
 ## Practice
 
@@ -61,10 +72,12 @@ lsof +L1                   # open files with zero links (deleted but held)
 4. Reproduce the "deleted but open" problem:
    ```bash
    dd if=/dev/zero of=/tmp/big bs=1M count=200
-   tail -f /tmp/big > /dev/null &     # keep it open
+   tail -f /tmp/big > /dev/null &
    rm /tmp/big; df -h /tmp; lsof +L1 | grep big
    kill %1; df -h /tmp
    ```
+
+   - `tail -f /tmp/big > /dev/null &`: keep it open
 
 ## Check yourself
 

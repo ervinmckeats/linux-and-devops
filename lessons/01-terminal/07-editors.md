@@ -50,13 +50,13 @@ ciw            change the word under cursor
 :set paste     paste without auto-indent mess
 ```
 
-### sudo and vim
+### `sudo` and vim
 
 Opened a system file without sudo? Do not lose your edits:
 ```
 :w !sudo tee % > /dev/null
 ```
-Better habit: `sudoedit /etc/ssh/sshd_config` — edits a temp copy with your own editor settings and writes it back as root.
+Better habit: `sudoedit /etc/ssh/sshd_config`: edits a temp copy with your own editor settings and writes it back as root.
 
 Set your default editor (used by `crontab -e`, `git commit`, `visudo`):
 ```bash
@@ -67,7 +67,7 @@ echo 'export EDITOR=vim' >> ~/.bashrc
 
 1. Run `vimtutor` and finish it (about 30 minutes). This is the best vim lesson there is.
 2. Copy `/etc/services` to `~`, open in vim, delete lines 1–10, replace `tcp` with `TCP` everywhere, save.
-3. Open a file without sudo in `/etc`, make a change and save it with the `tee` trick (in your lab).
+3. Open a file in `/etc` without `sudo`, make a change and save it with the `tee` trick (in your lab).
 
 ## Check yourself
 

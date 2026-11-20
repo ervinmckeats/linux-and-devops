@@ -46,8 +46,10 @@ Host OOM vs cgroup limit (`MemoryMax`, container limit). → [lesson 37](../06-i
 systemctl status app
 journalctl -u app -b --no-pager | tail -50
 systemctl cat app
-sudo -u app /path/to/binary --config /etc/app/config   # run by hand as the service user
+sudo -u app /path/to/binary --config /etc/app/config
 ```
+
+- `sudo -u app /path/to/binary --config /etc/app/config`: run by hand as the service user
 Wrong path/permissions, port already in use, missing env file, SELinux. → [lesson 16](../02-sysadmin/16-systemd.md)
 
 ## Port already in use
@@ -62,9 +64,11 @@ sudo lsof -i :8080
 ```bash
 id; namei -l /full/path; ls -l file; getfacl file; lsattr file
 mount | grep noexec
-sudo ausearch -m avc -ts recent       # SELinux
+sudo ausearch -m avc -ts recent
 sudo journalctl -k | grep -i apparmor
 ```
+
+- `sudo ausearch -m avc -ts recent`: SELinux
 → [lessons 13](../02-sysadmin/13-permissions.md), [34](../05-security/34-mac-audit-capabilities.md)
 
 ## "Too many open files"
@@ -73,18 +77,22 @@ sudo journalctl -k | grep -i apparmor
 cat /proc/$(pgrep -o nginx)/limits | grep 'open files'
 ls /proc/PID/fd | wc -l
 ```
-Raise `LimitNOFILE` in the systemd unit, not only in limits.conf. → [lesson 36](../06-internals/36-kernel-sysctl-limits.md)
+Raise `LimitNOFILE` in the systemd unit, not only in `limits.conf`. → [lesson 36](../06-internals/36-kernel-sysctl-limits.md)
 
 ## Cannot connect to a host/port
 
 ```bash
 getent hosts host; dig +short host
 ip route get <ip>
-nc -zv host port                       # refused vs timeout
-sudo ss -tlnp                          # on the server: listening? on 0.0.0.0 or 127.0.0.1?
-sudo ufw status; sudo nft list ruleset # plus cloud security groups
+nc -zv host port
+sudo ss -tlnp
+sudo ufw status; sudo nft list ruleset
 sudo tcpdump -ni any port <port>
 ```
+
+- `nc -zv host port`: refused vs timeout
+- `sudo ss -tlnp`: on the server: listening? on 0.0.0.0 or 127.0.0.1?
+- `sudo ufw status; sudo nft list ruleset`: plus cloud security groups
 → [lessons 23](../03-networking/23-network-basics.md), [24](../03-networking/24-network-tools.md), [26](../03-networking/26-firewalls.md)
 
 ## DNS problems
@@ -100,10 +108,12 @@ Stale cache/TTL, wrong resolver, split DNS, `/etc/hosts` override, search domain
 
 ```bash
 ssh -v user@host
-sudo journalctl -u ssh -f               # on the server
+sudo journalctl -u ssh -f
 sudo sshd -t
 ls -ld ~/.ssh; ls -l ~/.ssh/authorized_keys
 ```
+
+- `sudo journalctl -u ssh -f`: on the server
 Permissions, wrong user, password auth disabled, firewall/port, host key changed. → [lesson 25](../03-networking/25-ssh.md)
 
 ## nginx returns 502 / 504

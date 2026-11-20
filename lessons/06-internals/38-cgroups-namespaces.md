@@ -4,8 +4,8 @@
 Understand the two kernel features that make containers possible, and use them directly.
 
 **A container is a normal Linux process with:**
-- **namespaces** — what it can **see** (its own PIDs, network, mounts, hostname, users)
-- **cgroups** — how much it can **use** (CPU, memory, I/O, number of processes)
+- **namespaces**: what it can **see** (its own PIDs, network, mounts, hostname, users)
+- **cgroups**: how much it can **use** (CPU, memory, I/O, number of processes)
 - plus a root filesystem (image), capabilities and seccomp filters.
 
 ## cgroups v2
@@ -13,12 +13,17 @@ Understand the two kernel features that make containers possible, and use them d
 A single tree under `/sys/fs/cgroup`. systemd organizes it into **slices** (`system.slice`, `user.slice`), **services** and **scopes**.
 
 ```bash
-mount | grep cgroup2                  # check v2 is used
-systemd-cgls                          # tree of cgroups and processes
-systemd-cgtop                         # live usage per cgroup
-cat /proc/self/cgroup                 # my cgroup
+mount | grep cgroup2
+systemd-cgls
+systemd-cgtop
+cat /proc/self/cgroup
 ls /sys/fs/cgroup/system.slice/nginx.service/
 ```
+
+- `mount | grep cgroup2`: check v2 is used
+- `systemd-cgls`: tree of cgroups and processes
+- `systemd-cgtop`: live usage per cgroup
+- `cat /proc/self/cgroup`: my cgroup
 
 Key files in a cgroup directory:
 
@@ -30,7 +35,7 @@ Key files in a cgroup directory:
 | `memory.events` | counters: `high`, `max`, `oom`, `oom_kill` |
 | `cpu.max` | `quota period`, e.g. `50000 100000` = half a CPU |
 | `cpu.weight` | relative share when CPUs are contended (default 100) |
-| `cpu.stat` | `nr_throttled`, `throttled_usec` — CPU throttling |
+| `cpu.stat` | `nr_throttled`, `throttled_usec`: CPU throttling |
 | `io.max` | read/write bandwidth or IOPS limits per device |
 | `pids.max` | max number of processes (fork bomb protection) |
 | `*.pressure` | PSI for this cgroup |
@@ -39,17 +44,21 @@ Key files in a cgroup directory:
 
 ```bash
 sudo systemctl set-property nginx.service MemoryMax=1G CPUQuota=200%
-sudo systemd-run --scope -p MemoryMax=200M -p CPUQuota=25% bash   # a limited shell
+sudo systemd-run --scope -p MemoryMax=200M -p CPUQuota=25% bash
 systemctl show nginx -p MemoryCurrent,CPUUsageNSec
 ```
 
-### CPU throttling — the hidden latency killer
+- `sudo systemd-run --scope -p MemoryMax=200M -p CPUQuota=25% bash`: a limited shell
+
+### CPU throttling: the hidden latency killer
 
 With `cpu.max` (Kubernetes CPU **limits**), a process that uses its quota early in a 100 ms period is **paused** until the next period. Average CPU looks low, but latency spikes. Check:
 
 ```bash
-cat /sys/fs/cgroup/<path>/cpu.stat    # nr_throttled growing = throttled
+cat /sys/fs/cgroup/<path>/cpu.stat
 ```
+
+- `cat /sys/fs/cgroup/<path>/cpu.stat`: nr_throttled growing = throttled
 
 That is why many teams set CPU **requests** but no CPU **limits** in Kubernetes (lesson 52).
 
@@ -67,27 +76,36 @@ That is why many teams set CPU **requests** but no CPU **limits** in Kubernetes 
 | `time` | clocks (rare) |
 
 ```bash
-lsns                                  # all namespaces on the host
-ls -l /proc/$$/ns                     # namespaces of my shell
+lsns
+ls -l /proc/$$/ns
 ```
+
+- `lsns`: all namespaces on the host
+- `ls -l /proc/$$/ns`: namespaces of my shell
 
 ### Build a "container" with unshare
 
 ```bash
 sudo unshare --fork --pid --mount-proc --uts --net bash
-hostname inside-box; hostname         # changes only here
-ps aux                                # only a few processes, bash is PID 1
-ip addr                               # only lo, and it is DOWN
+hostname inside-box; hostname
+ps aux
+ip addr
 exit
 ```
+
+- `hostname inside-box; hostname`: changes only here
+- `ps aux`: only a few processes, bash is PID 1
+- `ip addr`: only lo, and it is DOWN
 
 Add a root filesystem and you are very close to Docker:
 
 ```bash
 mkdir -p /tmp/rootfs
-docker export $(docker create alpine) | tar -x -C /tmp/rootfs   # or debootstrap
+docker export $(docker create alpine) | tar -x -C /tmp/rootfs
 sudo unshare --fork --pid --mount-proc --uts --net --root=/tmp/rootfs /bin/sh
 ```
+
+- `docker export $(docker create alpine) | tar -x -C /tmp/rootfs`: or debootstrap
 
 ### Enter a running container's namespaces
 
@@ -95,10 +113,13 @@ When a container image has no debugging tools, use the host's tools inside its n
 
 ```bash
 PID=$(docker inspect -f '{{.State.Pid}}' mycontainer)
-sudo nsenter -t "$PID" -n ss -tlnp     # network namespace only: host's ss, container's sockets
+sudo nsenter -t "$PID" -n ss -tlnp
 sudo nsenter -t "$PID" -n tcpdump -ni eth0 port 80
-sudo nsenter -t "$PID" -a sh           # all namespaces
+sudo nsenter -t "$PID" -a sh
 ```
+
+- `sudo nsenter -t "$PID" -n ss -tlnp`: network namespace only: host's ss, container's sockets
+- `sudo nsenter -t "$PID" -a sh`: all namespaces
 
 ## Practice
 

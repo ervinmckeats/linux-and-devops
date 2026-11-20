@@ -16,7 +16,7 @@ Recognize commands that destroy data or lock you out, and build habits that stop
 | `mkfs.ext4 /dev/sdb` | formats the disk | `lsblk -f`, check mountpoints and data |
 | `> important.conf` | truncates the file to zero | `>>` for append; `set -o noclobber` |
 | `chmod -R 777 /` / `chown -R user /` | breaks the system and security (sudo, ssh stop working) | never recursive on `/`, `/etc`, `/usr` |
-| `mv /etc /tmp` | system unusable | — |
+| `mv /etc /tmp` | system unusable | - |
 | `find / -name "*.log" -delete` | deletes logs that apps need, and more than you think | run without `-delete` first |
 | `rsync --delete src dst` with swapped arguments | mirrors emptiness onto your data | `rsync -n` (dry run) first |
 | `git reset --hard`, `git clean -fdx` | loses uncommitted work | `git stash`, `git status` first |
@@ -29,21 +29,26 @@ Recognize commands that destroy data or lock you out, and build habits that stop
 | `ufw enable` without allowing SSH | you are cut off from the server |
 | `iptables -P INPUT DROP` over SSH | same |
 | `PasswordAuthentication no` before a key login works | locked out |
-| broken `/etc/sudoers` | no more sudo — always use `visudo` |
-| broken `/etc/fstab` | boot stops in emergency mode — `mount -a` before reboot |
+| broken `/etc/sudoers` | no more sudo: always use `visudo` |
+| broken `/etc/fstab` | boot stops in emergency mode: `mount -a` before reboot |
 | `chmod 600 /etc/passwd` / wrong perms on `/etc/shadow` | logins fail |
-| `passwd -l root` + no other sudo user | no admin access |
+| `passwd -l root` + no other `sudo` user | no admin access |
 
 Protection: keep a second session open, use `netplan try`, schedule automatic rollback with `at`, keep console access (lessons 26, 28, 33).
 
 ## System and resource killers
 
 ```bash
-:(){ :|:& };:          # fork bomb: infinite processes  → limit with pids.max / TasksMax
-cat /dev/zero > /dev/sda   # wipe disk
-echo c > /proc/sysrq-trigger   # crash the kernel immediately
-kill -9 1              # kill PID 1 → kernel panic
+:(){ :|:& };:
+cat /dev/zero > /dev/sda
+echo c > /proc/sysrq-trigger
+kill -9 1
 ```
+
+- `:(){ :|:& };:`: fork bomb: infinite processes  → limit with pids.max / TasksMax
+- `cat /dev/zero > /dev/sda`: wipe disk
+- `echo c > /proc/sysrq-trigger`: crash the kernel immediately
+- `kill -9 1`: kill PID 1 → kernel panic
 
 ## Running code from the internet
 
@@ -61,7 +66,7 @@ Look-alike traps: text copied from a web page can contain hidden characters or a
 |---|---|
 | `kubectl delete ns prod` | deletes everything in the namespace, including PVCs |
 | `kubectl delete pods --all -A` | restarts the world |
-| `kubectl apply` in the wrong context | prod changed instead of dev — show context in the prompt |
+| `kubectl apply` in the wrong context | prod changed instead of dev: show context in the prompt |
 | `helm uninstall` of a release with PVCs | data may be gone with them |
 | `terraform destroy` / an unchecked `-/+` replace in a plan | deletes databases and disks |
 | `aws s3 rm s3://bucket --recursive` | deletes all objects (versioning helps) |
@@ -75,7 +80,7 @@ Look-alike traps: text copied from a web page can contain hidden characters or a
 3. **Snapshots and backups** before risky changes, and tested restores.
 4. **Least privilege**: use read-only credentials for looking around; escalate only to change.
 5. **Two-person rule** for irreversible production actions; changes through PRs.
-6. **Slow down** when tired or under pressure. Most disasters are typed at 3 a.m.
+6. **Slow down** when tired or under pressure. Most mistakes happen when you are tired or in a hurry.
 7. **Aliases with confirmation** on your own machine: `alias rm='rm -I'`, `alias cp='cp -i'`, `alias mv='mv -i'` (do not rely on them on servers).
 
 ## Practice

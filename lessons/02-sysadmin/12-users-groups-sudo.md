@@ -14,8 +14,8 @@ Create and manage accounts, and give admin rights without sharing the root passw
 
 | File | Contents |
 |---|---|
-| `/etc/passwd` | `name:x:UID:GID:comment:home:shell` — readable by all |
-| `/etc/shadow` | password hashes, expiry — root only |
+| `/etc/passwd` | `name:x:UID:GID:comment:home:shell`: readable by all |
+| `/etc/shadow` | password hashes, expiry: root only |
 | `/etc/group` | `group:x:GID:members` |
 | `/etc/sudoers`, `/etc/sudoers.d/` | who may run what |
 | `/etc/skel/` | template files copied into new home directories |
@@ -23,33 +23,50 @@ Create and manage accounts, and give admin rights without sharing the root passw
 ## Commands
 
 ```bash
-id                          # my UID, GID, groups
+id
 id alice
 whoami; groups
-getent passwd alice         # works with LDAP/SSSD too, not only local files
-sudo useradd -m -s /bin/bash -c "Alice" alice   # low-level, all distros
-sudo adduser bob            # interactive, Debian/Ubuntu
-sudo passwd alice           # set password
-sudo usermod -aG sudo alice # add to group (-a = append! without it you REPLACE groups)
+getent passwd alice
+sudo useradd -m -s /bin/bash -c "Alice" alice
+sudo adduser bob
+sudo passwd alice
+sudo usermod -aG sudo alice
 sudo usermod -aG docker alice
-sudo gpasswd -d alice docker   # remove from group
+sudo gpasswd -d alice docker
 sudo groupadd devs
-sudo userdel -r bob         # delete with home directory
-sudo chage -l alice         # password expiry info
-sudo passwd -l alice        # lock account
-sudo usermod -s /usr/sbin/nologin svc   # no interactive login
-su - alice                  # switch user (needs alice's password)
-sudo -i                     # root login shell
-sudo -u postgres psql       # run as another user
-sudo -l                     # what am I allowed to run?
-last; lastlog; who; w       # who logged in, who is here now
+sudo userdel -r bob
+sudo chage -l alice
+sudo passwd -l alice
+sudo usermod -s /usr/sbin/nologin svc
+su - alice
+sudo -i
+sudo -u postgres psql
+sudo -l
+last; lastlog; who; w
 ```
+
+- `id`: my UID, GID, groups
+- `getent passwd alice`: works with LDAP/SSSD too, not only local files
+- `sudo useradd -m -s /bin/bash -c "Alice" alice`: low-level, all distros
+- `sudo adduser bob`: interactive, Debian/Ubuntu
+- `sudo passwd alice`: set password
+- `sudo usermod -aG sudo alice`: add to group (`-a` = append! without it you REPLACE groups)
+- `sudo gpasswd -d alice docker`: remove from group
+- `sudo userdel -r bob`: delete with home directory
+- `sudo chage -l alice`: password expiry info
+- `sudo passwd -l alice`: lock account
+- `sudo usermod -s /usr/sbin/nologin svc`: no interactive login
+- `su - alice`: switch user (needs alice's password)
+- `sudo -i`: root login shell
+- `sudo -u postgres psql`: run as another user
+- `sudo -l`: what am I allowed to run?
+- `last; lastlog; who; w`: who logged in, who is here now
 
 New group membership applies to **new** logins. Run `newgrp docker` or log out and in.
 
 ### sudoers
 
-Always edit with `visudo` — it checks syntax. A broken sudoers file can lock you out of sudo.
+Always edit with `visudo`: it checks syntax. A broken sudoers file can lock you out of sudo.
 
 ```bash
 sudo visudo -f /etc/sudoers.d/deploy
@@ -62,7 +79,7 @@ alice   ALL=(ALL:ALL) ALL
 deploy  ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart myapp
 ```
 
-Least privilege: grant exact commands, not `ALL`. Note that some commands are an escape to a full shell (`vim`, `less`, `find -exec`, `tar`) — see GTFOBins.
+Least privilege: grant exact commands, not `ALL`. Note that some commands are an escape to a full shell (`vim`, `less`, `find -exec`, `tar`): see GTFOBins.
 
 ## Practice
 

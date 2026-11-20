@@ -21,11 +21,11 @@ Understand the layers of a Linux system, so every later command has a place on t
 └──────────────────────────────────────────┘
 ```
 
-- **Kernel** — the one program that talks to hardware. It schedules processes, gives out memory, manages files and the network. Strictly, "Linux" is just the kernel.
-- **User space** — everything else. Programs cannot touch hardware directly; they ask the kernel through **system calls**. A program crash in user space does not take down the kernel.
-- **Distribution** — kernel + tools + package manager + defaults, assembled and tested together. Ubuntu, Debian, RHEL, Fedora, Arch, Alpine.
-- **Shell** — a program that reads your command, finds the program, starts it and shows the result. Usually `bash` (or `zsh`). It is just a program, not part of the kernel.
-- **Terminal** — the window that shows the shell's text. The terminal draws, the shell interprets.
+- **Kernel**: the one program that talks to hardware. It schedules processes, gives out memory, manages files and the network. Strictly, "Linux" is only the kernel.
+- **User space**: everything else. Programs cannot touch hardware directly; they ask the kernel through **system calls**. A program crash in user space does not take down the kernel.
+- **Distribution**: kernel + tools + package manager + defaults, assembled and tested together. Ubuntu, Debian, RHEL, Fedora, Arch, Alpine.
+- **Shell**: a program that reads your command, finds the program, starts it and shows the result. Usually `bash` (or `zsh`). It is an ordinary program and runs outside the kernel.
+- **Terminal**: the window that shows the shell's text. The terminal draws, the shell interprets.
 
 ### Distribution families
 
@@ -48,13 +48,20 @@ Pick based on the job: Ubuntu LTS or Debian for servers and learning, Rocky/Alma
 ## Commands
 
 ```bash
-uname -r                  # kernel version
-cat /etc/os-release       # distribution and version
-echo $SHELL               # your login shell
-ps -p $$                  # the shell you are in right now
-cat /proc/cpuinfo | head  # the kernel exposes hardware as files
-ls /dev | head            # devices as files
+uname -r
+cat /etc/os-release
+echo $SHELL
+ps -p $$
+cat /proc/cpuinfo | head
+ls /dev | head
 ```
+
+- `uname -r`: kernel version
+- `cat /etc/os-release`: distribution and version
+- `echo $SHELL`: your login shell
+- `ps -p $$`: the shell you are in right now
+- `cat /proc/cpuinfo | head`: the kernel exposes hardware as files
+- `ls /dev | head`: devices as files
 
 ## Practice
 

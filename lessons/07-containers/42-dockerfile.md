@@ -130,21 +130,26 @@ docker build --secret id=npmrc,src=$HOME/.npmrc .
 
 ## ENTRYPOINT vs CMD
 
-- `ENTRYPOINT` — the executable. `CMD` — default arguments. `docker run image ARGS` replaces `CMD`.
+- `ENTRYPOINT`: the executable. `CMD`: default arguments. `docker run image ARGS` replaces `CMD`.
 - Common pattern: `ENTRYPOINT ["/entrypoint.sh"]` that prepares config and ends with `exec "$@"`, plus `CMD ["app"]`. The `exec` matters: it replaces the shell so the app gets signals.
 
 ## Build, tag, scan
 
 ```bash
 docker build -t myapp:1.0 .
-docker build --target build -t myapp:build .      # stop at a stage
+docker build --target build -t myapp:build .
 docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/org/myapp:1.0 --push .
 docker image ls myapp
-trivy image myapp:1.0                             # vulnerabilities
+trivy image myapp:1.0
 docker scout cves myapp:1.0
-dive myapp:1.0                                    # explore layers, find waste
-hadolint Dockerfile                               # lint
+dive myapp:1.0
+hadolint Dockerfile
 ```
+
+- `docker build --target build -t myapp:build .`: stop at a stage
+- `trivy image myapp:1.0`: vulnerabilities
+- `dive myapp:1.0`: explore layers, find waste
+- `hadolint Dockerfile`: lint
 
 Tag with the version **and** the Git commit: `myapp:1.4.2`, `myapp:sha-3f2c1ab`. That links a running container to exact code.
 

@@ -32,23 +32,35 @@ Linux has **one tree** that starts at `/` (root). There are no drive letters: ot
 | `/mnt`, `/media` | mount points for extra disks and USB |
 | `/run` | runtime data (PID files, sockets), cleared on boot |
 
-Rule of thumb when something breaks: config is in `/etc`, logs are in `/var/log`, the binary is in `/usr/bin`.
+When something breaks: config is in `/etc`, logs are in `/var/log`, the binary is in `/usr/bin`.
 
 ## Commands
 
 ```bash
-pwd                 # print working directory
-cd /var/log         # absolute
-cd ..               # up one level
-cd                  # home (same as cd ~)
-cd -                # back to previous directory
-ls                  # list
-ls -la              # long format, include hidden
-ls -lh              # human-readable sizes
-ls -lt              # sort by time, newest first
-ls -R               # recursive
-tree -L 2 /etc      # tree view, 2 levels
+pwd
+cd /var/log
+cd ..
+cd
+cd -
+ls
+ls -la
+ls -lh
+ls -lt
+ls -R
+tree -L 2 /etc
 ```
+
+- `pwd`: print working directory
+- `cd /var/log`: absolute
+- `cd ..`: up one level
+- `cd`: home (same as `cd ~`)
+- `cd -`: back to previous directory
+- `ls`: list
+- `ls -la`: long format, include hidden
+- `ls -lh`: human-readable sizes
+- `ls -lt`: sort by time, newest first
+- `ls -R`: recursive
+- `tree -L 2 /etc`: tree view, 2 levels
 
 Reading `ls -l`:
 
@@ -69,7 +81,7 @@ Reading `ls -l`:
 1. Go to `/etc`, list only files that end with `.conf`.
 2. Find where `bash` lives with `which bash`, then `ls -l` it.
 3. Use `cd -` to jump between `/var/log` and `/etc` three times.
-4. Look at `/proc/self/status` — this file describes the process that reads it.
+4. Look at `/proc/self/status`: this file describes the process that reads it.
 5. Run `du -sh /proc` and explain why it is (almost) zero.
 
 ## Check yourself

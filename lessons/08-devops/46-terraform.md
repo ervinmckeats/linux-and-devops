@@ -14,25 +14,29 @@ Clicking in a console is fast once and painful forever: nobody knows what exists
 
 ## Core concepts
 
-- **Provider** — plugin for an API: AWS, GCP, Azure, Kubernetes, Cloudflare, GitHub...
-- **Resource** — something Terraform creates and owns (`aws_instance`, `aws_s3_bucket`).
-- **Data source** — something that exists and you only read (latest AMI, existing VPC).
-- **Variables / outputs / locals** — inputs, results, helper values.
-- **State** — Terraform's record of which real objects belong to which resource. It is how Terraform knows what to change.
-- **Module** — a reusable folder of resources with inputs and outputs.
+- **Provider**: plugin for an API: AWS, GCP, Azure, Kubernetes, Cloudflare, GitHub...
+- **Resource**: something Terraform creates and owns (`aws_instance`, `aws_s3_bucket`).
+- **Data source**: something that exists and you only read (latest AMI, existing VPC).
+- **Variables / outputs / locals**: inputs, results, helper values.
+- **State**: Terraform's record of which real objects belong to which resource. It is how Terraform knows what to change.
+- **Module**: a reusable folder of resources with inputs and outputs.
 
 ## Workflow
 
 ```bash
-terraform init          # download providers, set up backend
+terraform init
 terraform fmt -recursive
 terraform validate
 terraform plan -out=tfplan
-terraform apply tfplan  # apply exactly what was reviewed
-terraform destroy       # careful
+terraform apply tfplan
+terraform destroy
 ```
 
-Read every plan. Symbols: `+` create, `~` update in place, `-/+` **replace** (destroy then create — data loss for databases and disks!), `-` destroy.
+- `terraform init`: download providers, set up backend
+- `terraform apply tfplan`: apply exactly what was reviewed
+- `terraform destroy`: careful
+
+Read every plan. Symbols: `+` create, `~` update in place, `-/+` **replace** (destroy then create: data loss for databases and disks!), `-` destroy.
 
 ## Example: a small web server on AWS
 
@@ -158,19 +162,23 @@ terraform apply tfplan
 terraform output public_ip
 ```
 
-## State: the part that bites
+## State
 
-- **Remote backend** (S3, GCS, Azure Blob, Terraform Cloud) with **locking** — never keep team state on a laptop or in Git.
+- **Remote backend** (S3, GCS, Azure Blob, Terraform Cloud) with **locking**: never keep team state on a laptop or in Git.
 - State can contain **secrets** (DB passwords, keys). Encrypt it, restrict access.
 - One state per environment and per component (network, database, app) to limit blast radius and speed up plans.
 
 ```bash
 terraform state list
 terraform state show aws_instance.web
-terraform import aws_s3_bucket.logs my-existing-bucket       # adopt an existing resource
-terraform state mv aws_instance.web module.web.aws_instance.this   # after refactoring
-terraform plan -refresh-only                                  # detect drift (manual console changes)
+terraform import aws_s3_bucket.logs my-existing-bucket
+terraform state mv aws_instance.web module.web.aws_instance.this
+terraform plan -refresh-only
 ```
+
+- `terraform import aws_s3_bucket.logs my-existing-bucket`: adopt an existing resource
+- `terraform state mv aws_instance.web module.web.aws_instance.this`: after refactoring
+- `terraform plan -refresh-only`: detect drift (manual console changes)
 
 Newer versions also support `import {}` and `moved {}` blocks in code, which go through normal review.
 

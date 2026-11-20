@@ -5,11 +5,11 @@ Design a pipeline that takes a commit to production safely, and know the deploym
 
 ## Terms
 
-- **Continuous Integration (CI)** — every change is merged often and automatically built and tested.
-- **Continuous Delivery** — every green build *can* be released with one click.
-- **Continuous Deployment** — every green build *is* released automatically.
-- **Pipeline** — stages that run on each push or PR: lint → test → build → scan → publish → deploy.
-- **Artifact** — what the build produces: a container image, a binary, a package. **Build once, deploy the same artifact everywhere** (dev → staging → prod). Only configuration differs.
+- **Continuous Integration (CI)**: every change is merged often and automatically built and tested.
+- **Continuous Delivery**: every green build *can* be released with one click.
+- **Continuous Deployment**: every green build *is* released automatically.
+- **Pipeline**: stages that run on each push or PR: lint → test → build → scan → publish → deploy.
+- **Artifact**: what the build produces: a container image, a binary, a package. **Build once, deploy the same artifact everywhere** (dev → staging → prod). Only configuration differs.
 
 ## A typical pipeline
 
@@ -27,10 +27,10 @@ push / PR
 ```
 
 Properties of a good pipeline:
-- **Fast** — under ~10 minutes for feedback. Cache dependencies and Docker layers, run jobs in parallel.
-- **Deterministic** — pinned tool versions, no "works on my runner".
-- **Secure** — secrets in the CI secret store, short-lived cloud credentials via OIDC, least-privilege tokens, no secrets printed in logs, untrusted PRs from forks get no secrets.
-- **Visible** — failures say clearly what broke.
+- **Fast**: under ~10 minutes for feedback. Cache dependencies and Docker layers, run jobs in parallel.
+- **Deterministic**: pinned tool versions, no "works on my runner".
+- **Secure**: secrets in the CI secret store, short-lived cloud credentials via OIDC, least-privilege tokens, no secrets printed in logs, untrusted PRs from forks get no secrets.
+- **Visible**: failures say clearly what broke.
 
 ## Example: GitHub Actions
 
@@ -139,16 +139,16 @@ Rules that make any strategy safe:
 
 ## Push vs pull deployment
 
-- **Push** — the CI job connects to servers/cluster and deploys (`ssh`, `kubectl apply`, `helm upgrade`). Simple, but CI needs production credentials.
-- **Pull (GitOps)** — CI only updates the desired version in a Git repo; an agent inside the cluster (Argo CD, Flux) pulls and applies it (lesson 53). No cluster credentials in CI, Git is the audit log.
+- **Push**: the CI job connects to servers/cluster and deploys (`ssh`, `kubectl apply`, `helm upgrade`). Simple, but CI needs production credentials.
+- **Pull (GitOps)**: CI only updates the desired version in a Git repo; an agent inside the cluster (Argo CD, Flux) pulls and applies it (lesson 53). No cluster credentials in CI, Git is the audit log.
 
 ## DORA metrics
 
 How to tell if delivery is healthy:
-- **Deployment frequency** — how often you deploy.
-- **Lead time for changes** — commit to production.
-- **Change failure rate** — % of deploys causing incidents.
-- **Time to restore** — how fast you recover.
+- **Deployment frequency**: how often you deploy.
+- **Lead time for changes**: commit to production.
+- **Change failure rate**: % of deploys causing incidents.
+- **Time to restore**: how fast you recover.
 
 ## Practice
 

@@ -25,9 +25,11 @@ network:
 
 ```bash
 sudo chmod 600 /etc/netplan/01-static.yaml
-sudo netplan try        # applies and rolls back after 120 s unless you confirm - use it on remote hosts
+sudo netplan try
 sudo netplan apply
 ```
+
+- `sudo netplan try`: applies and rolls back after 120 s unless you confirm - use it on remote hosts
 
 ### RHEL / NetworkManager
 
@@ -36,10 +38,12 @@ nmcli con show
 sudo nmcli con mod eth0 ipv4.method manual ipv4.addresses 10.0.0.10/24 \
      ipv4.gateway 10.0.0.1 ipv4.dns "10.0.0.2 1.1.1.1"
 sudo nmcli con up eth0
-nmtui     # text UI
+nmtui
 ```
 
-## Network namespaces — how containers get their own network
+- `nmtui`: text UI
+
+## Network namespaces: how containers get their own network
 
 A **network namespace** is a separate network stack: own interfaces, routes, firewall rules. Every container has one. A **veth pair** is a virtual cable between two namespaces. A **bridge** is a virtual switch.
 
@@ -64,9 +68,12 @@ for ns in red blue; do
   sudo ip -n $ns route add default via 10.200.0.1
 done
 
-sudo ip netns exec red ping -c2 10.200.0.3     # red talks to blue through the bridge
-sudo ip netns exec red ip addr                  # only its own interfaces
+sudo ip netns exec red ping -c2 10.200.0.3
+sudo ip netns exec red ip addr
 ```
+
+- `sudo ip netns exec red ping -c2 10.200.0.3`: red talks to blue through the bridge
+- `sudo ip netns exec red ip addr`: only its own interfaces
 
 Internet access needs forwarding + NAT on the host:
 
@@ -81,18 +88,23 @@ This is very close to what Docker's default bridge network does (lesson 43).
 
 Cleanup: `sudo ip netns del red; sudo ip netns del blue; sudo ip link del br0`.
 
-## tcpdump — see the packets
+## tcpdump: see the packets
 
 ```bash
-sudo tcpdump -i any -n port 53                   # DNS queries
+sudo tcpdump -i any -n port 53
 sudo tcpdump -i eth0 -n host 10.0.0.5 and port 5432
-sudo tcpdump -i eth0 -n 'tcp[tcpflags] & tcp-syn != 0'   # new connections (SYN)
-sudo tcpdump -i eth0 -n -A port 80               # print payload as text (plain HTTP)
-sudo tcpdump -i eth0 -w capture.pcap -c 1000     # save, open later in Wireshark
+sudo tcpdump -i eth0 -n 'tcp[tcpflags] & tcp-syn != 0'
+sudo tcpdump -i eth0 -n -A port 80
+sudo tcpdump -i eth0 -w capture.pcap -c 1000
 tcpdump -r capture.pcap -n
 ```
 
-How to read it: `10.0.0.5.51234 > 10.0.0.10.443: Flags [S]` — SYN from client port 51234 to server 443. `[S.]` SYN-ACK, `[.]` ACK, `[P.]` data, `[F.]` close, `[R]` reset (refused).
+- `sudo tcpdump -i any -n port 53`: DNS queries
+- `sudo tcpdump -i eth0 -n 'tcp[tcpflags] & tcp-syn != 0'`: new connections (SYN)
+- `sudo tcpdump -i eth0 -n -A port 80`: print payload as text (plain HTTP)
+- `sudo tcpdump -i eth0 -w capture.pcap -c 1000`: save, open later in Wireshark
+
+How to read it: `10.0.0.5.51234 > 10.0.0.10.443: Flags [S]`: SYN from client port 51234 to server 443. `[S.]` SYN-ACK, `[.]` ACK, `[P.]` data, `[F.]` close, `[R]` reset (refused).
 
 Questions tcpdump answers in seconds:
 - Do packets reach the server at all? (Firewall/security group or routing.)
@@ -102,11 +114,15 @@ Questions tcpdump answers in seconds:
 ## Other useful bits
 
 ```bash
-ip -s link                 # errors and drops per interface
-ethtool eth0               # speed, duplex, link
+ip -s link
+ethtool eth0
 sudo sysctl net.core.somaxconn net.ipv4.ip_local_port_range
-ip link set eth0 mtu 1450  # MTU issues: small requests work, big ones hang
+ip link set eth0 mtu 1450
 ```
+
+- `ip -s link`: errors and drops per interface
+- `ethtool eth0`: speed, duplex, link
+- `ip link set eth0 mtu 1450`: MTU issues: small requests work, big ones hang
 
 MTU problems (VPN, overlay networks) look like "SSH logs in but hangs on big output" or "TLS handshake hangs". Test with `ping -M do -s 1472 host`.
 

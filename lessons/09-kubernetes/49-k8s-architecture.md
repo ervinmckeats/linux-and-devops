@@ -21,13 +21,13 @@ With containers on many machines you need something to: place them on nodes with
 └──────────────────────────────────────┘
 ```
 
-- **kube-apiserver** — the only component that talks to etcd. `kubectl`, controllers and kubelets all use its REST API.
-- **etcd** — consistent key-value store with the whole cluster state. Back it up; lose it and you lose the cluster.
-- **scheduler** — assigns new pods to nodes based on requests, affinity, taints.
-- **controller manager** — loops like "Deployment wants 3 replicas, 2 exist → create 1".
-- **kubelet** — agent on each node: starts containers, runs probes, reports status.
-- **CNI plugin** (Calico, Cilium, Flannel...) — pod networking: every pod gets its own IP, all pods can reach each other.
-- **CoreDNS** — DNS names for services.
+- **kube-apiserver**: the only component that talks to etcd. `kubectl`, controllers and kubelets all use its REST API.
+- **etcd**: consistent key-value store with the whole cluster state. Back it up; lose it and you lose the cluster.
+- **scheduler**: assigns new pods to nodes based on requests, affinity, taints.
+- **controller manager**: loops like "Deployment wants 3 replicas, 2 exist → create 1".
+- **kubelet**: agent on each node: starts containers, runs probes, reports status.
+- **CNI plugin** (Calico, Cilium, Flannel...): pod networking: every pod gets its own IP, all pods can reach each other.
+- **CoreDNS**: DNS names for services.
 
 Managed Kubernetes (EKS, GKE, AKS) runs the control plane for you; you manage nodes and workloads.
 
@@ -83,8 +83,10 @@ Install `kubectl` (matching the cluster version ±1), then:
 ```bash
 kubectl cluster-info
 kubectl get nodes -o wide
-kubectl get pods -A              # system pods: coredns, kube-proxy, CNI...
+kubectl get pods -A
 ```
+
+- `kubectl get pods -A`: system pods: coredns, kube-proxy, CNI...
 
 ## Building a cluster with kubeadm (overview)
 
@@ -101,10 +103,13 @@ Good to do once to understand the parts:
 kubectl create deployment hello --image=nginx:1.27 --replicas=2
 kubectl expose deployment hello --port=80
 kubectl get deploy,rs,pods,svc -l app=hello
-kubectl delete pod -l app=hello --wait=false && kubectl get pods -w   # watch them come back
-kubectl port-forward svc/hello 8080:80                                # curl localhost:8080
+kubectl delete pod -l app=hello --wait=false && kubectl get pods -w
+kubectl port-forward svc/hello 8080:80
 kubectl delete deployment hello && kubectl delete svc hello
 ```
+
+- `kubectl delete pod -l app=hello --wait=false && kubectl get pods -w`: watch them come back
+- `kubectl port-forward svc/hello 8080:80`: curl localhost:8080
 
 You deleted pods, and the Deployment's controller created new ones. That is the reconcile loop in action.
 
@@ -112,7 +117,7 @@ You deleted pods, and the Deployment's controller created new ones. That is the 
 
 1. Create a kind or k3s cluster. List all system pods and explain what each one does.
 2. Create a Deployment with 3 replicas, delete one pod, and watch it recreated.
-3. `kubectl get deploy hello -o yaml` — find `spec` and `status`.
+3. `kubectl get deploy hello -o yaml`: find `spec` and `status`.
 4. If you have 2–3 VMs: build a cluster with kubeadm following the official docs.
 
 ## Check yourself

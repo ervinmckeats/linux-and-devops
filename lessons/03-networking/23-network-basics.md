@@ -1,7 +1,7 @@
 # Lesson 23. Network basics: IP, ports, TCP/UDP, DNS
 
 ## Goal
-Have a mental model of how a request travels, so network problems become a checklist, not magic.
+Have a mental model of how a request travels, so you can debug network problems step by step.
 
 ## Layers you actually use
 
@@ -43,9 +43,9 @@ Well-known ports: 22 SSH, 25 SMTP, 53 DNS, 80 HTTP, 443 HTTPS, 3306 MySQL, 5432 
 TCP handshake: `SYN →`, `← SYN-ACK`, `ACK →`. Closing goes through `FIN` and `TIME_WAIT`.
 
 What the client sees tells you a lot:
-- **Connection refused** — host reachable, nothing listens on that port (or a firewall sends reject).
-- **Timeout** — packets dropped: firewall, wrong route, host down.
-- **No route to host** — routing problem or ICMP reject.
+- **Connection refused**: host reachable, nothing listens on that port (or a firewall sends reject).
+- **Timeout**: packets dropped: firewall, wrong route, host down.
+- **No route to host**: routing problem or ICMP reject.
 
 ## DNS
 
@@ -65,23 +65,28 @@ Turns names into addresses. Resolution path: `/etc/hosts` → local resolver (`s
 
 Order of lookups is set in `/etc/nsswitch.conf` (`hosts: files dns`). Resolver config: `/etc/resolv.conf`, `resolvectl status`.
 
-"It's always DNS" is a joke because it is so often true. Check it early.
+DNS is a frequent cause of network failures. Check it early.
 
 ## Commands
 
 ```bash
-ip -br addr             # my addresses
-ip route                # routing table, default gateway
+ip -br addr
+ip route
 cat /etc/resolv.conf; resolvectl status
-getent hosts example.com    # resolve the same way apps do (hosts file + DNS)
-ipcalc 10.20.0.0/20         # subnet math (package ipcalc)
+getent hosts example.com
+ipcalc 10.20.0.0/20
 ```
+
+- `ip -br addr`: my addresses
+- `ip route`: routing table, default gateway
+- `getent hosts example.com`: resolve the same way apps do (hosts file + DNS)
+- `ipcalc 10.20.0.0/20`: subnet math (package ipcalc)
 
 ## Practice
 
 1. Find your IP, prefix, gateway and DNS server.
 2. How many hosts in `/20`? Which addresses are in `10.0.16.0/20`?
-3. Add `1.2.3.4 test.local` to `/etc/hosts` and resolve it with `getent` and with `dig` — why do the answers differ?
+3. Add `1.2.3.4 test.local` to `/etc/hosts` and resolve it with `getent` and with `dig`: why do the answers differ?
 4. Connect to a closed port on localhost and to a filtered IP (e.g. `10.255.255.1:80`). Compare "refused" and "timeout".
 
 ## Check yourself

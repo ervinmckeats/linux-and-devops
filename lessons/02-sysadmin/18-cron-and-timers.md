@@ -26,16 +26,20 @@ Run jobs on a schedule reliably, and know when the job silently failed.
 Check expressions at crontab.guru before trusting them.
 
 ```bash
-crontab -e          # edit your crontab
-crontab -l          # list
+crontab -e
+crontab -l
 sudo crontab -u app -e
-ls /etc/cron.d/ /etc/cron.daily/   # system jobs (cron.d lines have a USER field)
+ls /etc/cron.d/ /etc/cron.daily/
 ```
+
+- `crontab -e`: edit your crontab
+- `crontab -l`: list
+- `ls /etc/cron.d/ /etc/cron.daily/`: system jobs (cron.d lines have a USER field)
 
 ### The classic cron traps
 
 1. **Minimal environment.** `PATH` is short (`/usr/bin:/bin`), no `.bashrc`. Use full paths or set `PATH=` at the top of the crontab.
-2. **`%` is special** — it means newline. Escape it: `date +\%F`.
+2. **`%` is special**: it means newline. Escape it: `date +\%F`.
 3. **Output is lost** (or mailed to nobody). Always redirect: `>> /var/log/job.log 2>&1`.
 4. **Overlapping runs.** A slow job started every minute piles up. Use a lock: `flock -n /tmp/job.lock /opt/job.sh`.
 5. **Server was off** at 03:00 → job skipped. cron does not catch up.
@@ -82,10 +86,13 @@ WantedBy=timers.target
 sudo systemctl daemon-reload
 sudo systemctl enable --now backup.timer
 systemctl list-timers
-sudo systemctl start backup.service     # run once now, to test
+sudo systemctl start backup.service
 journalctl -u backup.service
-systemd-analyze calendar "Mon..Fri 09:00"   # check a schedule
+systemd-analyze calendar "Mon..Fri 09:00"
 ```
+
+- `sudo systemctl start backup.service`: run once now, to test
+- `systemd-analyze calendar "Mon..Fri 09:00"`: check a schedule
 
 Other forms: `OnCalendar=hourly`, `OnCalendar=*:0/15` (every 15 min), `OnBootSec=5min`, `OnUnitActiveSec=1h`.
 

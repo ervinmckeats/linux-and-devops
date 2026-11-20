@@ -3,58 +3,87 @@
 ## Goal
 Find any file by name, size, age or owner, and any text inside files.
 
-## find — files by attributes
+## find: files by attributes
 
 `find` walks the tree live. Syntax: `find WHERE TESTS ACTIONS`.
 
 ```bash
-find /etc -name "*.conf"             # by name (quote the pattern!)
-find . -iname "readme*"              # case-insensitive
-find /var -type f -size +100M        # files bigger than 100 MB
-find /var/log -type f -mtime +30     # modified more than 30 days ago
-find /tmp -type f -mmin -10          # modified in the last 10 minutes
-find / -user alice 2>/dev/null       # owned by alice, hide permission errors
-find . -type d -empty                # empty directories
-find . -perm -o+w -type f            # world-writable files
-find . -maxdepth 1 -type f           # do not go deeper
+find /etc -name "*.conf"
+find . -iname "readme*"
+find /var -type f -size +100M
+find /var/log -type f -mtime +30
+find /tmp -type f -mmin -10
+find / -user alice 2>/dev/null
+find . -type d -empty
+find . -perm -o+w -type f
+find . -maxdepth 1 -type f
 find . -name "*.log" -not -path "./keep/*"
 ```
+
+- `find /etc -name "*.conf"`: by name (quote the pattern!)
+- `find . -iname "readme*"`: case-insensitive
+- `find /var -type f -size +100M`: files bigger than 100 MB
+- `find /var/log -type f -mtime +30`: modified more than 30 days ago
+- `find /tmp -type f -mmin -10`: modified in the last 10 minutes
+- `find / -user alice 2>/dev/null`: owned by alice, hide permission errors
+- `find . -type d -empty`: empty directories
+- `find . -perm -o+w -type f`: world-writable files
+- `find . -maxdepth 1 -type f`: do not go deeper
 
 Actions:
 
 ```bash
-find . -name "*.tmp" -delete                      # delete (put -delete LAST)
-find . -name "*.sh" -exec chmod +x {} +           # run a command on all matches
-find . -name "*.log" -print0 | xargs -0 gzip      # safe with spaces in names
+find . -name "*.tmp" -delete
+find . -name "*.sh" -exec chmod +x {} +
+find . -name "*.log" -print0 | xargs -0 gzip
 ```
+
+- `find . -name "*.tmp" -delete`: delete (put `-delete` LAST)
+- `find . -name "*.sh" -exec chmod +x {} +`: run a command on all matches
+- `find . -name "*.log" -print0 | xargs -0 gzip`: safe with spaces in names
 
 Always run `find` without `-delete` first and look at the list.
 
-## locate — fast, from a database
+## locate: fast, from a database
 
 ```bash
 sudo apt install plocate
-sudo updatedb          # refresh the database (also runs daily)
+sudo updatedb
 locate nginx.conf
 ```
+
+- `sudo updatedb`: refresh the database (also runs daily)
 Fast, but it does not see files created after the last `updatedb`.
 
-## grep — text inside files
+## grep: text inside files
 
 ```bash
-grep "error" app.log                 # lines containing error
-grep -i "error" app.log              # ignore case
-grep -v "debug" app.log              # lines NOT matching
-grep -n "listen" nginx.conf          # with line numbers
-grep -c "500" access.log             # count matching lines
-grep -r "password" /etc 2>/dev/null  # recursive
-grep -rl "TODO" src/                 # only file names
-grep -w "port" config                # whole word only
-grep -A3 -B2 "Traceback" app.log     # 3 lines after, 2 before
-grep -E "error|fail|crit" app.log    # extended regex: alternatives
-grep -o "[0-9]\{1,3\}\(\.[0-9]\{1,3\}\)\{3\}" access.log   # print only matches (IPs)
-grep -v '^\s*#' sshd_config | grep -v '^$'   # config without comments and blank lines
+grep "error" app.log
+grep -i "error" app.log
+grep -v "debug" app.log
+grep -n "listen" nginx.conf
+grep -c "500" access.log
+grep -r "password" /etc 2>/dev/null
+grep -rl "TODO" src/
+grep -w "port" config
+grep -A3 -B2 "Traceback" app.log
+grep -E "error|fail|crit" app.log
+grep -o "[0-9]\{1,3\}\(\.[0-9]\{1,3\}\)\{3\}" access.log
+grep -v '^\s*#' sshd_config | grep -v '^$'
 ```
+
+- `grep "error" app.log`: lines containing error
+- `grep -i "error" app.log`: ignore case
+- `grep -v "debug" app.log`: lines NOT matching
+- `grep -n "listen" nginx.conf`: with line numbers
+- `grep -c "500" access.log`: count matching lines
+- `grep -r "password" /etc 2>/dev/null`: recursive
+- `grep -rl "TODO" src/`: only file names
+- `grep -w "port" config`: whole word only
+- `grep -A3 -B2 "Traceback" app.log`: 3 lines after, 2 before
+- `grep -E "error|fail|crit" app.log`: extended regex: alternatives
+- `grep -o "[0-9]\{1,3\}\(\.[0-9]\{1,3\}\)\{3\}" access.log`: print only matches (IPs)
+- `grep -v '^\s*#' sshd_config | grep -v '^$'`: config without comments and blank lines
 
 `ripgrep` (`rg`) is a faster `grep -r` that respects `.gitignore`. Great on your laptop; do not assume it exists on servers.
 

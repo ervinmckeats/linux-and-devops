@@ -8,7 +8,7 @@ Run a multi-container application (app + database + cache + proxy) with persiste
 | Driver | Use |
 |---|---|
 | `bridge` (default) | containers on one host; NAT to the outside (like the namespaces lab in lesson 28) |
-| user-defined bridge | **use this**: built-in DNS — containers reach each other by name |
+| user-defined bridge | **use this**: built-in DNS: containers reach each other by name |
 | `host` | no network isolation; container uses host's interfaces (fast, no port mapping) |
 | `none` | no network |
 | `overlay` | across hosts (Swarm); in Kubernetes the CNI plugin does this |
@@ -16,9 +16,11 @@ Run a multi-container application (app + database + cache + proxy) with persiste
 ```bash
 docker network create appnet
 docker run -d --name db --network appnet -e POSTGRES_PASSWORD=pw postgres:16
-docker run --rm --network appnet postgres:16 pg_isready -h db     # "db" resolves by name
+docker run --rm --network appnet postgres:16 pg_isready -h db
 docker network inspect appnet
 ```
+
+- `docker run --rm --network appnet postgres:16 pg_isready -h db`: "db" resolves by name
 
 Containers on the default `bridge` network cannot resolve each other by name. Create your own network.
 
@@ -114,16 +116,23 @@ DB_PASSWORD=change-me
 Compose creates a network for the project automatically, so `app` reaches `db` and `cache` by service name.
 
 ```bash
-docker compose up -d            # create and start everything
+docker compose up -d
 docker compose ps
 docker compose logs -f app
 docker compose exec db psql -U app
-docker compose build app && docker compose up -d app   # rebuild and replace one service
-docker compose pull && docker compose up -d            # update images
-docker compose config           # final config with variables resolved - check before up
-docker compose down             # stop and remove containers and network (volumes stay)
-docker compose down -v          # ALSO delete volumes = delete data
+docker compose build app && docker compose up -d app
+docker compose pull && docker compose up -d
+docker compose config
+docker compose down
+docker compose down -v
 ```
+
+- `docker compose up -d`: create and start everything
+- `docker compose build app && docker compose up -d app`: rebuild and replace one service
+- `docker compose pull && docker compose up -d`: update images
+- `docker compose config`: final config with variables resolved - check before up
+- `docker compose down`: stop and remove containers and network (volumes stay)
+- `docker compose down -v`: ALSO delete volumes = delete data
 
 ### Overrides for dev and prod
 

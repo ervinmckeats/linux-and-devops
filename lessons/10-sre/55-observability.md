@@ -18,7 +18,7 @@ You need both. They are built from three main signals.
 | **Logs** | timestamped events with details | "what exactly happened in this request" | expensive at volume |
 | **Traces** | one request's path through all services, with timings per step (spans) | "which service made it slow" | sampled to control cost |
 
-Plus **profiles** (continuous CPU/memory profiling) and **events** (deploys, config changes) — put deploy markers on your dashboards; most incidents follow a change.
+Plus **profiles** (continuous CPU/memory profiling) and **events** (deploys, config changes): put deploy markers on your dashboards; most incidents follow a change.
 
 They work best **linked**: an alert on a metric → a dashboard → an exemplar trace for a slow request → the logs of that trace by `trace_id`.
 
@@ -26,10 +26,10 @@ They work best **linked**: an alert on a metric → a dashboard → an exemplar 
 
 ### Golden signals (for every user-facing service)
 
-1. **Latency** — time to serve a request; separate successful from failed requests; use percentiles (p50, p95, p99), not averages.
-2. **Traffic** — requests per second.
-3. **Errors** — rate of failed requests (5xx, timeouts, wrong answers).
-4. **Saturation** — how full the service is: CPU, memory, queue depth, connection pool, thread pool.
+1. **Latency**: time to serve a request; separate successful from failed requests; use percentiles (p50, p95, p99), not averages.
+2. **Traffic**: requests per second.
+3. **Errors**: rate of failed requests (5xx, timeouts, wrong answers).
+4. **Saturation**: how full the service is: CPU, memory, queue depth, connection pool, thread pool.
 
 **RED** for services: Rate, Errors, Duration. **USE** for resources: Utilization, Saturation, Errors (lesson 39).
 
@@ -41,15 +41,15 @@ They work best **linked**: an alert on a metric → a dashboard → an exemplar 
 | Service | RED metrics per endpoint, dependency latency, queue lag |
 | Platform | Kubernetes: restarts, pending pods, OOM kills, HPA status, node conditions |
 | Infrastructure | node CPU/memory/disk/network, disk fill forecast, certificate expiry |
-| Business | orders per minute, sign-ups, payments — often the first sign of a silent failure |
+| Business | orders per minute, sign-ups, payments: often the first sign of a silent failure |
 
 ## Metrics basics
 
 Metric types (Prometheus naming):
-- **Counter** — only goes up (`requests_total`). You look at its rate: `rate(requests_total[5m])`.
-- **Gauge** — goes up and down (`memory_bytes`, `queue_length`).
-- **Histogram** — counts in buckets (`request_duration_seconds_bucket`) → percentiles across many instances.
-- **Summary** — percentiles computed in the client; cannot be aggregated across instances.
+- **Counter**: only goes up (`requests_total`). You look at its rate: `rate(requests_total[5m])`.
+- **Gauge**: goes up and down (`memory_bytes`, `queue_length`).
+- **Histogram**: counts in buckets (`request_duration_seconds_bucket`) → percentiles across many instances.
+- **Summary**: percentiles computed in the client; cannot be aggregated across instances.
 
 **Cardinality** = number of unique label combinations. `user_id` or full URL as a label creates millions of series and kills your metrics system. Labels should have bounded values: route template (`/users/:id`), status code, method, region.
 
@@ -99,7 +99,7 @@ Managed alternatives exist in every cloud and from vendors; the concepts are the
 - One **overview** dashboard per service: golden signals + SLO status + recent deploys.
 - Drill-down dashboards for dependencies and resources.
 - Same time range and layout conventions everywhere. Top-left = most important.
-- Fewer, better panels. A wall of 60 graphs is noise at 3 a.m.
+- Fewer, better panels. A wall of 60 graphs is hard to read during an incident.
 
 ## Practice
 

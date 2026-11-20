@@ -6,52 +6,83 @@ Turn raw logs and command output into answers with one line of shell.
 ## The toolbox
 
 ```bash
-cut -d: -f1,7 /etc/passwd       # columns 1 and 7, delimiter ":"
-cut -c1-10 file                 # characters 1-10
-sort file                       # alphabetical
-sort -n / -h / -r               # numeric / human sizes (2K, 1G) / reverse
-sort -t, -k3 -n data.csv        # by 3rd comma-separated column
-sort -u                         # sort and remove duplicates
-uniq                            # remove ADJACENT duplicates (sort first!)
-uniq -c                         # count them
-tr 'a-z' 'A-Z'                  # translate characters
-tr -d '\r'                      # delete Windows line endings
-tr -s ' '                       # squeeze repeated spaces
-paste a.txt b.txt               # join files side by side
-column -t -s,                   # pretty table
-wc -l                           # count lines
+cut -d: -f1,7 /etc/passwd
+cut -c1-10 file
+sort file
+sort -n / -h / -r
+sort -t, -k3 -n data.csv
+sort -u
+uniq
+uniq -c
+tr 'a-z' 'A-Z'
+tr -d '\r'
+tr -s ' '
+paste a.txt b.txt
+column -t -s,
+wc -l
 ```
 
-## sed — stream editor
+- `cut -d: -f1,7 /etc/passwd`: columns 1 and 7, delimiter ":"
+- `cut -c1-10 file`: characters 1-10
+- `sort file`: alphabetical
+- `sort -n / -h / -r`: numeric / human sizes (2K, 1G) / reverse
+- `sort -t, -k3 -n data.csv`: by 3rd comma-separated column
+- `sort -u`: sort and remove duplicates
+- `uniq`: remove ADJACENT duplicates (sort first!)
+- `uniq -c`: count them
+- `tr 'a-z' 'A-Z'`: translate characters
+- `tr -d '\r'`: delete Windows line endings
+- `tr -s ' '`: squeeze repeated spaces
+- `paste a.txt b.txt`: join files side by side
+- `column -t -s,`: pretty table
+- `wc -l`: count lines
+
+## sed: stream editor
 
 Edits text line by line as it flows by.
 
 ```bash
-sed 's/foo/bar/' file            # replace first match per line
-sed 's/foo/bar/g' file           # all matches
-sed -n '10,20p' file             # print lines 10-20 only
-sed '/^#/d' file                 # delete comment lines
-sed '/^$/d' file                 # delete empty lines
-sed -i.bak 's/80/8080/' app.conf # edit in place, keep app.conf.bak
-sed 's|/old/path|/new/path|g'    # any delimiter, handy for paths
-sed -E 's/([0-9]+)ms/\1 ms/'     # groups and back-references
+sed 's/foo/bar/' file
+sed 's/foo/bar/g' file
+sed -n '10,20p' file
+sed '/^#/d' file
+sed '/^$/d' file
+sed -i.bak 's/80/8080/' app.conf
+sed 's|/old/path|/new/path|g'
+sed -E 's/([0-9]+)ms/\1 ms/'
 ```
+
+- `sed 's/foo/bar/' file`: replace first match per line
+- `sed 's/foo/bar/g' file`: all matches
+- `sed -n '10,20p' file`: print lines 10-20 only
+- `sed '/^#/d' file`: delete comment lines
+- `sed '/^$/d' file`: delete empty lines
+- `sed -i.bak 's/80/8080/' app.conf`: edit in place, keep `app.conf.bak`
+- `sed 's|/old/path|/new/path|g'`: any delimiter, handy for paths
+- `sed -E 's/([0-9]+)ms/\1 ms/'`: groups and back-references
 
 Always run without `-i` first and check the output.
 
-## awk — columns and small programs
+## awk: columns and small programs
 
 awk splits each line into fields: `$1`, `$2`, ... `$NF` (last), `$0` (whole line). `NR` = line number.
 
 ```bash
-awk '{print $1}' access.log                     # first column
-awk -F: '{print $1, $7}' /etc/passwd            # custom delimiter
-awk '$9 >= 500' access.log                      # filter: HTTP 5xx
-awk '{sum += $10} END {print sum}' access.log   # total bytes
+awk '{print $1}' access.log
+awk -F: '{print $1, $7}' /etc/passwd
+awk '$9 >= 500' access.log
+awk '{sum += $10} END {print sum}' access.log
 awk '{c[$1]++} END {for (ip in c) print c[ip], ip}' access.log | sort -rn | head
-awk 'NR % 2 == 0' file                          # every second line
-awk -F: '$3 >= 1000 {print $1}' /etc/passwd     # regular users
+awk 'NR % 2 == 0' file
+awk -F: '$3 >= 1000 {print $1}' /etc/passwd
 ```
+
+- `awk '{print $1}' access.log`: first column
+- `awk -F: '{print $1, $7}' /etc/passwd`: custom delimiter
+- `awk '$9 >= 500' access.log`: filter: HTTP 5xx
+- `awk '{sum += $10} END {print sum}' access.log`: total bytes
+- `awk 'NR % 2 == 0' file`: every second line
+- `awk -F: '$3 >= 1000 {print $1}' /etc/passwd`: regular users
 
 ## Real log questions
 

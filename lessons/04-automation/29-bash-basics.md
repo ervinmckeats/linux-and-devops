@@ -17,23 +17,32 @@ echo "Hello, $name"
 ```bash
 chmod +x hello.sh
 ./hello.sh Alice
-bash hello.sh       # also works without +x
+bash hello.sh
 ```
 
+- `bash hello.sh`: also works without +x
+
 - `#!` (shebang) says which interpreter runs the file. `/usr/bin/env bash` finds bash in `PATH`.
-- `set -euo pipefail` — stop on error, on unset variable, on failure anywhere in a pipeline. Start every script with it (details and caveats in lesson 30).
+- `set -euo pipefail`: stop on error, on unset variable, on failure anywhere in a pipeline. Start every script with it (details and caveats in lesson 30).
 
 ## Variables
 
 ```bash
-name="Alice"          # NO spaces around =
-echo "$name"          # always quote variables
-echo "${name}_backup" # braces when text follows
+name="Alice"
+echo "$name"
+echo "${name}_backup"
 readonly VERSION=1.2
-today=$(date +%F)     # command output
-count=$((count + 1))  # arithmetic
-export DB_HOST=db1    # visible to child processes
+today=$(date +%F)
+count=$((count + 1))
+export DB_HOST=db1
 ```
+
+- `name="Alice"`: NO spaces around =
+- `echo "$name"`: always quote variables
+- `echo "${name}_backup"`: braces when text follows
+- `today=$(date +%F)`: command output
+- `count=$((count + 1))`: arithmetic
+- `export DB_HOST=db1`: visible to child processes
 
 Special variables:
 
@@ -96,7 +105,7 @@ for host in web1 web2 web3; do
 done
 
 for f in /var/log/*.log; do
-    [[ -e "$f" ]] || continue        # no match → skip the literal pattern
+    [[ -e "$f" ]] || continue
     echo "$f: $(wc -l < "$f") lines"
 done
 
@@ -112,6 +121,8 @@ until curl -sf http://localhost:8080/health; do
 done
 ```
 
+- `[[ -e "$f" ]] || continue`: no match → skip the literal pattern
+
 `read -r` keeps backslashes; `while read` reads a file line by line correctly (do not use `for line in $(cat file)`).
 
 ## Functions
@@ -122,7 +133,7 @@ log() {
 }
 
 check_port() {
-    local host=$1 port=$2       # local: do not leak into global scope
+    local host=$1 port=$2
     if timeout 2 bash -c "</dev/tcp/$host/$port" 2>/dev/null; then
         log "$host:$port open"
         return 0
@@ -134,6 +145,8 @@ check_port() {
 check_port localhost 22 || exit 1
 ```
 
+- `local host=$1 port=$2`: local: do not leak into global scope
+
 Functions return an exit code (0–255). To return data, `echo` it and capture: `result=$(myfunc)`.
 
 ## Input
@@ -141,8 +154,10 @@ Functions return an exit code (0–255). To return data, `echo` it and capture: 
 ```bash
 read -rp "Continue? [y/N] " answer
 [[ "$answer" =~ ^[Yy]$ ]] || exit 0
-read -rsp "Password: " pass; echo     # -s: hidden input
+read -rsp "Password: " pass; echo
 ```
+
+- `read -rsp "Password: " pass; echo`: `-s`: hidden input
 
 ## Aliases and your shell
 

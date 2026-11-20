@@ -11,7 +11,7 @@ Practice complete tasks the way they come at work: a goal, constraints, and seve
 sudo apt update && sudo apt full-upgrade -y
 sudo adduser admin && sudo usermod -aG sudo admin
 # on YOUR machine:
-ssh-copy-id admin@SERVER && ssh admin@SERVER      # test key login
+ssh-copy-id admin@SERVER && ssh admin@SERVER
 # on the server, only after the key login works:
 printf 'PermitRootLogin no\nPasswordAuthentication no\n' | sudo tee /etc/ssh/sshd_config.d/10-hardening.conf
 sudo sshd -t && sudo systemctl reload ssh
@@ -20,6 +20,8 @@ sudo apt install -y fail2ban unattended-upgrades
 sudo timedatectl set-timezone UTC
 sudo hostnamectl set-hostname web-01
 ```
+
+- `ssh-copy-id admin@SERVER && ssh admin@SERVER`: test key login
 
 **Done when:** root and password logins fail, only port 22 is open, updates are automatic. → [lesson 33](../05-security/33-server-hardening.md)
 
@@ -59,18 +61,24 @@ curl -I https://site.example.com
 
 → [lessons 18](../02-sysadmin/18-cron-and-timers.md), [21](../02-sysadmin/21-archives-backups.md)
 
-## Scenario 4. "Who is hammering us?" — nginx log analysis
+## Scenario 4. "Who is hammering us?": nginx log analysis
 
 **Task:** the site is slow; find out whether it is an attack, a bot or a real traffic spike.
 
 ```bash
 LOG=/var/log/nginx/access.log
-awk '{print $1}' $LOG | sort | uniq -c | sort -rn | head          # top IPs
-awk '{print $9}' $LOG | sort | uniq -c | sort -rn                 # status codes
-awk '{print $7}' $LOG | sort | uniq -c | sort -rn | head          # top paths
-awk -F'"' '{print $6}' $LOG | sort | uniq -c | sort -rn | head    # user agents
-awk '{print substr($4,2,17)}' $LOG | uniq -c | tail -30           # requests per minute
+awk '{print $1}' $LOG | sort | uniq -c | sort -rn | head
+awk '{print $9}' $LOG | sort | uniq -c | sort -rn
+awk '{print $7}' $LOG | sort | uniq -c | sort -rn | head
+awk -F'"' '{print $6}' $LOG | sort | uniq -c | sort -rn | head
+awk '{print substr($4,2,17)}' $LOG | uniq -c | tail -30
 ```
+
+- `awk '{print $1}' $LOG | sort | uniq -c | sort -rn | head`: top IPs
+- `awk '{print $9}' $LOG | sort | uniq -c | sort -rn`: status codes
+- `awk '{print $7}' $LOG | sort | uniq -c | sort -rn | head`: top paths
+- `awk -F'"' '{print $6}' $LOG | sort | uniq -c | sort -rn | head`: user agents
+- `awk '{print substr($4,2,17)}' $LOG | uniq -c | tail -30`: requests per minute
 
 **Then:** block an abusive IP (`ufw deny from IP`), add `limit_req` in nginx, or scale up if it is real traffic. → [lessons 11](../01-terminal/11-text-processing.md), [27](../03-networking/27-http-tls-nginx.md)
 
@@ -82,7 +90,7 @@ awk '{print substr($4,2,17)}' $LOG | uniq -c | tail -30           # requests per
 2. `rsync -aHAX /var/lib/app/ /mnt/new/` while the app runs (first pass).
 3. Stop the app; second `rsync` pass (only differences, fast).
 4. Mount the new disk at `/var/lib/app` via UUID in `/etc/fstab`; `mount -a`.
-5. Start the app; verify; keep the old data until you are sure.
+5. Start the app; verify; keep the old data *until you are sure*.
 
 Better long-term: put it on LVM so next time you just `lvextend -r`. → [lessons 19](../02-sysadmin/19-disks-filesystems.md), [20](../02-sysadmin/20-lvm-raid.md)
 
@@ -105,7 +113,7 @@ Better long-term: put it on LVM so next time you just `lvextend -r`. → [lesson
 #!/usr/bin/env bash
 # /usr/local/bin/healthcheck.sh - run from a systemd timer every 5 minutes
 set -euo pipefail
-source /etc/default/healthcheck          # WEBHOOK_URL=..., URLS="https://a https://b"; chmod 600
+source /etc/default/healthcheck
 
 for url in $URLS; do
     if ! curl -fsS --max-time 10 -o /dev/null "$url"; then
@@ -115,6 +123,8 @@ for url in $URLS; do
     fi
 done
 ```
+
+- `source /etc/default/healthcheck`: WEBHOOK_URL=..., URLS="https://a https://b"; chmod 600
 
 Improve it: alert only after 2 failures in a row (state file), send "RECOVERED" messages. In real systems use Prometheus + blackbox exporter + Alertmanager instead. → [lesson 56](../10-sre/56-prometheus-grafana.md)
 

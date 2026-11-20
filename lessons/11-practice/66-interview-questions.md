@@ -1,7 +1,7 @@
 # Lesson 66. Interview questions
 
 ## Goal
-Prepare for Linux, DevOps and SRE interviews. Short answers point to the lesson with details. Practice saying answers out loud: interviewers care about **reasoning**, not memorized definitions.
+Prepare for Linux, DevOps and SRE interviews. Short answers point to the lesson with details. Practice saying answers out loud: interviewers care about **reasoning**, not *memorized definitions*.
 
 ## Linux
 
@@ -52,7 +52,7 @@ DNS resolution (cache, resolver, recursive lookup), TCP handshake to the IP, TLS
 **TCP vs UDP?** → lesson 23
 
 **"Connection refused" vs "timeout"?**
-Refused: host reached, nothing listening or rejected. Timeout: packets dropped — firewall, routing, host down. → lesson 23
+Refused: host reached, nothing listening or rejected. Timeout: packets dropped: firewall, routing, host down. → lesson 23
 
 **How do you debug "service A cannot reach service B"?**
 Bottom-up: DNS → route → port reachable (`nc`) → listening address (`ss`) → firewalls/security groups/NetworkPolicy → `tcpdump` on both sides → app logs. → lesson 24
@@ -119,7 +119,7 @@ State maps code to real resources; without locking, concurrent applies corrupt i
 **Golden signals? RED vs USE?** → lessons 39, 55
 
 **Walk me through how you handle an incident.**
-Acknowledge, declare, assign IC, assess impact, mitigate first (rollback/failover), communicate on a cadence, resolve, postmortem with action items. → lesson 58
+Acknowledge, declare, assign IC, assess impact, *mitigate first* (rollback/failover), communicate on a cadence, resolve, postmortem with action items. → lesson 58
 
 **What makes a postmortem blameless and useful?** → lesson 59
 

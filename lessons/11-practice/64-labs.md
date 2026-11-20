@@ -68,8 +68,10 @@ grep -v -E '^\s*(#|$)' app.conf
 <details><summary>Solution</summary>
 
 ```bash
-rm -- files/-strange-name.txt     # or: rm ./files/-strange-name.txt
+rm -- files/-strange-name.txt
 ```
+
+- `rm -- files/-strange-name.txt`: or `rm ./files/-strange-name.txt`
 `--` tells `rm` that what follows is a file name, not an option.
 </details>
 
@@ -263,9 +265,12 @@ exit $rc
 <details><summary>Solution</summary>
 
 ```bash
-kill %1          # SIGTERM is ignored by the trap
-kill -9 %1       # SIGKILL cannot be caught or ignored
+kill %1
+kill -9 %1
 ```
+
+- `kill %1`: SIGTERM is ignored by the trap
+- `kill -9 %1`: SIGKILL cannot be caught or ignored
 </details>
 
 **3.5.** You deleted a 500 MB log, but `df` still shows the space as used. Reproduce and fix without a reboot.
@@ -276,10 +281,13 @@ kill -9 %1       # SIGKILL cannot be caught or ignored
 fallocate -l 500M /tmp/big.log
 tail -f /tmp/big.log > /dev/null &
 rm /tmp/big.log; df -h /tmp
-sudo lsof +L1 | grep big.log          # the process still holds it
-kill %1                               # or restart the service; or truncate via /proc/PID/fd/N
+sudo lsof +L1 | grep big.log
+kill %1
 df -h /tmp
 ```
+
+- `sudo lsof +L1 | grep big.log`: the process still holds it
+- `kill %1`: or restart the service; or truncate via `/proc/PID/fd/N`
 </details>
 
 **3.6.** Turn `python3 -m http.server 8000` into a systemd service running as a dedicated user, starting on boot, restarting on failure, limited to 100 MB of memory.
@@ -310,7 +318,7 @@ systemctl status miniweb; curl -I localhost:8000
 ```
 </details>
 
-**3.7.** Run the `miniweb` service every hour as a one-shot job instead — which two unit files do you need, and how do you check the next run time?
+**3.7.** Run the `miniweb` service every hour as a one-shot job instead: which two unit files do you need, and how do you check the next run time?
 
 <details><summary>Solution</summary>
 
@@ -345,9 +353,9 @@ kubectl describe pod POD | grep -A5 'Last State'
 
 <details><summary>Solution</summary>
 
-1. `kubectl get pods -l app=...` — are new pods Running and Ready?
-2. `kubectl describe pod` — readiness probe failing? CrashLoopBackOff?
-3. `kubectl get endpointslices -l kubernetes.io/service-name=...` — any endpoints?
+1. `kubectl get pods -l app=...`: are new pods Running and Ready?
+2. `kubectl describe pod`: readiness probe failing? CrashLoopBackOff?
+3. `kubectl get endpointslices -l kubernetes.io/service-name=...`: any endpoints?
 4. Selector labels in the Service match the pod template labels?
 5. `targetPort` matches the container port? App listens on `0.0.0.0`?
 6. Roll back with `kubectl rollout undo` if users are affected, then continue debugging.

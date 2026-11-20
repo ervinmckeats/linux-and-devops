@@ -17,30 +17,48 @@ Create, copy, move and delete files safely, and select many files with patterns.
 | `{jpg,png}` | brace expansion: generates both words, even if no files exist |
 
 ```bash
-echo *.conf          # see what a glob expands to before using it
-echo file{1..5}.txt  # file1.txt ... file5.txt
+echo *.conf
+echo file{1..5}.txt
 ```
+
+- `echo *.conf`: see what a glob expands to before using it
+- `echo file{1..5}.txt`: `file1.txt` ... `file5.txt`
 
 **Always test a glob with `echo` or `ls` before `rm`.**
 
 ## Commands
 
 ```bash
-touch notes.txt                 # create empty file / update its time
-mkdir projects                  # create directory
-mkdir -p a/b/c                  # create the whole path
-cp file.txt backup.txt          # copy
-cp -r dir/ dir-copy/            # copy a directory
-cp -a src/ dst/                 # archive: keep owner, time, permissions, links
-mv old.txt new.txt              # rename
-mv file.txt /tmp/               # move
-rm file.txt                     # delete
-rm -i *.txt                     # ask before each
-rm -r dir/                      # delete directory recursively
-rmdir empty-dir                 # delete only if empty
-file /bin/ls                    # detect real file type
-stat notes.txt                  # all metadata
+touch notes.txt
+mkdir projects
+mkdir -p a/b/c
+cp file.txt backup.txt
+cp -r dir/ dir-copy/
+cp -a src/ dst/
+mv old.txt new.txt
+mv file.txt /tmp/
+rm file.txt
+rm -i *.txt
+rm -r dir/
+rmdir empty-dir
+file /bin/ls
+stat notes.txt
 ```
+
+- `touch notes.txt`: create empty file / update its time
+- `mkdir projects`: create directory
+- `mkdir -p a/b/c`: create the whole path
+- `cp file.txt backup.txt`: copy
+- `cp -r dir/ dir-copy/`: copy a directory
+- `cp -a src/ dst/`: archive: keep owner, time, permissions, links
+- `mv old.txt new.txt`: rename
+- `mv file.txt /tmp/`: move
+- `rm file.txt`: delete
+- `rm -i *.txt`: ask before each
+- `rm -r dir/`: delete directory recursively
+- `rmdir empty-dir`: delete only if empty
+- `file /bin/ls`: detect real file type
+- `stat notes.txt`: all metadata
 
 ### Safety habits
 
@@ -63,7 +81,7 @@ stat notes.txt                  # all metadata
 
 ## Check yourself
 
-- Who expands `*` — the shell or `rm`?
+- Who expands `*`: the shell or `rm`?
 - What is the difference between `cp -r` and `cp -a`?
 - Why is `{a,b}` different from `[ab]`?
 
