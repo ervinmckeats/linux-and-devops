@@ -126,12 +126,12 @@ Status: ✅ ready · ⏳ in progress
 ### Module 10 — SRE
 | # | Lesson | Status |
 |---|---|---|
-| 55 | Observability: metrics, logs, traces | ⏳ |
-| 56 | Prometheus, Grafana, Alertmanager | ⏳ |
-| 57 | SLI, SLO, error budgets | ⏳ |
-| 58 | Incident response and on-call | ⏳ |
-| 59 | Postmortems and runbooks | ⏳ |
-| 60 | Reliability patterns and capacity planning | ⏳ |
+| 55 | [Observability: metrics, logs, traces](lessons/10-sre/55-observability.md) | ✅ |
+| 56 | [Prometheus, Grafana, Alertmanager](lessons/10-sre/56-prometheus-grafana.md) | ✅ |
+| 57 | [SLI, SLO, error budgets](lessons/10-sre/57-slo-error-budgets.md) | ✅ |
+| 58 | [Incident response and on-call](lessons/10-sre/58-incident-response.md) | ✅ |
+| 59 | [Postmortems and runbooks](lessons/10-sre/59-postmortems-runbooks.md) | ✅ |
+| 60 | [Reliability patterns and capacity planning](lessons/10-sre/60-reliability-patterns.md) | ✅ |
 
 ### Module 11 — Practice and career
 | # | Lesson | Status |
