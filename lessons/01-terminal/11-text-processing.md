@@ -99,4 +99,4 @@ done > access.log
 - How do you make `sed -i` keep a backup?
 
 ## Next
-Module 2 — System administration: lesson 12, Users, groups and sudo.
+[Lesson 12. Users, groups, sudo](../02-sysadmin/12-users-groups-sudo.md)
