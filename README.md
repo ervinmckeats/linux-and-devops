@@ -51,17 +51,17 @@ Status: ✅ ready · ⏳ in progress
 ### Module 2 — System administration
 | # | Lesson | Status |
 |---|---|---|
-| 12 | Users, groups, sudo | ⏳ |
-| 13 | Permissions, special bits, umask, ACL | ⏳ |
-| 14 | Processes, signals, jobs, tmux | ⏳ |
-| 15 | Package managers: apt, dnf, pacman | ⏳ |
-| 16 | systemd and services | ⏳ |
-| 17 | Logs: journalctl, logrotate | ⏳ |
-| 18 | cron and systemd timers | ⏳ |
-| 19 | Disks, partitions, mount, fstab, swap | ⏳ |
-| 20 | LVM, RAID, snapshots | ⏳ |
-| 21 | Archives and backups | ⏳ |
-| 22 | Boot process and recovery | ⏳ |
+| 12 | [Users, groups, sudo](lessons/02-sysadmin/12-users-groups-sudo.md) | ✅ |
+| 13 | [Permissions, special bits, umask, ACL](lessons/02-sysadmin/13-permissions.md) | ✅ |
+| 14 | [Processes, signals, jobs, tmux](lessons/02-sysadmin/14-processes-signals.md) | ✅ |
+| 15 | [Package managers: apt, dnf, pacman](lessons/02-sysadmin/15-package-managers.md) | ✅ |
+| 16 | [systemd and services](lessons/02-sysadmin/16-systemd.md) | ✅ |
+| 17 | [Logs: journalctl, syslog, logrotate](lessons/02-sysadmin/17-logs.md) | ✅ |
+| 18 | [Scheduling: cron and systemd timers](lessons/02-sysadmin/18-cron-and-timers.md) | ✅ |
+| 19 | [Disks, partitions, mount, fstab, swap](lessons/02-sysadmin/19-disks-filesystems.md) | ✅ |
+| 20 | [LVM, RAID, snapshots](lessons/02-sysadmin/20-lvm-raid.md) | ✅ |
+| 21 | [Archives and backups](lessons/02-sysadmin/21-archives-backups.md) | ✅ |
+| 22 | [Boot process and recovery](lessons/02-sysadmin/22-boot-and-recovery.md) | ✅ |
 
 ### Module 3 — Networking
 | # | Lesson | Status |
