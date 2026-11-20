@@ -1,1 +1,153 @@
-# linux-and-devops
+# Linux, DevOps and SRE — from zero to job-ready
+
+A free, hands-on course that takes you from your first terminal command to running production systems on Kubernetes with SLOs, alerts and postmortems.
+
+- **Practice first.** Every lesson ends with tasks you do in a real terminal.
+- **One path.** Lessons build on each other. Go top to bottom.
+- **No fluff.** Theory only where it explains *why* a command behaves the way it does.
+
+## How to use this course
+
+1. Set up a lab (lesson 1). Never practice on a server you care about.
+2. Read a lesson, type every command by hand. Do not copy and paste.
+3. Do the **Practice** block. Answer **Check yourself** without looking back.
+4. Break things on purpose in your VM, then fix them. Take snapshots first.
+5. Tick the lesson in your fork of this README.
+
+Each lesson has the same shape: **Goal → Theory → Commands → Practice → Check yourself → Next**.
+
+## Roadmap
+
+| Level | Modules | You can... |
+|---|---|---|
+| Beginner | 0–2 | work in the terminal and run a single Linux box |
+| Junior admin | 3–5 | run a secured, networked server and automate it with Bash and Git |
+| Engineer | 6–8 | debug performance, ship containers, build CI/CD and infrastructure as code |
+| DevOps / SRE | 9–11 | run Kubernetes, measure reliability, handle incidents, pass interviews |
+
+## Lessons
+
+Status: ✅ ready · ⏳ in progress
+
+### Module 0 — Start
+| # | Lesson | Status |
+|---|---|---|
+| 1 | [How to use the course and set up a lab](lessons/00-start/01-lab-setup.md) | ✅ |
+| 2 | [What Linux is: kernel, distributions, shell](lessons/00-start/02-what-is-linux.md) | ✅ |
+
+### Module 1 — Terminal
+| # | Lesson | Status |
+|---|---|---|
+| 3 | [Anatomy of a command and getting help](lessons/01-terminal/03-commands-and-help.md) | ✅ |
+| 4 | [Navigating the filesystem](lessons/01-terminal/04-navigation-fhs.md) | ✅ |
+| 5 | [Files and directories, globbing](lessons/01-terminal/05-files-and-directories.md) | ✅ |
+| 6 | [Viewing files](lessons/01-terminal/06-viewing-files.md) | ✅ |
+| 7 | [Editors: nano and vim](lessons/01-terminal/07-editors.md) | ✅ |
+| 8 | [Inodes, hard and symbolic links](lessons/01-terminal/08-inodes-and-links.md) | ✅ |
+| 9 | [Searching: find and grep](lessons/01-terminal/09-find-and-grep.md) | ✅ |
+| 10 | [Redirection, pipes, exit codes, xargs](lessons/01-terminal/10-pipes-and-redirection.md) | ✅ |
+| 11 | [Text processing: cut, sort, uniq, sed, awk](lessons/01-terminal/11-text-processing.md) | ✅ |
+
+### Module 2 — System administration
+| # | Lesson | Status |
+|---|---|---|
+| 12 | Users, groups, sudo | ⏳ |
+| 13 | Permissions, special bits, umask, ACL | ⏳ |
+| 14 | Processes, signals, jobs, tmux | ⏳ |
+| 15 | Package managers: apt, dnf, pacman | ⏳ |
+| 16 | systemd and services | ⏳ |
+| 17 | Logs: journalctl, logrotate | ⏳ |
+| 18 | cron and systemd timers | ⏳ |
+| 19 | Disks, partitions, mount, fstab, swap | ⏳ |
+| 20 | LVM, RAID, snapshots | ⏳ |
+| 21 | Archives and backups | ⏳ |
+| 22 | Boot process and recovery | ⏳ |
+
+### Module 3 — Networking
+| # | Lesson | Status |
+|---|---|---|
+| 23 | Network basics: IP, ports, TCP/UDP, DNS | ⏳ |
+| 24 | Network tools: ip, ss, ping, traceroute, dig, curl | ⏳ |
+| 25 | SSH: keys, config, scp, rsync, tunnels | ⏳ |
+| 26 | Firewalls: ufw, firewalld, nftables | ⏳ |
+| 27 | HTTP, TLS, nginx reverse proxy | ⏳ |
+| 28 | Advanced networking: netplan, namespaces, tcpdump | ⏳ |
+
+### Module 4 — Automation
+| # | Lesson | Status |
+|---|---|---|
+| 29 | Bash scripting basics | ⏳ |
+| 30 | Bash for professionals | ⏳ |
+| 31 | Git for operations | ⏳ |
+| 32 | Python for operations | ⏳ |
+
+### Module 5 — Security
+| # | Lesson | Status |
+|---|---|---|
+| 33 | Server hardening | ⏳ |
+| 34 | SELinux, AppArmor, auditd, capabilities | ⏳ |
+| 35 | Secrets and encryption | ⏳ |
+
+### Module 6 — Internals and performance
+| # | Lesson | Status |
+|---|---|---|
+| 36 | Kernel: sysctl, modules, limits | ⏳ |
+| 37 | Memory: virtual memory, page cache, swap, OOM killer | ⏳ |
+| 38 | cgroups v2 and namespaces | ⏳ |
+| 39 | Performance: USE method, first 60 seconds, PSI | ⏳ |
+| 40 | Tracing: strace, perf, eBPF | ⏳ |
+
+### Module 7 — Containers
+| # | Lesson | Status |
+|---|---|---|
+| 41 | Docker basics | ⏳ |
+| 42 | Dockerfile best practices | ⏳ |
+| 43 | Docker Compose, networks, volumes | ⏳ |
+
+### Module 8 — DevOps
+| # | Lesson | Status |
+|---|---|---|
+| 44 | CI/CD concepts and pipelines | ⏳ |
+| 45 | Ansible | ⏳ |
+| 46 | Terraform and infrastructure as code | ⏳ |
+| 47 | Cloud fundamentals | ⏳ |
+| 48 | Virtualization: KVM and QEMU | ⏳ |
+
+### Module 9 — Kubernetes
+| # | Lesson | Status |
+|---|---|---|
+| 49 | Architecture and core objects | ⏳ |
+| 50 | kubectl in daily work | ⏳ |
+| 51 | Deployments, Services, Ingress, ConfigMaps, Secrets | ⏳ |
+| 52 | Requests, limits, probes, autoscaling | ⏳ |
+| 53 | Helm and GitOps | ⏳ |
+| 54 | Troubleshooting: CrashLoopBackOff, OOMKilled, Pending | ⏳ |
+
+### Module 10 — SRE
+| # | Lesson | Status |
+|---|---|---|
+| 55 | Observability: metrics, logs, traces | ⏳ |
+| 56 | Prometheus, Grafana, Alertmanager | ⏳ |
+| 57 | SLI, SLO, error budgets | ⏳ |
+| 58 | Incident response and on-call | ⏳ |
+| 59 | Postmortems and runbooks | ⏳ |
+| 60 | Reliability patterns and capacity planning | ⏳ |
+
+### Module 11 — Practice and career
+| # | Lesson | Status |
+|---|---|---|
+| 61 | Troubleshooting playbook | ⏳ |
+| 62 | Dangerous commands | ⏳ |
+| 63 | Real-world scenarios | ⏳ |
+| 64 | Labs with solutions | ⏳ |
+| 65 | Capstone projects | ⏳ |
+| 66 | Interview questions | ⏳ |
+| 67 | Glossary and resources | ⏳ |
+
+## Contributing
+
+Found a mistake or have a better example? Open an issue or a pull request. Keep examples short and tested.
+
+## License
+
+[MIT](LICENSE)
