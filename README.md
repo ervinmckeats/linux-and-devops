@@ -100,9 +100,9 @@ Status: ✅ ready · ⏳ in progress
 ### Module 7 — Containers
 | # | Lesson | Status |
 |---|---|---|
-| 41 | Docker basics | ⏳ |
-| 42 | Dockerfile best practices | ⏳ |
-| 43 | Docker Compose, networks, volumes | ⏳ |
+| 41 | [Docker basics](lessons/07-containers/41-docker-basics.md) | ✅ |
+| 42 | [Dockerfile best practices](lessons/07-containers/42-dockerfile.md) | ✅ |
+| 43 | [Docker Compose, networks, volumes](lessons/07-containers/43-compose-networks-volumes.md) | ✅ |
 
 ### Module 8 — DevOps
 | # | Lesson | Status |
