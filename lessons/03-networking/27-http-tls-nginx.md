@@ -3,7 +3,7 @@
 ## Goal
 Serve an app behind nginx with HTTPS, and debug HTTP and certificate problems.
 
-## HTTP in five minutes
+## HTTP basics
 
 A request: method, path, headers, optional body. A response: status code, headers, body.
 
@@ -24,7 +24,7 @@ Accept: */*
 
 502/504 at nginx almost always mean "the app behind nginx is down, slow, or listening elsewhere".
 
-Methods: `GET` read, `POST` create, `PUT`/`PATCH` update, `DELETE`. `GET`, `PUT`, `DELETE` should be idempotent (safe to retry) — important for retries (lesson 60).
+Methods: `GET` read, `POST` create, `PUT`/`PATCH` update, `DELETE`. `GET`, `PUT`, `DELETE` should be idempotent (safe to retry): important for retries (lesson 60).
 
 HTTP/2 multiplexes many requests in one TCP connection. HTTP/3 runs over QUIC (UDP).
 
@@ -51,11 +51,14 @@ curl -vI https://example.com 2>&1 | grep -E 'expire|subject|issuer'
 
 ```bash
 sudo apt install nginx
-sudo nginx -t                   # test config - ALWAYS before reload
+sudo nginx -t
 sudo systemctl reload nginx
-ls /etc/nginx/sites-available /etc/nginx/sites-enabled   # Debian layout
+ls /etc/nginx/sites-available /etc/nginx/sites-enabled
 tail -f /var/log/nginx/access.log /var/log/nginx/error.log
 ```
+
+- `sudo nginx -t`: test config - ALWAYS before reload
+- `ls /etc/nginx/sites-available /etc/nginx/sites-enabled`: Debian layout
 
 ### Reverse proxy for an app on port 3000
 
@@ -105,8 +108,10 @@ DNS must point to the server and port 80 must be open.
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d app.example.com
 sudo certbot renew --dry-run
-systemctl list-timers | grep certbot     # auto-renewal
+systemctl list-timers | grep certbot
 ```
+
+- `systemctl list-timers | grep certbot`: auto-renewal
 
 certbot edits the server block: adds `listen 443 ssl`, certificate paths and a redirect from HTTP to HTTPS.
 
@@ -132,9 +137,9 @@ add_header X-Content-Type-Options nosniff always;
 
 ## Debugging 502
 
-1. `tail /var/log/nginx/error.log` — "connect() failed (111: Connection refused)" = app not listening; "upstream timed out" = app too slow.
-2. `ss -tlnp | grep 3000` — is the app listening, on which address?
-3. `curl -v http://127.0.0.1:3000/` from the server — does the app answer directly?
+1. `tail /var/log/nginx/error.log`: "connect() failed (111: Connection refused)" = app not listening; "upstream timed out" = app too slow.
+2. `ss -tlnp | grep 3000`: is the app listening, on which address?
+3. `curl -v http://127.0.0.1:3000/` from the server: does the app answer directly?
 4. `systemctl status app`, `journalctl -u app`.
 5. SELinux on RHEL blocks nginx → network: `setsebool -P httpd_can_network_connect 1`.
 

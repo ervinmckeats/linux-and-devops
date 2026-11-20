@@ -26,8 +26,8 @@ Examples use AWS names; the table maps them to the others.
 
 ## Regions and availability zones
 
-- **Region** — a geographic area (`eu-central-1`). Choose by latency to users, data residency law, price.
-- **Availability Zone (AZ)** — an independent data center inside a region. Spread instances, load balancers and databases across **at least 2 AZs** to survive a data-center failure.
+- **Region**: a geographic area (`eu-central-1`). Choose by latency to users, data residency law, price.
+- **Availability Zone (AZ)**: an independent data center inside a region. Spread instances, load balancers and databases across **at least 2 AZs** to survive a data-center failure.
 - Traffic between AZs and especially out to the internet costs money.
 
 ## Networking: a standard VPC
@@ -69,12 +69,12 @@ The most important cloud skill: most real breaches are leaked credentials or ove
 
 ## Storage
 
-- **Block** (EBS) — a disk for one VM. Snapshots for backup.
-- **Object** (S3) — files by key over HTTP, practically unlimited, cheap, durable. Backups, static sites, logs, artifacts.
+- **Block** (EBS): a disk for one VM. Snapshots for backup.
+- **Object** (S3): files by key over HTTP, practically unlimited, cheap, durable. Backups, static sites, logs, artifacts.
   - Block public access by default. Most "data leak" headlines are public buckets.
   - Versioning + lifecycle rules (move old objects to cheaper classes, expire them).
   - Object Lock for immutable backups (lesson 21).
-- **File** (EFS / Filestore) — NFS shared between many VMs.
+- **File** (EFS / Filestore): NFS shared between many VMs.
 
 ## Managed services: build or buy?
 
@@ -83,14 +83,18 @@ A managed database gives backups, failover, patching and monitoring for a price.
 ## CLI basics
 
 ```bash
-aws configure sso                         # log in via SSO
-aws sts get-caller-identity               # who am I? run this first, always
+aws configure sso
+aws sts get-caller-identity
 aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,State.Name,PrivateIpAddress]' --output table
 aws s3 ls s3://example-bucket/
 aws s3 sync ./site s3://example-site --delete
 aws logs tail /aws/lambda/fn --follow
-aws ssm start-session --target i-0123456789abcdef0   # shell without SSH
+aws ssm start-session --target i-0123456789abcdef0
 ```
+
+- `aws configure sso`: log in via SSO
+- `aws sts get-caller-identity`: who am I? run this first, always
+- `aws ssm start-session --target i-0123456789abcdef0`: shell without SSH
 
 Inside an instance, the metadata service gives identity and temporary credentials at `169.254.169.254`. Require IMDSv2 (session tokens): it blocks a common SSRF credential theft.
 

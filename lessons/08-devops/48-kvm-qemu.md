@@ -5,7 +5,7 @@ Run and manage virtual machines on your own Linux host, and understand what a cl
 
 ## Theory
 
-- **Hypervisor** — software that runs VMs. **Type 1** runs on bare metal (KVM, ESXi, Xen, Hyper-V); **type 2** runs inside an OS (VirtualBox, VMware Workstation).
+- **Hypervisor**: software that runs VMs. **Type 1** runs on bare metal (KVM, ESXi, Xen, Hyper-V); **type 2** runs inside an OS (VirtualBox, VMware Workstation).
 - **KVM** is a Linux kernel module that turns Linux into a type 1 hypervisor using CPU virtualization extensions (Intel VT-x / AMD-V).
 - **QEMU** emulates the rest of the machine (disks, network cards, BIOS) and uses KVM for fast CPU execution.
 - **libvirt** is the management layer: `virsh`, `virt-install`, `virt-manager`, Terraform and Ansible talk to it.
@@ -16,11 +16,14 @@ Most public clouds run on KVM-based hypervisors. Proxmox VE and OpenStack are bu
 ## Check and install
 
 ```bash
-grep -cE 'vmx|svm' /proc/cpuinfo      # > 0 = hardware virtualization available
+grep -cE 'vmx|svm' /proc/cpuinfo
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst cloud-image-utils
-sudo usermod -aG libvirt,kvm $USER    # then re-login
+sudo usermod -aG libvirt,kvm $USER
 virsh list --all
 ```
+
+- `grep -cE 'vmx|svm' /proc/cpuinfo`: > 0 = hardware virtualization available
+- `sudo usermod -aG libvirt,kvm $USER`: then re-login
 
 Nested virtualization (a VM inside your lab VM) needs to be enabled on the outer hypervisor; on a laptop it is often easier to run KVM directly on a Linux host.
 
@@ -54,9 +57,11 @@ sudo virt-install --name vm1 --memory 2048 --vcpus 2 \
   --os-variant ubuntu24.04 --network network=default,model=virtio \
   --import --noautoconsole
 
-virsh domifaddr vm1         # find its IP
+virsh domifaddr vm1
 ssh admin@<ip>
 ```
+
+- `virsh domifaddr vm1`: find its IP
 
 `qemu-img create -b` makes a **copy-on-write overlay**: the base image stays untouched, each VM stores only its own changes.
 
@@ -64,27 +69,34 @@ ssh admin@<ip>
 
 ```bash
 virsh list --all
-virsh start vm1; virsh shutdown vm1; virsh destroy vm1   # destroy = power off, not delete
+virsh start vm1; virsh shutdown vm1; virsh destroy vm1
 virsh reboot vm1
 virsh autostart vm1
-virsh console vm1                       # serial console (Ctrl+] to exit)
+virsh console vm1
 virsh dominfo vm1
-virsh edit vm1                          # XML definition
+virsh edit vm1
 virsh setmem vm1 4G --config; virsh setvcpus vm1 4 --config --maximum
 virsh snapshot-create-as vm1 before-upgrade
 virsh snapshot-list vm1
 virsh snapshot-revert vm1 before-upgrade
-virsh undefine vm1 --remove-all-storage   # delete for good
+virsh undefine vm1 --remove-all-storage
 ```
+
+- `virsh start vm1; virsh shutdown vm1; virsh destroy vm1`: destroy = power off, not delete
+- `virsh console vm1`: serial console (Ctrl+] to exit)
+- `virsh edit vm1`: XML definition
+- `virsh undefine vm1 --remove-all-storage`: delete for good
 
 ## Disks
 
 ```bash
 qemu-img info vm1.qcow2
-qemu-img resize vm1.qcow2 +10G          # then growpart + resize2fs inside (lesson 19)
+qemu-img resize vm1.qcow2 +10G
 qemu-img convert -O raw vm1.qcow2 vm1.raw
 virsh attach-disk vm1 /var/lib/libvirt/images/data.qcow2 vdb --persistent --subdriver qcow2
 ```
+
+- `qemu-img resize vm1.qcow2 +10G`: then growpart + resize2fs inside (lesson 19)
 
 qcow2 supports snapshots, thin provisioning and backing files; raw is slightly faster.
 

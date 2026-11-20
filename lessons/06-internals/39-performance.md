@@ -7,36 +7,47 @@ Find the bottleneck on a slow server in minutes with a method, not guessing.
 
 For every resource (CPU, memory, disk, network, and limits like file descriptors) check:
 
-- **U**tilization — how busy is it? (% time busy, % capacity used)
-- **S**aturation — is work queuing? (run queue, swap, I/O wait queue, dropped packets)
-- **E**rrors — any errors? (disk errors, NIC errors, OOM kills)
+- **U**tilization: how busy is it? (% time busy, % capacity used)
+- **S**aturation: is work queuing? (run queue, swap, I/O wait queue, dropped packets)
+- **E**rrors: any errors? (disk errors, NIC errors, OOM kills)
 
 Saturation is usually what users feel. 100% CPU with no queue is fine; 60% disk utilization with a long queue is not.
 
 | Resource | Utilization | Saturation | Errors |
 |---|---|---|---|
-| CPU | `mpstat`, `top` %us+%sy | load > cores, `vmstat r`, PSI cpu, throttling | — |
+| CPU | `mpstat`, `top` %us+%sy | load > cores, `vmstat r`, PSI cpu, throttling | - |
 | Memory | `free` available | swapping `vmstat si/so`, PSI memory | OOM in `dmesg` |
 | Disk | `iostat %util` | `iostat aqu-sz`, `await`, PSI io | `dmesg` I/O errors, `smartctl` |
 | Network | `sar -n DEV`, `iftop` | drops, retransmits `nstat`, `ss` queues | `ip -s link` errors |
-| FDs | `/proc/PID/fd` count | — | "Too many open files" |
+| FDs | `/proc/PID/fd` count | - | "Too many open files" |
 
 ## The first 60 seconds
 
 Log in and run, in order:
 
 ```bash
-uptime                          # load average trend: rising or falling?
-dmesg -T | tail                 # OOM kills, disk errors, network issues
-vmstat 1 5                      # r (run queue), si/so (swap), wa (I/O wait), us/sy/id
-mpstat -P ALL 1 3               # one core at 100%? (single-threaded bottleneck)
-pidstat 1 3                     # which processes use CPU
-iostat -xz 1 3                  # per disk: r/s w/s await aqu-sz %util
-free -h                         # memory available, swap used
-sar -n DEV 1 3                  # network throughput per interface
-sar -n TCP,ETCP 1 3             # connections/s, retransmits
-top                             # overview, sort by CPU (P) or memory (M)
+uptime
+dmesg -T | tail
+vmstat 1 5
+mpstat -P ALL 1 3
+pidstat 1 3
+iostat -xz 1 3
+free -h
+sar -n DEV 1 3
+sar -n TCP,ETCP 1 3
+top
 ```
+
+- `uptime`: load average trend: rising or falling?
+- `dmesg -T | tail`: OOM kills, disk errors, network issues
+- `vmstat 1 5`: r (run queue), si/so (swap), wa (I/O wait), us/sy/id
+- `mpstat -P ALL 1 3`: one core at 100%? (single-threaded bottleneck)
+- `pidstat 1 3`: which processes use CPU
+- `iostat -xz 1 3`: per disk: r/s w/s await aqu-sz %util
+- `free -h`: memory available, swap used
+- `sar -n DEV 1 3`: network throughput per interface
+- `sar -n TCP,ETCP 1 3`: connections/s, retransmits
+- `top`: overview, sort by CPU (P) or memory (M)
 
 (`mpstat`, `pidstat`, `iostat`, `sar` come from the `sysstat` package.)
 
@@ -53,7 +64,7 @@ top                             # overview, sort by CPU (P) or memory (M)
 | load high, CPU idle | processes in `D` state waiting for I/O or NFS |
 | retransmits | network loss, overloaded peer, MTU |
 
-## PSI — Pressure Stall Information
+## PSI: Pressure Stall Information
 
 Since kernel 4.20 the kernel reports **how much time tasks were stalled** waiting for a resource. It is the most direct saturation signal.
 
@@ -68,8 +79,8 @@ some avg10=12.50 avg60=8.00 avg300=3.10 total=...
 full avg10=4.00  avg60=2.10 avg300=0.80 total=...
 ```
 
-- `some` — % of time at least one task was waiting.
-- `full` — % of time **all** non-idle tasks were waiting (nothing useful got done).
+- `some`: % of time at least one task was waiting.
+- `full`: % of time **all** non-idle tasks were waiting (nothing useful got done).
 - `avg10=12.50` on memory: in the last 10 s, tasks waited for memory 12.5% of the time.
 
 Also per cgroup: `/sys/fs/cgroup/<path>/memory.pressure`. Great for alerts: "memory full avg60 > 5%".
@@ -81,19 +92,24 @@ iostat -xz 1
 #  r_await/w_await   average latency in ms (SSD: < 1-2 ms; HDD: 5-15 ms)
 #  aqu-sz            average queue length
 #  %util             time the device was busy (misleading for SSD/NVMe with parallel queues)
-sudo iotop -oPa      # processes doing I/O
+sudo iotop -oPa
 pidstat -d 1
-fio --name=randread --rw=randread --bs=4k --size=1G --runtime=30 --time_based --direct=1   # benchmark
+fio --name=randread --rw=randread --bs=4k --size=1G --runtime=30 --time_based --direct=1
 ```
+
+- `sudo iotop -oPa`: processes doing I/O
+- `fio --name=randread --rw=randread --bs=4k --size=1G --runtime=30 --time_based --direct=1`: benchmark
 
 ## Network performance
 
 ```bash
 ss -s
-ss -tin dst :443 | head      # per-connection rtt, cwnd, retrans
+ss -tin dst :443 | head
 nstat -az | grep -i -E 'retrans|drop|overflow'
 ip -s link show eth0
 ```
+
+- `ss -tin dst :443 | head`: per-connection rtt, cwnd, retrans
 
 ## Latency, not only throughput
 
@@ -104,16 +120,19 @@ Averages hide problems. Look at percentiles (p95, p99) from your app metrics (le
 Measure before and after a change:
 
 ```bash
-ab -n 10000 -c 100 http://localhost/              # apache bench, simple
-wrk -t4 -c200 -d30s --latency http://localhost/   # better, shows latency distribution
+ab -n 10000 -c 100 http://localhost/
+wrk -t4 -c200 -d30s --latency http://localhost/
 hey -n 10000 -c 100 http://localhost/
 ```
+
+- `ab -n 10000 -c 100 http://localhost/`: apache bench, simple
+- `wrk -t4 -c200 -d30s --latency http://localhost/`: better, shows latency distribution
 
 ## Practice
 
 1. Run the first-60-seconds list on an idle VM and write down normal values.
 2. `stress-ng --cpu 2 -t 60s` and repeat. What changed?
-3. `stress-ng --io 4 --hdd 2 -t 60s` — find the disk saturation in `iostat` and PSI.
+3. `stress-ng --io 4 --hdd 2 -t 60s`: find the disk saturation in `iostat` and PSI.
 4. Run `wrk` against nginx; watch `mpstat`, `pidstat`, and `ss -s` during the test.
 5. Write your own one-page "slow server" runbook from this lesson.
 

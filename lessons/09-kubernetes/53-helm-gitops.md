@@ -7,8 +7,8 @@ Package Kubernetes apps for many environments and deploy them from Git automatic
 
 The same app in dev, staging and prod differs in image tag, replicas, resources, hostnames and secrets. Copy-pasting YAML per environment drifts quickly. Two common answers:
 
-- **Kustomize** — plain YAML base + patches per environment. Built into `kubectl -k`.
-- **Helm** — templated charts with values files, plus release management (install, upgrade, rollback).
+- **Kustomize**: plain YAML base + patches per environment. Built into `kubectl -k`.
+- **Helm**: templated charts with values files, plus release management (install, upgrade, rollback).
 
 ## Kustomize
 
@@ -44,9 +44,11 @@ configMapGenerator:
 ```
 
 ```bash
-kubectl kustomize overlays/prod     # render
+kubectl kustomize overlays/prod
 kubectl apply -k overlays/prod
 ```
+
+- `kubectl kustomize overlays/prod`: render
 
 ## Helm
 
@@ -61,28 +63,36 @@ helm upgrade ingress ingress-nginx/ingress-nginx -n ingress -f values.yaml --ver
 helm history ingress -n ingress
 helm rollback ingress 1 -n ingress
 helm uninstall ingress -n ingress
-helm template ./chart -f values-prod.yaml      # render locally, review the YAML
-helm diff upgrade api ./chart -f values-prod.yaml   # plugin: what will change
+helm template ./chart -f values-prod.yaml
+helm diff upgrade api ./chart -f values-prod.yaml
 ```
+
+- `helm template ./chart -f values-prod.yaml`: render locally, review the YAML
+- `helm diff upgrade api ./chart -f values-prod.yaml`: plugin: what will change
 
 Always pin chart versions (`--version`).
 
 ### Your own chart
 
 ```bash
-helm create api      # scaffold
+helm create api
 ```
+
+- `helm create api`: scaffold
 
 ```
 api/
-├── Chart.yaml           # name, version (of the chart), appVersion
-├── values.yaml          # defaults
+├── Chart.yaml
+├── values.yaml
 └── templates/
     ├── deployment.yaml
     ├── service.yaml
     ├── ingress.yaml
     └── _helpers.tpl
 ```
+
+- `├── Chart.yaml`: name, version (of the chart), appVersion
+- `├── values.yaml`: defaults
 
 `values.yaml`:
 
@@ -195,11 +205,14 @@ k8s-config/
 ├── apps/
 │   ├── api/{base,overlays/{staging,prod}}
 │   └── web/...
-├── platform/          # ingress, cert-manager, monitoring, external-secrets
+├── platform/
 └── clusters/
-    ├── staging/       # which apps/versions run here
+    ├── staging/
     └── prod/
 ```
+
+- `├── platform/`: ingress, cert-manager, monitoring, external-secrets
+- `├── staging/`: which apps/versions run here
 
 Secrets do not go into this repo in plain form: use External Secrets, Sealed Secrets or SOPS.
 

@@ -18,28 +18,36 @@ It manages **units**, described in text files:
 | `.target` | a group of units, a "state" (`multi-user.target`, `graphical.target`) |
 
 Unit file locations (higher wins):
-1. `/etc/systemd/system/` — yours, admin overrides
-2. `/run/systemd/system/` — runtime
-3. `/usr/lib/systemd/system/` (or `/lib/...`) — from packages. **Do not edit these**: upgrades overwrite them.
+1. `/etc/systemd/system/`: yours, admin overrides
+2. `/run/systemd/system/`: runtime
+3. `/usr/lib/systemd/system/` (or `/lib/...`): from packages. **Do not edit these**: upgrades overwrite them.
 
 ## Commands
 
 ```bash
 systemctl status nginx
 sudo systemctl start | stop | restart nginx
-sudo systemctl reload nginx            # re-read config without dropping connections (if supported)
-sudo systemctl enable --now nginx      # start on boot + start now
+sudo systemctl reload nginx
+sudo systemctl enable --now nginx
 sudo systemctl disable nginx
 systemctl is-active nginx; systemctl is-enabled nginx
 systemctl list-units --type=service --state=running
-systemctl --failed                     # what is broken
-systemctl cat nginx                    # the unit file and all overrides
+systemctl --failed
+systemctl cat nginx
 systemctl show nginx -p MainPID,Restart,MemoryCurrent
-sudo systemctl mask bluetooth          # forbid starting at all
-sudo systemctl daemon-reload           # after editing unit files
-systemd-analyze blame                  # what slows the boot
+sudo systemctl mask bluetooth
+sudo systemctl daemon-reload
+systemd-analyze blame
 systemctl list-dependencies multi-user.target
 ```
+
+- `sudo systemctl reload nginx`: re-read config without dropping connections (if supported)
+- `sudo systemctl enable --now nginx`: start on boot + start now
+- `systemctl --failed`: what is broken
+- `systemctl cat nginx`: the unit file and all overrides
+- `sudo systemctl mask bluetooth`: forbid starting at all
+- `sudo systemctl daemon-reload`: after editing unit files
+- `systemd-analyze blame`: what slows the boot
 
 ## Your own service
 
@@ -78,14 +86,16 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable --now myapp
 journalctl -u myapp -f
-systemd-analyze security myapp        # score of hardening options
+systemd-analyze security myapp
 ```
 
-`Type=`: `simple` (process stays in foreground — best for most apps), `exec`, `forking` (old daemons that fork), `oneshot` (scripts that finish), `notify` (app tells systemd when ready).
+- `systemd-analyze security myapp`: score of hardening options
+
+`Type=`: `simple` (process stays in foreground: best for most apps), `exec`, `forking` (old daemons that fork), `oneshot` (scripts that finish), `notify` (app tells systemd when ready).
 
 ## Changing a packaged service
 
-Never edit `/usr/lib/systemd/system/nginx.service`. Create an override:
+*Never* edit `/usr/lib/systemd/system/nginx.service`. Create an override:
 
 ```bash
 sudo systemctl edit nginx
@@ -104,8 +114,10 @@ To replace `ExecStart`, clear it first: `ExecStart=` then `ExecStart=/new/comman
 ```bash
 mkdir -p ~/.config/systemd/user
 systemctl --user enable --now myjob.service
-loginctl enable-linger $USER     # keep running after logout
+loginctl enable-linger $USER
 ```
+
+- `loginctl enable-linger $USER`: keep running after logout
 
 ## Practice
 

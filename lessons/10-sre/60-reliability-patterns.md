@@ -9,7 +9,7 @@ In a system with many parts something is always broken: a node, a disk, a depend
 
 ## Patterns
 
-### Timeouts — always
+### Timeouts: always
 
 Every network call needs a timeout. Without one, a slow dependency holds threads/connections until your service runs out and fails too.
 
@@ -17,7 +17,7 @@ Every network call needs a timeout. Without one, a slow dependency holds threads
 - Timeout < caller's timeout. If the user's request has 2 s, inner calls get less.
 - Pass a **deadline** down the call chain (gRPC does this natively).
 
-### Retries — carefully
+### Retries: carefully
 
 Retries fix brief glitches and can also multiply load during an outage (**retry storm**): 3 layers × 3 retries = 27× traffic to the failing service.
 
@@ -67,9 +67,12 @@ Readiness vs liveness (lesson 52). A load balancer health check that depends on 
 - **Chaos engineering**: inject failures on purpose (kill pods, add latency, drop a zone) in staging, then carefully in production, with a hypothesis and a stop button. Tools: Chaos Mesh, Litmus, AWS FIS, `tc netem`:
 
 ```bash
-sudo tc qdisc add dev eth0 root netem delay 200ms 50ms loss 1%   # add latency and loss
-sudo tc qdisc del dev eth0 root                                  # remove
+sudo tc qdisc add dev eth0 root netem delay 200ms 50ms loss 1%
+sudo tc qdisc del dev eth0 root
 ```
+
+- `sudo tc qdisc add dev eth0 root netem delay 200ms 50ms loss 1%`: add latency and loss
+- `sudo tc qdisc del dev eth0 root`: remove
 
 - **Disaster recovery drills**: restore from backup, fail over a region, rebuild a cluster from Git. Measure real RTO/RPO (lesson 21).
 
@@ -78,7 +81,7 @@ sudo tc qdisc del dev eth0 root                                  # remove
 Goal: enough capacity for expected peaks plus failures, at a reasonable cost.
 
 1. **Find the unit of load**: requests per second, active users, messages per second, GB stored.
-2. **Measure cost per unit**: from load tests and production metrics — e.g. one pod handles 400 RPS at p99 < 200 ms using 0.8 CPU and 600 MB.
+2. **Measure cost per unit**: from load tests and production metrics: e.g. one pod handles 400 RPS at p99 < 200 ms using 0.8 CPU and 600 MB.
 3. **Forecast demand**: historical growth, seasonality (daily/weekly peaks, sales events), planned launches and marketing.
 4. **Add headroom**: survive losing one AZ (N+1 per zone) and sudden spikes. A common target is peak utilization ≤ 60–70% of the safe limit.
 5. **Know the limits that are not CPU**: database connections, disk IOPS, network bandwidth, cloud quotas (instances, IPs, load balancers), third-party API rate limits, licence limits.

@@ -11,7 +11,7 @@ Firmware (UEFI/BIOS)  →  Bootloader (GRUB)  →  Kernel + initramfs  →  syst
 ```
 
 1. **Firmware** tests hardware and starts the bootloader from the EFI partition (`/boot/efi`).
-2. **GRUB** loads the kernel (`/boot/vmlinuz-*`) and the **initramfs** — a tiny temporary root filesystem with drivers needed to mount the real root (LVM, RAID, encryption, NVMe).
+2. **GRUB** loads the kernel (`/boot/vmlinuz-*`) and the **initramfs**: a tiny temporary root filesystem with drivers needed to mount the real root (LVM, RAID, encryption, NVMe).
 3. **Kernel** initializes hardware, mounts the real root, starts `/sbin/init` = systemd.
 4. **systemd** reaches the default **target**: `multi-user.target` (server) or `graphical.target`.
 
@@ -22,15 +22,22 @@ Knowing the stage tells you where to look: no GRUB menu → disk/firmware; kerne
 ```bash
 systemctl get-default
 sudo systemctl set-default multi-user.target
-systemd-analyze                  # time per stage
+systemd-analyze
 systemd-analyze critical-chain
-journalctl -b -p err             # errors during this boot
-cat /proc/cmdline                # kernel arguments used
+journalctl -b -p err
+cat /proc/cmdline
 ls /boot
-sudo update-grub                 # Debian/Ubuntu, after editing /etc/default/grub
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg   # RHEL
-sudo update-initramfs -u         # Debian/Ubuntu; RHEL: dracut -f
+sudo update-grub
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo update-initramfs -u
 ```
+
+- `systemd-analyze`: time per stage
+- `journalctl -b -p err`: errors during this boot
+- `cat /proc/cmdline`: kernel arguments used
+- `sudo update-grub`: Debian/Ubuntu, after editing `/etc/default/grub`
+- `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`: RHEL
+- `sudo update-initramfs -u`: Debian/Ubuntu; RHEL: `dracut -f`
 
 ## Rescue modes
 
@@ -62,18 +69,20 @@ Anyone with console access can do this. Physical/console access = root. Protect 
 ```bash
 # in emergency shell
 mount -o remount,rw /
-vim /etc/fstab          # fix or comment out the bad line, add nofail
+vim /etc/fstab
 mount -a && systemctl daemon-reload && reboot
 ```
+
+- `vim /etc/fstab`: fix or comment out the bad line, add nofail
 
 ### System does not boot at all: chroot from a live ISO
 
 Boot a live Ubuntu ISO (or the cloud provider's rescue image), then:
 
 ```bash
-lsblk -f                                  # find the root partition
-sudo mount /dev/sda2 /mnt                 # root (for LVM: vgchange -ay first)
-sudo mount /dev/sda1 /mnt/boot/efi        # EFI partition if separate
+lsblk -f
+sudo mount /dev/sda2 /mnt
+sudo mount /dev/sda1 /mnt/boot/efi
 for d in dev proc sys run; do sudo mount --rbind /$d /mnt/$d; done
 sudo chroot /mnt
 # now you are "inside" the broken system:
@@ -83,6 +92,10 @@ update-initramfs -u -k all
 grub-install /dev/sda && update-grub
 exit
 ```
+
+- `lsblk -f`: find the root partition
+- `sudo mount /dev/sda2 /mnt`: root (for LVM: `vgchange -ay` first)
+- `sudo mount /dev/sda1 /mnt/boot/efi`: EFI partition if separate
 
 ### Disk full, cannot log in
 

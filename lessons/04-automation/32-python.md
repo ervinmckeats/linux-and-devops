@@ -11,7 +11,7 @@ Know when Bash stops being enough, and write small, reliable Python tools for op
 | < ~100 lines | anything bigger or with logic |
 | runs everywhere | needs Python (almost always there), libraries need a venv |
 
-If you need arrays of dicts, retries with backoff, or HTTP calls with auth — use Python.
+If you need arrays of dicts, retries with backoff, or HTTP calls with auth: use Python.
 
 ## Environment
 
@@ -23,10 +23,12 @@ source .venv/bin/activate
 pip install requests pyyaml
 pip freeze > requirements.txt
 deactivate
-pipx install httpie          # CLI tools in their own isolated envs
+pipx install httpie
 ```
 
-## Basics in 5 minutes
+- `pipx install httpie`: CLI tools in their own isolated envs
+
+## Basics
 
 ```python
 hosts = ["web1", "web2", "db1"]           # list

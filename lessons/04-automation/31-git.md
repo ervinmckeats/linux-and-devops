@@ -30,17 +30,23 @@ git config --global pull.rebase true
 ```bash
 git clone git@github.com:org/infra.git
 git status
-git switch -c fix/nginx-timeout           # new branch
+git switch -c fix/nginx-timeout
 git add nginx/app.conf
-git diff --staged                         # review what you commit
+git diff --staged
 git commit -m "fix: raise proxy timeout to 60s"
 git push -u origin fix/nginx-timeout
-git switch main && git pull               # update
+git switch main && git pull
 git log --oneline --graph -20
-git log -p -- nginx/app.conf              # history of one file with diffs
-git blame nginx/app.conf                  # who changed each line
+git log -p -- nginx/app.conf
+git blame nginx/app.conf
 git show a1b2c3d
 ```
+
+- `git switch -c fix/nginx-timeout`: new branch
+- `git diff --staged`: review what you commit
+- `git switch main && git pull`: update
+- `git log -p -- nginx/app.conf`: history of one file with diffs
+- `git blame nginx/app.conf`: who changed each line
 
 ## Branches and pull requests
 
@@ -58,21 +64,28 @@ Protect `main`: no direct pushes, required reviews and checks.
 ### Merge vs rebase
 
 ```bash
-git merge main        # adds a merge commit, keeps history as it happened
-git rebase main       # replays your commits on top of main: linear history
+git merge main
+git rebase main
 ```
+
+- `git merge main`: adds a merge commit, keeps history as it happened
+- `git rebase main`: replays your commits on top of main: linear history
 
 Rule: rebase your **own, unpushed or private** branch; never rewrite history that others already use.
 
 ### Conflicts
 
 ```bash
-git pull               # CONFLICT in app.conf
+git pull
 # edit the file, remove <<<<<<< ======= >>>>>>> markers
 git add app.conf
-git rebase --continue  # or: git commit (for merge)
-git rebase --abort     # give up, back to before
+git rebase --continue
+git rebase --abort
 ```
+
+- `git pull`: CONFLICT in `app.conf`
+- `git rebase --continue`: or `git commit` (for a merge)
+- `git rebase --abort`: give up, back to before
 
 ## Undo
 
@@ -100,7 +113,7 @@ git rebase --abort     # give up, back to before
 __pycache__/
 ```
 
-**Never commit secrets.** If you did: rotate the secret first (it is compromised), then clean history. Use scanners (`gitleaks`, `trufflehog`) and pre-commit hooks.
+**Never commit secrets.** If you did: rotate the secret *first* (it is compromised), then clean history. Use scanners (`gitleaks`, `trufflehog`) and pre-commit hooks.
 
 ## Commit messages
 
@@ -127,11 +140,16 @@ Use semantic versioning: MAJOR (breaking) . MINOR (feature) . PATCH (fix).
 ## Useful extras
 
 ```bash
-git bisect start; git bisect bad; git bisect good v1.3.0   # binary search for the commit that broke it
-git worktree add ../hotfix main      # second working copy of the same repo
-git grep "proxy_read_timeout"        # search tracked files
-git log -S "max_connections"         # commits that added/removed a string
+git bisect start; git bisect bad; git bisect good v1.3.0
+git worktree add ../hotfix main
+git grep "proxy_read_timeout"
+git log -S "max_connections"
 ```
+
+- `git bisect start; git bisect bad; git bisect good v1.3.0`: binary search for the commit that broke it
+- `git worktree add ../hotfix main`: second working copy of the same repo
+- `git grep "proxy_read_timeout"`: search tracked files
+- `git log -S "max_connections"`: commits that added/removed a string
 
 ## Practice
 

@@ -7,7 +7,7 @@ Learn from every significant incident without blame, and turn hard-won knowledge
 
 A **postmortem** is a written review of an incident: what happened, why, and what we change so it does not happen again (or hurts less).
 
-**Blameless** means we assume people acted reasonably with the information and tools they had. "Anna ran the wrong command" is not a root cause; "the tool allowed running a destructive command against prod without confirmation" is. Blame makes people hide information, and hidden information means repeated incidents.
+**Blameless** means we assume people acted reasonably with the information and tools they had. *"Anna ran the wrong command"* is not a root cause; *"the tool allowed running a destructive command against prod without confirmation"* is. Blame makes people hide information, and hidden information means repeated incidents.
 
 ### When to write one
 
@@ -73,9 +73,9 @@ lowered the HTTP client timeout to the payment provider from 10 s to 1 s.
 
 ### Root cause analysis techniques
 
-- **5 Whys** — ask "why?" repeatedly until you reach something you can change in the system. Stop at systems and processes, not people.
-- **Contributing factors** — complex outages rarely have one cause. List all conditions that had to be true.
-- **Timeline first** — reconstruct facts from logs, chat and dashboards before discussing causes.
+- **5 Whys**: ask "why?" repeatedly until you reach something you can change in the system. Stop at systems and processes, not people.
+- **Contributing factors**: complex outages rarely have one cause. List all conditions that had to be true.
+- **Timeline first**: reconstruct facts from logs, chat and dashboards before discussing causes.
 
 ### Action items that actually happen
 
@@ -127,7 +127,7 @@ Team payments on-call via pager after 30 min without mitigation, or immediately 
 
 ### Good runbooks
 
-- Written for someone tired, at 3 a.m., who did not build the service.
+- Written for an on-call engineer who did not build the service.
 - Copy-pasteable commands with real names, links to the exact dashboard.
 - Updated after every incident where they were wrong or missing.
 - Progressively automated: a runbook step done the same way every time is a candidate for a script, then for automatic remediation.
@@ -143,7 +143,7 @@ Team payments on-call via pager after 30 min without mitigation, or immediately 
 
 - Why is "human error" never the root cause in a blameless postmortem?
 - What makes a postmortem action item likely to be completed?
-- What must a runbook contain to be useful at 3 a.m.?
+- What must a runbook contain to be useful during an incident?
 
 ## Next
 [Lesson 60. Reliability patterns and capacity planning](60-reliability-patterns.md)

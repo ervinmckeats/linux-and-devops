@@ -5,7 +5,7 @@ Handle a production incident calmly with clear roles and communication, and run 
 
 ## What is an incident
 
-An unplanned event that hurts users or puts them at risk: outage, degraded performance, data loss or exposure, security breach. Declare early — downgrading a false alarm is cheap, a late response is not.
+An unplanned event that hurts users or puts them at risk: outage, degraded performance, data loss or exposure, security breach. Declare early: downgrading a false alarm is cheap, a late response is not.
 
 ### Severity levels (example)
 
@@ -22,33 +22,33 @@ Write your own table with concrete examples for your product, so nobody debates 
 
 For anything above a small incident, split the work:
 
-- **Incident Commander (IC)** — coordinates, decides, keeps the timeline. **Does not debug.** Asks "what do we know, what are we trying, who is doing it, when do we check back?"
-- **Operations / subject-matter experts** — investigate and fix.
-- **Communications lead** — status page, support, stakeholders, regular updates.
-- **Scribe** — writes the timeline in the incident channel (often the IC early on).
+- **Incident Commander (IC)**: coordinates, decides, keeps the timeline. **Does not debug.** Asks "what do we know, what are we trying, who is doing it, when do we check back?"
+- **Operations / subject-matter experts**: investigate and fix.
+- **Communications lead**: status page, support, stakeholders, regular updates.
+- **Scribe**: writes the timeline in the incident channel (often the IC early on).
 
 One person can hold several roles in a small team, but the IC role must be explicit.
 
 ## The response loop
 
-1. **Detect** — an alert, a customer, a colleague.
+1. **Detect**: an alert, a customer, a colleague.
 2. **Acknowledge** the page (so it does not escalate) and **declare** the incident: severity, IC, a dedicated channel (`#inc-2026-01-10-checkout`), a video bridge if needed.
-3. **Assess impact** — who is affected, since when, how badly? Dashboards, SLOs, error logs.
+3. **Assess impact**: who is affected, since when, how badly? Dashboards, SLOs, error logs.
 4. **Mitigate first, root-cause later.** Stop the bleeding:
    - roll back the last deploy or config change (most incidents follow a change);
    - fail over to another region/replica;
    - scale up, shed load, rate-limit, disable a feature flag;
    - block a bad client or traffic source.
 5. **Communicate** on a fixed cadence (every 30 min for SEV1, even if "no news").
-6. **Resolve** — users are fine again; keep monitoring for a while.
-7. **Follow up** — postmortem (lesson 59), action items with owners.
+6. **Resolve**: users are fine again; keep monitoring for a while.
+7. **Follow up**: postmortem (lesson 59), action items with owners.
 
 ## Communication templates
 
 Internal update:
 
 ```
-[SEV2] Checkout errors — update 14:30 UTC
+[SEV2] Checkout errors, update 14:30 UTC
 Impact: ~8% of checkout requests fail since 13:52. Other pages OK.
 Current theory: payment provider timeouts after the 13:45 deploy of payments-api 2.3.0.
 Actions: rolling back payments-api to 2.2.4 (Anna), checking provider status (Ben).
@@ -59,7 +59,7 @@ IC: Chris
 Public status page:
 
 ```
-Investigating — Some customers cannot complete checkout. We are working on a fix.
+Investigating: some customers cannot complete checkout. We are working on a fix.
 Next update in 30 minutes.
 ```
 

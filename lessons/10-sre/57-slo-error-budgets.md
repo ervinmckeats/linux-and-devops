@@ -5,16 +5,16 @@ Define reliability in numbers users care about, alert on it, and use it to balan
 
 ## Definitions
 
-- **SLI** (service level indicator) — a measurement of user experience, usually a ratio of good events to all events.
+- **SLI** (service level indicator): a measurement of user experience, usually a ratio of good events to all events.
   *"Share of HTTP requests to /api that return non-5xx in under 300 ms."*
-- **SLO** (service level objective) — a target for an SLI over a window.
+- **SLO** (service level objective): a target for an SLI over a window.
   *"99.9% of requests are good over 28 days."*
-- **SLA** (service level agreement) — a contract with consequences (credits, penalties). SLA is looser than the internal SLO, so you notice and act before you owe money.
-- **Error budget** — `1 − SLO`. The amount of failure you are **allowed**. At 99.9% over 28 days: 0.1% of requests, or about 40 minutes of total outage.
+- **SLA** (service level agreement): a contract with consequences (credits, penalties). SLA is looser than the internal SLO, so you notice and act before you owe money.
+- **Error budget**: `1 − SLO`. The amount of failure you are **allowed**. At 99.9% over 28 days: 0.1% of requests, or about 40 minutes of total outage.
 
 ## Why not 100%?
 
-- Users cannot tell 99.99% from 100% — their Wi-Fi, phone and ISP fail more often.
+- Users cannot tell 99.99% from 100%: their Wi-Fi, phone and ISP fail more often.
 - Each extra nine costs roughly 10× more (redundancy, process, slower releases).
 - 100% means you can never change anything. The error budget is permission to ship.
 

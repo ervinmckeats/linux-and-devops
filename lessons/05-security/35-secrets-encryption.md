@@ -51,15 +51,19 @@ Environment variables are convenient but are inherited by child processes and ca
 ### SOPS with age (secrets in Git, encrypted)
 
 ```bash
-age-keygen -o ~/.config/sops/age/keys.txt      # prints the public key
+age-keygen -o ~/.config/sops/age/keys.txt
 cat > .sops.yaml <<'YAML'
 creation_rules:
   - path_regex: secrets/.*\.yaml$
     age: age1yourpublickey...
 YAML
-sops secrets/prod.yaml          # opens an editor; saves encrypted values
-sops -d secrets/prod.yaml       # decrypt to stdout
+sops secrets/prod.yaml
+sops -d secrets/prod.yaml
 ```
+
+- `age-keygen -o ~/.config/sops/age/keys.txt`: prints the public key
+- `sops secrets/prod.yaml`: opens an editor; saves encrypted values
+- `sops -d secrets/prod.yaml`: decrypt to stdout
 
 Only the values are encrypted, so diffs still show which keys changed.
 
@@ -94,10 +98,12 @@ sudo cryptsetup close secure
 # single files: age or gpg
 age -r age1publickey... -o backup.tar.zst.age backup.tar.zst
 age -d -i key.txt backup.tar.zst.age > backup.tar.zst
-gpg -c file                     # symmetric, password-based
+gpg -c file
 ```
 
-Cloud disks and object storage usually support encryption with provider-managed keys (KMS) — turn it on, it is cheap.
+- `gpg -c file`: symmetric, password-based
+
+Cloud disks and object storage usually support encryption with provider-managed keys (KMS): turn it on, it is cheap.
 
 Encrypt **backups** before they leave the server; restic and borg do it by default.
 

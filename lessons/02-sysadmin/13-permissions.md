@@ -42,9 +42,9 @@ Never use `777`. If it "fixes" a problem, you have not found the problem.
 
 | Bit | Number | On file | On directory |
 |---|---|---|---|
-| SUID | 4000 | runs as file **owner** (`passwd` runs as root) | — |
+| SUID | 4000 | runs as file **owner** (`passwd` runs as root) | - |
 | SGID | 2000 | runs as file group | new files inherit the directory's group |
-| Sticky | 1000 | — | only owner can delete own files (`/tmp`) |
+| Sticky | 1000 | - | only owner can delete own files (`/tmp`) |
 
 `ls -l` shows them as `s` / `t`: `-rwsr-xr-x` (SUID), `drwxrwsr-x` (SGID), `drwxrwxrwt` (sticky).
 
@@ -57,33 +57,44 @@ Default permissions = `666` for files / `777` for dirs **minus** umask. umask `0
 When owner/group/others is not enough (two groups need different access):
 
 ```bash
-setfacl -m u:bob:r report.txt       # give bob read
-setfacl -m g:qa:rx /srv/app         # give group qa read+enter
-setfacl -d -m g:qa:rx /srv/app      # default for new files inside
+setfacl -m u:bob:r report.txt
+setfacl -m g:qa:rx /srv/app
+setfacl -d -m g:qa:rx /srv/app
 getfacl report.txt
 ```
+
+- `setfacl -m u:bob:r report.txt`: give bob read
+- `setfacl -m g:qa:rx /srv/app`: give group qa read+enter
+- `setfacl -d -m g:qa:rx /srv/app`: default for new files inside
 `ls -l` shows `+` at the end of the mode when ACLs exist.
 
 ## Commands
 
 ```bash
 chmod 640 file
-chmod u+x,g-w,o= script.sh          # symbolic
-chmod -R u=rwX,go=rX dir/           # X = x only for directories (and already-executable files)
+chmod u+x,g-w,o= script.sh
+chmod -R u=rwX,go=rX dir/
 chown alice:devs file
-chown -R www-data: /var/www/site    # owner and its primary group
+chown -R www-data: /var/www/site
 chgrp devs file
 umask; umask 027
-find / -perm -4000 -type f 2>/dev/null   # all SUID files (security audit)
-namei -l /var/www/site/index.html        # permissions of every path component
-lsattr; sudo chattr +i file              # immutable: even root cannot change it until -i
+find / -perm -4000 -type f 2>/dev/null
+namei -l /var/www/site/index.html
+lsattr; sudo chattr +i file
 ```
+
+- `chmod u+x,g-w,o= script.sh`: symbolic
+- `chmod -R u=rwX,go=rX dir/`: X = x only for directories (and already-executable files)
+- `chown -R www-data: /var/www/site`: owner and its primary group
+- `find / -perm -4000 -type f 2>/dev/null`: all SUID files (security audit)
+- `namei -l /var/www/site/index.html`: permissions of every path component
+- `lsattr; sudo chattr +i file`: immutable: even root cannot change it until `-i`
 
 ### Debugging "Permission denied"
 
-1. `id` — who am I, which groups?
-2. `namei -l /full/path` — is `x` missing on some directory?
-3. `ls -l` on the file — which set applies to me?
+1. `id`: who am I, which groups?
+2. `namei -l /full/path`: is `x` missing on some directory?
+3. `ls -l` on the file: which set applies to me?
 4. ACL (`getfacl`), immutable bit (`lsattr`), mount options (`mount | grep noexec`).
 5. SELinux/AppArmor (lesson 34): `ausearch -m avc`, `dmesg`.
 

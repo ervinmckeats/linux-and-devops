@@ -48,7 +48,7 @@ spec:
             name: api-config-files
 ```
 
-A rolling update starts new pods, waits until they are **Ready**, then removes old ones. Without a readiness probe "ready" just means "process started" — users get errors during deploys.
+A rolling update starts new pods, waits until they are **Ready**, then removes old ones. Without a readiness probe "ready" just means "process started": users get errors during deploys.
 
 ## Service
 
@@ -137,7 +137,7 @@ stringData:
 ```
 
 Facts that matter:
-- Secrets are only **base64-encoded**, not encrypted. Enable encryption at rest for etcd, restrict RBAC on `secrets`, and do not commit Secret YAML to Git — use **External Secrets Operator** (syncs from Vault/cloud secret managers), **Sealed Secrets**, or SOPS (lesson 35).
+- Secrets are only **base64-encoded**, not encrypted. Enable encryption at rest for etcd, restrict RBAC on `secrets`, and do not commit Secret YAML to Git: use **External Secrets Operator** (syncs from Vault/cloud secret managers), **Sealed Secrets**, or SOPS (lesson 35).
 - Env vars from ConfigMaps/Secrets are read **at pod start**. Changing them needs `kubectl rollout restart` (Helm/Kustomize can add a hash annotation to do this automatically).
 - Mounted files update in the pod after a short delay (not with `subPath`).
 
@@ -157,7 +157,7 @@ spec:
       storage: 10Gi
 ```
 
-A **StorageClass** provisions disks dynamically (cloud disks, Longhorn, Ceph). For databases use a **StatefulSet** with `volumeClaimTemplates` — or, very often, a managed database outside the cluster.
+A **StorageClass** provisions disks dynamically (cloud disks, Longhorn, Ceph). For databases use a **StatefulSet** with `volumeClaimTemplates`: or, very often, a managed database outside the cluster.
 
 ## Namespaces, quotas, access
 

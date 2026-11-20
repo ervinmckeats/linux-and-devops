@@ -5,8 +5,8 @@ Understand the security layers beyond file permissions, and stop "just disable S
 
 ## DAC vs MAC
 
-- **DAC** (discretionary access control) — normal permissions (lesson 13). The owner decides, and root bypasses everything.
-- **MAC** (mandatory access control) — a system-wide policy that even root processes must follow. If nginx is compromised, MAC still stops it from reading `/home` or opening random ports.
+- **DAC** (discretionary access control): normal permissions (lesson 13). The owner decides, and root bypasses everything.
+- **MAC** (mandatory access control): a system-wide policy that even root processes must follow. If nginx is compromised, MAC still stops it from reading `/home` or opening random ports.
 
 | | SELinux | AppArmor |
 |---|---|---|
@@ -19,33 +19,44 @@ Understand the security layers beyond file permissions, and stop "just disable S
 Every process and file has a **context** (label): `user:role:type:level`. The policy says which process types may access which file types. The **type** is what matters day to day.
 
 ```bash
-getenforce                     # Enforcing / Permissive / Disabled
+getenforce
 sestatus
-ls -Z /var/www/html            # file labels: httpd_sys_content_t
-ps -eZ | grep nginx            # process label: httpd_t
-sudo setenforce 0              # permissive until reboot (logs, does not block) - for debugging only
+ls -Z /var/www/html
+ps -eZ | grep nginx
+sudo setenforce 0
 ```
+
+- `getenforce`: Enforcing / Permissive / Disabled
+- `ls -Z /var/www/html`: file labels: httpd_sys_content_t
+- `ps -eZ | grep nginx`: process label: httpd_t
+- `sudo setenforce 0`: permissive until reboot (logs, does not block) - for debugging only
 
 ### The usual problem and the right fix
 
 You put a site in `/srv/site`; nginx gets 403 even though permissions are fine.
 
 ```bash
-sudo ausearch -m avc -ts recent              # find the denial
-sudo sealert -a /var/log/audit/audit.log     # human explanation (setroubleshoot)
+sudo ausearch -m avc -ts recent
+sudo sealert -a /var/log/audit/audit.log
 
 # label the directory correctly - permanently
 sudo semanage fcontext -a -t httpd_sys_content_t "/srv/site(/.*)?"
 sudo restorecon -Rv /srv/site
 ```
 
+- `sudo ausearch -m avc -ts recent`: find the denial
+- `sudo sealert -a /var/log/audit/audit.log`: human explanation (setroubleshoot)
+
 Other common fixes:
 
 ```bash
 getsebool -a | grep httpd
-sudo setsebool -P httpd_can_network_connect 1    # nginx as reverse proxy to an app
-sudo semanage port -a -t http_port_t -p tcp 8081 # allow a web server on a new port
+sudo setsebool -P httpd_can_network_connect 1
+sudo semanage port -a -t http_port_t -p tcp 8081
 ```
+
+- `sudo setsebool -P httpd_can_network_connect 1`: nginx as reverse proxy to an app
+- `sudo semanage port -a -t http_port_t -p tcp 8081`: allow a web server on a new port
 
 `chcon` changes a label temporarily (lost on relabel); `semanage fcontext` + `restorecon` is permanent.
 
@@ -54,35 +65,44 @@ Rule: **find the denial, fix the label or boolean**. Disabling SELinux removes a
 ## AppArmor
 
 ```bash
-sudo aa-status                          # loaded profiles, enforce/complain
+sudo aa-status
 ls /etc/apparmor.d/
-sudo aa-complain /usr/sbin/nginx        # log only
+sudo aa-complain /usr/sbin/nginx
 sudo aa-enforce /usr/sbin/nginx
-sudo journalctl -k | grep -i apparmor   # denials ("apparmor=DENIED")
-sudo aa-genprof /usr/local/bin/myapp    # build a profile interactively (apparmor-utils)
+sudo journalctl -k | grep -i apparmor
+sudo aa-genprof /usr/local/bin/myapp
 ```
+
+- `sudo aa-status`: loaded profiles, enforce/complain
+- `sudo aa-complain /usr/sbin/nginx`: log only
+- `sudo journalctl -k | grep -i apparmor`: denials ("apparmor=DENIED")
+- `sudo aa-genprof /usr/local/bin/myapp`: build a profile interactively (apparmor-utils)
 
 Docker and snap use AppArmor profiles on Ubuntu.
 
-## auditd — who touched what
+## auditd: who touched what
 
 The kernel audit system logs syscalls and file access according to rules.
 
 ```bash
 sudo apt install -y auditd
-sudo auditctl -w /etc/passwd -p wa -k identity        # watch writes/attribute changes
+sudo auditctl -w /etc/passwd -p wa -k identity
 sudo auditctl -w /etc/ssh/sshd_config -p wa -k sshd
-sudo auditctl -a always,exit -F arch=b64 -S execve -F euid=0 -k root-cmds   # every command run as root
+sudo auditctl -a always,exit -F arch=b64 -S execve -F euid=0 -k root-cmds
 sudo auditctl -l
-sudo ausearch -k identity -i                          # -i: readable names
+sudo ausearch -k identity -i
 sudo aureport --summary
 ```
+
+- `sudo auditctl -w /etc/passwd -p wa -k identity`: watch writes/attribute changes
+- `sudo auditctl -a always,exit -F arch=b64 -S execve -F euid=0 -k root-cmds`: every command run as root
+- `sudo ausearch -k identity -i`: `-i`: readable names
 
 Make rules permanent in `/etc/audit/rules.d/*.rules`, then `sudo augenrules --load`.
 
 Logging every `execve` is noisy; in production scope rules carefully and ship logs to central storage.
 
-## Capabilities — slices of root
+## Capabilities: slices of root
 
 Root's power is split into ~40 **capabilities**. Give a program only the one it needs instead of running it as root.
 
@@ -96,11 +116,15 @@ Root's power is split into ~40 **capabilities**. Give a program only the one it 
 | `CAP_SYS_PTRACE` | trace other processes |
 
 ```bash
-getcap /usr/bin/ping                                   # cap_net_raw=ep
-sudo setcap 'cap_net_bind_service=+ep' /opt/app/server # bind :80 without root
-getpcaps $$                                            # capabilities of a process
+getcap /usr/bin/ping
+sudo setcap 'cap_net_bind_service=+ep' /opt/app/server
+getpcaps $$
 grep Cap /proc/$$/status; capsh --decode=0000003fffffffff
 ```
+
+- `getcap /usr/bin/ping`: cap_net_raw=ep
+- `sudo setcap 'cap_net_bind_service=+ep' /opt/app/server`: bind :80 without root
+- `getpcaps $$`: capabilities of a process
 
 In systemd:
 
@@ -111,7 +135,7 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 ```
 
-In containers (lesson 42): `docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE ...`. `--privileged` gives everything — avoid it.
+In containers (lesson 42): `docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE ...`. `--privileged` gives everything: avoid it.
 
 ## Practice
 
@@ -123,7 +147,7 @@ In containers (lesson 42): `docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE
 ## Check yourself
 
 - Why does MAC help even when an attacker gets the nginx process?
-- `chcon` vs `semanage fcontext` — which survives a relabel?
+- `chcon` vs `semanage fcontext`: which survives a relabel?
 - Why is `CAP_SYS_ADMIN` almost as dangerous as root?
 
 ## Next

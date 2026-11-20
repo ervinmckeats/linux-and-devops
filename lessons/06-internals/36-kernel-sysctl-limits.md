@@ -8,17 +8,22 @@ Tune kernel parameters safely, manage modules, and fix "too many open files" for
 Programs ask the kernel for everything through **system calls**: `open`, `read`, `write`, `mmap`, `fork`, `execve`, `socket`, `connect`. A switch into the kernel costs time, which is why a program doing millions of tiny syscalls is slow (see `strace -c`, lesson 40).
 
 The kernel exposes its state as files:
-- `/proc` — processes (`/proc/PID/`) and kernel tunables (`/proc/sys/`).
-- `/sys` — devices, drivers, cgroups (`/sys/fs/cgroup`).
+- `/proc`: processes (`/proc/PID/`) and kernel tunables (`/proc/sys/`).
+- `/sys`: devices, drivers, cgroups (`/sys/fs/cgroup`).
 
 ## sysctl
 
 ```bash
-sysctl -a | less                         # all parameters
-sysctl net.ipv4.ip_forward               # read
-cat /proc/sys/net/ipv4/ip_forward        # same thing
-sudo sysctl -w vm.swappiness=10          # change now (lost on reboot)
+sysctl -a | less
+sysctl net.ipv4.ip_forward
+cat /proc/sys/net/ipv4/ip_forward
+sudo sysctl -w vm.swappiness=10
 ```
+
+- `sysctl -a | less`: all parameters
+- `sysctl net.ipv4.ip_forward`: read
+- `cat /proc/sys/net/ipv4/ip_forward`: same thing
+- `sudo sysctl -w vm.swappiness=10`: change now (lost on reboot)
 
 Persist in `/etc/sysctl.d/90-custom.conf`:
 
@@ -32,8 +37,10 @@ fs.inotify.max_user_watches = 524288
 ```
 
 ```bash
-sudo sysctl --system                     # load all files
+sudo sysctl --system
 ```
+
+- `sudo sysctl --system`: load all files
 
 Parameters people actually touch:
 
@@ -57,11 +64,15 @@ Drivers and features loaded on demand.
 ```bash
 lsmod | head
 modinfo br_netfilter
-sudo modprobe br_netfilter               # load
-sudo modprobe -r module_name             # unload
-echo br_netfilter | sudo tee /etc/modules-load.d/k8s.conf      # load at boot
+sudo modprobe br_netfilter
+sudo modprobe -r module_name
+echo br_netfilter | sudo tee /etc/modules-load.d/k8s.conf
 echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/blacklist-pcspkr.conf
 ```
+
+- `sudo modprobe br_netfilter`: load
+- `sudo modprobe -r module_name`: unload
+- `echo br_netfilter | sudo tee /etc/modules-load.d/k8s.conf`: load at boot
 
 Kubernetes nodes need `overlay` and `br_netfilter` plus `net.bridge.bridge-nf-call-iptables=1` (lesson 49).
 
@@ -69,9 +80,11 @@ Kubernetes nodes need `overlay` and `br_netfilter` plus `net.bridge.bridge-nf-ca
 
 ```bash
 cat /proc/cmdline
-sudoedit /etc/default/grub               # GRUB_CMDLINE_LINUX="... param=value"
+sudoedit /etc/default/grub
 sudo update-grub && sudo reboot
 ```
+
+- `sudoedit /etc/default/grub`: GRUB_CMDLINE_LINUX="... param=value"
 
 Examples: `systemd.unified_cgroup_hierarchy=1`, `mitigations=auto`, `console=ttyS0` (serial console on VMs).
 
@@ -80,12 +93,18 @@ Examples: `systemd.unified_cgroup_hierarchy=1`, `mitigations=auto`, `console=tty
 Every process has limits; the famous one is **open files** (`nofile`). A busy proxy or database needs tens of thousands of file descriptors (every socket is a file).
 
 ```bash
-ulimit -a                 # limits of this shell
-ulimit -n                 # open files (soft)
-ulimit -Hn                # hard limit
-cat /proc/PID/limits      # limits of a running process - check THIS, not your shell
-ls /proc/PID/fd | wc -l   # how many it uses now
+ulimit -a
+ulimit -n
+ulimit -Hn
+cat /proc/PID/limits
+ls /proc/PID/fd | wc -l
 ```
+
+- `ulimit -a`: limits of this shell
+- `ulimit -n`: open files (soft)
+- `ulimit -Hn`: hard limit
+- `cat /proc/PID/limits`: limits of a running process - check THIS, not your shell
+- `ls /proc/PID/fd | wc -l`: how many it uses now
 
 Where to raise them:
 
@@ -101,15 +120,19 @@ Where to raise them:
 *    hard  nofile  131072
 ```
 
-`limits.conf` does **not** apply to systemd services. This is the #1 reason "I raised the limit but nginx still says Too many open files".
+`limits.conf` does **not** apply to systemd services. This is a common reason for "I raised the limit but nginx still says Too many open files".
 
 ## Kernel messages and panics
 
 ```bash
-sudo dmesg -T -w                 # follow kernel log
-journalctl -k -b -1              # kernel log of previous boot
-cat /proc/sys/kernel/panic       # seconds before auto-reboot on panic (0 = hang)
+sudo dmesg -T -w
+journalctl -k -b -1
+cat /proc/sys/kernel/panic
 ```
+
+- `sudo dmesg -T -w`: follow kernel log
+- `journalctl -k -b -1`: kernel log of previous boot
+- `cat /proc/sys/kernel/panic`: seconds before auto-reboot on panic (0 = hang)
 
 Set `kernel.panic = 10` on servers so they reboot instead of hanging. For crash analysis configure `kdump`.
 

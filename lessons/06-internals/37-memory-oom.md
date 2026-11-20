@@ -8,9 +8,9 @@ Read memory numbers correctly, tell a real memory problem from normal caching, a
 ### Virtual memory
 Each process sees its own large, private address space. The kernel maps it to physical RAM in **pages** (usually 4 KB) only when the process actually touches them.
 
-- **VSZ / VIRT** — all address space the process reserved. Often huge, mostly meaningless.
-- **RSS / RES** — pages currently in RAM. Closer to real usage, but counts shared libraries in every process.
-- **PSS** — RSS with shared pages divided between users. Fairest number (`smem`).
+- **VSZ / VIRT**: all address space the process reserved. Often huge, mostly meaningless.
+- **RSS / RES**: pages currently in RAM. Closer to real usage, but counts shared libraries in every process.
+- **PSS**: RSS with shared pages divided between users. Fairest number (`smem`).
 
 Because memory is reserved lazily, Linux **overcommits**: the total promised can exceed RAM. Fine until everyone tries to use it at once.
 
@@ -32,8 +32,8 @@ Disk space for pages that have not been used for a while. A bit of swap use is n
 When memory is truly exhausted (RAM + swap, or a cgroup's limit), the kernel picks a process and kills it with `SIGKILL`. The choice is based on `oom_score` (mostly memory size, adjusted by `oom_score_adj`).
 
 Two kinds:
-- **System OOM** — the whole host is out of memory.
-- **cgroup OOM** — a container or systemd service hit its own `MemoryMax` / memory limit. The host may have plenty of free RAM. This is what Kubernetes reports as **OOMKilled** (lesson 54).
+- **System OOM**: the whole host is out of memory.
+- **cgroup OOM**: a container or systemd service hit its own `MemoryMax` / memory limit. The host may have plenty of free RAM. This is what Kubernetes reports as **OOMKilled** (lesson 54).
 
 Signs: exit code `137` (128 + 9), process gone without its own error log, kernel log lines.
 
@@ -42,32 +42,44 @@ Signs: exit code `137` (128 + 9), process gone without its own error log, kernel
 ```bash
 free -h
 cat /proc/meminfo | head -20
-vmstat 1 5                     # si/so = swap in/out per second; r = run queue
-ps aux --sort=-rss | head      # biggest by RSS
-top -o %MEM                    # or htop, press M
-smem -tk -s pss | tail         # PSS per process (package smem)
-pmap -x PID | tail -1          # memory map summary of a process
+vmstat 1 5
+ps aux --sort=-rss | head
+top -o %MEM
+smem -tk -s pss | tail
+pmap -x PID | tail -1
 cat /proc/PID/status | grep -E 'VmRSS|VmSwap'
-cat /proc/pressure/memory      # PSI: time tasks waited for memory (lesson 39)
+cat /proc/pressure/memory
 ```
+
+- `vmstat 1 5`: si/so = swap in/out per second; r = run queue
+- `ps aux --sort=-rss | head`: biggest by RSS
+- `top -o %MEM`: or htop, press M
+- `smem -tk -s pss | tail`: PSS per process (package smem)
+- `pmap -x PID | tail -1`: memory map summary of a process
+- `cat /proc/pressure/memory`: PSI: time tasks waited for memory (lesson 39)
 
 ### Investigating an OOM kill
 
 ```bash
 sudo dmesg -T | grep -i -E 'out of memory|oom-kill|killed process'
 journalctl -k | grep -i oom
-journalctl -u myapp | tail                  # systemd: "A process of this unit has been killed by the OOM killer"
-cat /sys/fs/cgroup/system.slice/myapp.service/memory.events   # oom, oom_kill counters
+journalctl -u myapp | tail
+cat /sys/fs/cgroup/system.slice/myapp.service/memory.events
 ```
+
+- `journalctl -u myapp | tail`: systemd: "A process of this unit has been killed by the OOM killer"
+- `cat /sys/fs/cgroup/system.slice/myapp.service/memory.events`: oom, oom_kill counters
 
 A kernel OOM report shows the memory state and a table of processes with their RSS at the time of the kill. Read it to see **who** was big, not only who was killed.
 
 ### Protecting important processes
 
 ```bash
-echo -1000 | sudo tee /proc/PID/oom_score_adj   # never kill (e.g. sshd); +1000 = kill first
+echo -1000 | sudo tee /proc/PID/oom_score_adj
 cat /proc/PID/oom_score
 ```
+
+- `echo -1000 | sudo tee /proc/PID/oom_score_adj`: never kill (e.g. sshd); +1000 = kill first
 
 In systemd: `OOMScoreAdjust=-500`, and better, set `MemoryMax=` on the noisy service so **it** gets killed, not the database.
 

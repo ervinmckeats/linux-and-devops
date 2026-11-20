@@ -113,7 +113,7 @@ sum by (pod, container) (rate(container_cpu_cfs_throttled_periods_total[5m]))
   / sum by (pod, container) (rate(container_cpu_cfs_periods_total[5m]))
 ```
 
-Rules of thumb: always `rate()` a counter before summing; `sum by (...)` to aggregate away instance labels; range `[5m]` at least 4× the scrape interval.
+Guidelines: always `rate()` a counter before summing; `sum by (...)` to aggregate away instance labels; range `[5m]` at least 4× the scrape interval.
 
 **Recording rules** precompute expensive queries for dashboards and SLOs:
 
@@ -196,7 +196,7 @@ Silences (`amtool silence add ...` or the UI) for planned maintenance.
 
 ## Good alerting
 
-- **Page on symptoms users feel** (error rate, latency, SLO burn — lesson 57), not on causes (CPU 90%). Causes go to dashboards and tickets.
+- **Page on symptoms users feel** (error rate, latency, SLO burn: lesson 57), not on causes (CPU 90%). Causes go to dashboards and tickets.
 - Every page must be **actionable** and have a **runbook** link.
 - Two severities are enough to start: **page** (wake someone now) and **ticket** (look during working hours).
 - Review alerts after every on-call shift: delete or fix noisy ones. Alert fatigue makes people ignore the alert that matters.

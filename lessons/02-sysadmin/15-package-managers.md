@@ -30,14 +30,20 @@ On Ubuntu, `purge` also removes config files in `/etc`; `remove` keeps them.
 ## Debian/Ubuntu details
 
 ```bash
-sudo apt install ./package.deb           # local file, resolves deps
-apt-cache policy nginx                   # candidate version and which repo
+sudo apt install ./package.deb
+apt-cache policy nginx
 apt list --upgradable
-sudo apt-mark hold nginx                 # do not upgrade this package
+sudo apt-mark hold nginx
 sudo apt-mark unhold nginx
-sudo apt install nginx=1.24.0-1ubuntu1   # exact version
-ls /etc/apt/sources.list.d/              # repositories
+sudo apt install nginx=1.24.0-1ubuntu1
+ls /etc/apt/sources.list.d/
 ```
+
+- `sudo apt install ./package.deb`: local file, resolves deps
+- `apt-cache policy nginx`: candidate version and which repo
+- `sudo apt-mark hold nginx`: do not upgrade this package
+- `sudo apt install nginx=1.24.0-1ubuntu1`: exact version
+- `ls /etc/apt/sources.list.d/`: repositories
 
 Adding a vendor repository (modern way, key scoped to one repo):
 
@@ -51,17 +57,21 @@ sudo apt update
 ## RHEL family details
 
 ```bash
-sudo dnf install epel-release        # extra packages repo
+sudo dnf install epel-release
 dnf repolist
-sudo dnf history undo last           # roll back the last transaction
-sudo dnf versionlock add nginx       # plugin: pin a version
+sudo dnf history undo last
+sudo dnf versionlock add nginx
 ```
+
+- `sudo dnf install epel-release`: extra packages repo
+- `sudo dnf history undo last`: roll back the last transaction
+- `sudo dnf versionlock add nginx`: plugin: pin a version
 
 ## Other formats
 
-- **snap / flatpak** — sandboxed apps with bundled dependencies. Common on desktops; on servers prefer native packages or containers.
-- **Language managers** (`pip`, `npm`, `cargo`) — never `sudo pip install` into the system Python: use `venv`, `pipx` or containers.
-- **Static binaries** (Go tools like `kubectl`, `terraform`) — download to `/usr/local/bin`, verify the checksum.
+- **snap / flatpak**: sandboxed apps with bundled dependencies. Common on desktops; on servers prefer native packages or containers.
+- **Language managers** (`pip`, `npm`, `cargo`): never `sudo pip install` into the system Python: use `venv`, `pipx` or containers.
+- **Static binaries** (Go tools like `kubectl`, `terraform`): download to `/usr/local/bin`, verify the checksum.
 
 ## Practice
 

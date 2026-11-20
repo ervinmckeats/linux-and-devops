@@ -15,9 +15,9 @@ resources:
     # cpu limit: often left out on purpose, see below
 ```
 
-- **Requests** — what the scheduler reserves on a node. A pod is placed only on a node with enough unreserved capacity. Requests also set the CPU share under contention.
-- **Memory limit** — enforced by the cgroup (`memory.max`, lesson 38). Exceeding it → kernel OOM-kills the container → `OOMKilled`, exit code 137, restart.
-- **CPU limit** — enforced by throttling (`cpu.max`). The container is paused when its quota for the period is used. Average CPU looks fine, latency suffers. Many teams set CPU requests and **no CPU limit** for latency-sensitive services; others keep limits for strict multi-tenant fairness. Measure throttling (`container_cpu_cfs_throttled_periods_total`) before deciding.
+- **Requests**: what the scheduler reserves on a node. A pod is placed only on a node with enough unreserved capacity. Requests also set the CPU share under contention.
+- **Memory limit**: enforced by the cgroup (`memory.max`, lesson 38). Exceeding it → kernel OOM-kills the container → `OOMKilled`, exit code 137, restart.
+- **CPU limit**: enforced by throttling (`cpu.max`). The container is paused when its quota for the period is used. Average CPU looks fine, latency suffers. Many teams set CPU requests and **no CPU limit** for latency-sensitive services; others keep limits for strict multi-tenant fairness. Measure throttling (`container_cpu_cfs_throttled_periods_total`) before deciding.
 
 ### QoS classes
 
@@ -100,10 +100,10 @@ topologySpreadConstraints:
 
 ## Scheduling controls
 
-- `nodeSelector` / node **affinity** — run only on certain nodes (GPU, arm64, dedicated pool).
-- **Taints and tolerations** — keep everyone off a node except pods that tolerate the taint.
-- Pod **anti-affinity** — do not put two replicas on the same node.
-- `priorityClassName` — important pods can preempt less important ones when the cluster is full.
+- `nodeSelector` / node **affinity**: run only on certain nodes (GPU, arm64, dedicated pool).
+- **Taints and tolerations**: keep everyone off a node except pods that tolerate the taint.
+- Pod **anti-affinity**: do not put two replicas on the same node.
+- `priorityClassName`: important pods can preempt less important ones when the cluster is full.
 
 ## Autoscaling
 
@@ -127,14 +127,14 @@ spec:
       stabilizationWindowSeconds: 300
 ```
 
-- Utilization is relative to **requests** — without requests the HPA cannot work.
+- Utilization is relative to **requests**: without requests the HPA cannot work.
 - Needs metrics-server. For custom metrics (requests per second, queue length) use Prometheus Adapter or **KEDA**.
 - Do not set `replicas` in the Deployment YAML when an HPA manages it, or every apply resets it.
 
 ### Other autoscalers
 
-- **VPA** (Vertical Pod Autoscaler) — recommends or sets requests. Use in recommendation mode to size workloads.
-- **Cluster Autoscaler / Karpenter** — add nodes when pods are `Pending` for lack of capacity, remove empty nodes.
+- **VPA** (Vertical Pod Autoscaler): recommends or sets requests. Use in recommendation mode to size workloads.
+- **Cluster Autoscaler / Karpenter**: add nodes when pods are `Pending` for lack of capacity, remove empty nodes.
 
 ## Practice
 
