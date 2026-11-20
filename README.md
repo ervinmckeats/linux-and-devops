@@ -116,12 +116,12 @@ Status: ✅ ready · ⏳ in progress
 ### Module 9 — Kubernetes
 | # | Lesson | Status |
 |---|---|---|
-| 49 | Architecture and core objects | ⏳ |
-| 50 | kubectl in daily work | ⏳ |
-| 51 | Deployments, Services, Ingress, ConfigMaps, Secrets | ⏳ |
-| 52 | Requests, limits, probes, autoscaling | ⏳ |
-| 53 | Helm and GitOps | ⏳ |
-| 54 | Troubleshooting: CrashLoopBackOff, OOMKilled, Pending | ⏳ |
+| 49 | [Kubernetes architecture and core objects](lessons/09-kubernetes/49-k8s-architecture.md) | ✅ |
+| 50 | [kubectl in daily work](lessons/09-kubernetes/50-kubectl.md) | ✅ |
+| 51 | [Deployments, Services, Ingress, ConfigMaps, Secrets](lessons/09-kubernetes/51-workloads-networking-config.md) | ✅ |
+| 52 | [Requests, limits, probes, autoscaling](lessons/09-kubernetes/52-resources-probes-autoscaling.md) | ✅ |
+| 53 | [Helm and GitOps](lessons/09-kubernetes/53-helm-gitops.md) | ✅ |
+| 54 | [Kubernetes troubleshooting: CrashLoopBackOff, OOMKilled, Pending and friends](lessons/09-kubernetes/54-k8s-troubleshooting.md) | ✅ |
 
 ### Module 10 — SRE
 | # | Lesson | Status |

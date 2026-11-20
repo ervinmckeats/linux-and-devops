@@ -131,4 +131,4 @@ Lightweight VMs (Firecracker, Kata Containers) combine both: VM isolation with c
 - What does high steal time inside a VM tell you?
 
 ## Next
-Module 9 — Kubernetes: lesson 49, Architecture and core objects.
+[Lesson 49. Kubernetes architecture and core objects](../09-kubernetes/49-k8s-architecture.md)
