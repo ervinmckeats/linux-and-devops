@@ -91,11 +91,11 @@ Status: ✅ ready · ⏳ in progress
 ### Module 6 — Internals and performance
 | # | Lesson | Status |
 |---|---|---|
-| 36 | Kernel: sysctl, modules, limits | ⏳ |
-| 37 | Memory: virtual memory, page cache, swap, OOM killer | ⏳ |
-| 38 | cgroups v2 and namespaces | ⏳ |
-| 39 | Performance: USE method, first 60 seconds, PSI | ⏳ |
-| 40 | Tracing: strace, perf, eBPF | ⏳ |
+| 36 | [Kernel: sysctl, modules, limits](lessons/06-internals/36-kernel-sysctl-limits.md) | ✅ |
+| 37 | [Memory: virtual memory, page cache, swap, OOM killer](lessons/06-internals/37-memory-oom.md) | ✅ |
+| 38 | [cgroups v2 and namespaces](lessons/06-internals/38-cgroups-namespaces.md) | ✅ |
+| 39 | [Performance: USE method, first 60 seconds, PSI](lessons/06-internals/39-performance.md) | ✅ |
+| 40 | [Tracing: strace, ltrace, perf, eBPF](lessons/06-internals/40-tracing.md) | ✅ |
 
 ### Module 7 — Containers
 | # | Lesson | Status |
