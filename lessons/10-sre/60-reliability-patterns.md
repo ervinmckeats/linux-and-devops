@@ -124,4 +124,4 @@ check node pool limits, cloud quotas and DB connection limits (120 pods × pool 
 - Name three capacity limits that are not CPU or memory.
 
 ## Next
-Module 11 — Practice and career: lesson 61, Troubleshooting playbook.
+[Lesson 61. Troubleshooting playbook](../11-practice/61-troubleshooting-playbook.md)
