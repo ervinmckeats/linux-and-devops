@@ -107,11 +107,11 @@ Status: ✅ ready · ⏳ in progress
 ### Module 8 — DevOps
 | # | Lesson | Status |
 |---|---|---|
-| 44 | CI/CD concepts and pipelines | ⏳ |
-| 45 | Ansible | ⏳ |
-| 46 | Terraform and infrastructure as code | ⏳ |
-| 47 | Cloud fundamentals | ⏳ |
-| 48 | Virtualization: KVM and QEMU | ⏳ |
+| 44 | [CI/CD concepts and pipelines](lessons/08-devops/44-cicd.md) | ✅ |
+| 45 | [Ansible](lessons/08-devops/45-ansible.md) | ✅ |
+| 46 | [Terraform and infrastructure as code](lessons/08-devops/46-terraform.md) | ✅ |
+| 47 | [Cloud fundamentals](lessons/08-devops/47-cloud-fundamentals.md) | ✅ |
+| 48 | [Virtualization: KVM and QEMU](lessons/08-devops/48-kvm-qemu.md) | ✅ |
 
 ### Module 9 — Kubernetes
 | # | Lesson | Status |
