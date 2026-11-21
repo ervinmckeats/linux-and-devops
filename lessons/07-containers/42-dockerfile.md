@@ -137,19 +137,24 @@ docker build --secret id=npmrc,src=$HOME/.npmrc .
 
 ```bash
 docker build -t myapp:1.0 .
+
+# stop at a stage
 docker build --target build -t myapp:build .
+
 docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/org/myapp:1.0 --push .
 docker image ls myapp
+
+# vulnerabilities
 trivy image myapp:1.0
+
 docker scout cves myapp:1.0
+
+# explore layers, find waste
 dive myapp:1.0
+
+# lint
 hadolint Dockerfile
 ```
-
-- `docker build --target build -t myapp:build .`: stop at a stage
-- `trivy image myapp:1.0`: vulnerabilities
-- `dive myapp:1.0`: explore layers, find waste
-- `hadolint Dockerfile`: lint
 
 Tag with the version **and** the Git commit: `myapp:1.4.2`, `myapp:sha-3f2c1ab`. That links a running container to exact code.
 

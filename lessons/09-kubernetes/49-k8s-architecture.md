@@ -83,10 +83,10 @@ Install `kubectl` (matching the cluster version ±1), then:
 ```bash
 kubectl cluster-info
 kubectl get nodes -o wide
+
+# system pods: coredns, kube-proxy, CNI...
 kubectl get pods -A
 ```
-
-- `kubectl get pods -A`: system pods: coredns, kube-proxy, CNI...
 
 ## Building a cluster with kubeadm (overview)
 
@@ -103,13 +103,15 @@ Good to do once to understand the parts:
 kubectl create deployment hello --image=nginx:1.27 --replicas=2
 kubectl expose deployment hello --port=80
 kubectl get deploy,rs,pods,svc -l app=hello
+
+# watch them come back
 kubectl delete pod -l app=hello --wait=false && kubectl get pods -w
+
+# curl localhost:8080
 kubectl port-forward svc/hello 8080:80
+
 kubectl delete deployment hello && kubectl delete svc hello
 ```
-
-- `kubectl delete pod -l app=hello --wait=false && kubectl get pods -w`: watch them come back
-- `kubectl port-forward svc/hello 8080:80`: curl localhost:8080
 
 You deleted pods, and the Deployment's controller created new ones. That is the reconcile loop in action.
 

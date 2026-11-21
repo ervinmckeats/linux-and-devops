@@ -19,30 +19,40 @@ IFS=$'\n\t'
 
 ```bash
 file="/var/log/nginx/access.log.1"
+
+# access.log.1 (basename)
 echo "${file##*/}"
+
+# /var/log/nginx (dirname)
 echo "${file%/*}"
+
+# /var/log/nginx/access.log (drop last extension)
 echo "${file%.*}"
+
+# replace first
 echo "${file/log/LOG}"
+
+# replace all
 echo "${file//log/LOG}"
+
+# length
 echo "${#file}"
+
+# default if unset/empty
 echo "${VAR:-default}"
+
+# also assign
 echo "${VAR:=default}"
+
+# exit with error if unset/empty
 echo "${VAR:?must be set}"
+
+# upper / lower case
 echo "${name^^} ${name,,}"
+
+# substring
 echo "${str:0:5}"
 ```
-
-- `echo "${file##*/}"`: `access.log.1` (basename)
-- `echo "${file%/*}"`: `/var/log/nginx` (dirname)
-- `echo "${file%.*}"`: `/var/log/nginx/access.log` (drop last extension)
-- `echo "${file/log/LOG}"`: replace first
-- `echo "${file//log/LOG}"`: replace all
-- `echo "${#file}"`: length
-- `echo "${VAR:-default}"`: default if unset/empty
-- `echo "${VAR:=default}"`: also assign
-- `echo "${VAR:?must be set}"`: exit with error if unset/empty
-- `echo "${name^^} ${name,,}"`: upper / lower case
-- `echo "${str:0:5}"`: substring
 
 The most important one: `rm -rf "${BUILD_DIR:?}/"*`: if `BUILD_DIR` is empty, the script stops instead of running `rm -rf /*`.
 
@@ -51,22 +61,25 @@ The most important one: `rm -rf "${BUILD_DIR:?}/"*`: if `BUILD_DIR` is empty, th
 ```bash
 hosts=(web1 web2 "db 1")
 hosts+=(cache1)
+
+# first
 echo "${hosts[0]}"
+
+# count
 echo "${#hosts[@]}"
+
+# quoted: "db 1" stays one item
 for h in "${hosts[@]}"; do echo "$h"; done
 
+# associative array
 declare -A port=([web]=80 [db]=5432)
+
 port[cache]=6379
 for k in "${!port[@]}"; do echo "$k=${port[$k]}"; done
 
+# file into array, one line per element
 mapfile -t lines < file.txt
 ```
-
-- `echo "${hosts[0]}"`: first
-- `echo "${#hosts[@]}"`: count
-- `for h in "${hosts[@]}"; do echo "$h"; done`: quoted: "db 1" stays one item
-- `declare -A port=([web]=80 [db]=5432)`: associative array
-- `mapfile -t lines < file.txt`: file into array, one line per element
 
 Build commands as arrays to keep arguments safe:
 
@@ -81,13 +94,13 @@ rsync "${args[@]}" src/ dst/
 ```bash
 tmp=$(mktemp -d)
 cleanup() { rm -rf "$tmp"; }
+
+# runs on normal exit, error, or Ctrl+C
 trap cleanup EXIT
 
 trap 'echo "error on line $LINENO: $BASH_COMMAND" >&2' ERR
 trap 'echo "interrupted"; exit 130' INT TERM
 ```
-
-- `trap cleanup EXIT`: runs on normal exit, error, or Ctrl+C
 
 ## Option parsing with getopts
 
@@ -120,26 +133,26 @@ timeout 30 curl -sf http://slow/api || echo "timed out"
 for h in "${hosts[@]}"; do
     ssh "$h" uptime > "out/$h.txt" 2>&1 &
 done
+
+# wait for all background jobs
 wait
 
+# max 10 at a time
 printf '%s\n' "${hosts[@]}" | xargs -P 10 -I{} ssh {} uptime
 ```
-
-- `wait`: wait for all background jobs
-- `printf '%s\n' "${hosts[@]}" | xargs -P 10 -I{} ssh {} uptime`: max 10 at a time
 
 ## Idempotency
 
 A good ops script can run twice without breaking anything:
 
 ```bash
+# not mkdir
 mkdir -p /opt/app
+
 id app &>/dev/null || useradd -r -s /usr/sbin/nologin app
 grep -qxF 'vm.swappiness=10' /etc/sysctl.conf || echo 'vm.swappiness=10' >> /etc/sysctl.conf
 ln -sfn /opt/app/releases/v2 /opt/app/current
 ```
-
-- `mkdir -p /opt/app`: not mkdir
 
 ## Logging and debugging
 
@@ -148,18 +161,21 @@ log()  { printf '%s [%s] %s\n' "$(date -Is)" "$1" "${*:2}" >&2; }
 log INFO "starting"
 log ERROR "failed to connect"
 
+# syntax check only
 bash -n script.sh
+
+# trace every command
 bash -x script.sh
+
+# trace a part
 set -x; ...; set +x
+
+# better trace prefix
 PS4='+ ${BASH_SOURCE}:${LINENO}: '
+
+# static analysis - catches most bugs below
 shellcheck script.sh
 ```
-
-- `bash -n script.sh`: syntax check only
-- `bash -x script.sh`: trace every command
-- `set -x; ...; set +x`: trace a part
-- `PS4='+ ${BASH_SOURCE}:${LINENO}: '`: better trace prefix
-- `shellcheck script.sh`: static analysis - catches most bugs below
 
 ## Classic traps
 

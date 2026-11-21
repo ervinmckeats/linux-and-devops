@@ -67,12 +67,12 @@ Readiness vs liveness (lesson 52). A load balancer health check that depends on 
 - **Chaos engineering**: inject failures on purpose (kill pods, add latency, drop a zone) in staging, then carefully in production, with a hypothesis and a stop button. Tools: Chaos Mesh, Litmus, AWS FIS, `tc netem`:
 
 ```bash
+# add latency and loss
 sudo tc qdisc add dev eth0 root netem delay 200ms 50ms loss 1%
+
+# remove
 sudo tc qdisc del dev eth0 root
 ```
-
-- `sudo tc qdisc add dev eth0 root netem delay 200ms 50ms loss 1%`: add latency and loss
-- `sudo tc qdisc del dev eth0 root`: remove
 
 - **Disaster recovery drills**: restore from backup, fail over a region, rebuild a cluster from Git. Measure real RTO/RPO (lesson 21).
 

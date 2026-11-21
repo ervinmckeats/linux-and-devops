@@ -44,11 +44,11 @@ configMapGenerator:
 ```
 
 ```bash
+# render
 kubectl kustomize overlays/prod
+
 kubectl apply -k overlays/prod
 ```
-
-- `kubectl kustomize overlays/prod`: render
 
 ## Helm
 
@@ -63,36 +63,38 @@ helm upgrade ingress ingress-nginx/ingress-nginx -n ingress -f values.yaml --ver
 helm history ingress -n ingress
 helm rollback ingress 1 -n ingress
 helm uninstall ingress -n ingress
+
+# render locally, review the YAML
 helm template ./chart -f values-prod.yaml
+
+# plugin: what will change
 helm diff upgrade api ./chart -f values-prod.yaml
 ```
-
-- `helm template ./chart -f values-prod.yaml`: render locally, review the YAML
-- `helm diff upgrade api ./chart -f values-prod.yaml`: plugin: what will change
 
 Always pin chart versions (`--version`).
 
 ### Your own chart
 
 ```bash
+# scaffold
 helm create api
 ```
 
-- `helm create api`: scaffold
-
 ```
 api/
+
+# name, version (of the chart), appVersion
 ├── Chart.yaml
+
+# defaults
 ├── values.yaml
+
 └── templates/
     ├── deployment.yaml
     ├── service.yaml
     ├── ingress.yaml
     └── _helpers.tpl
 ```
-
-- `├── Chart.yaml`: name, version (of the chart), appVersion
-- `├── values.yaml`: defaults
 
 `values.yaml`:
 
@@ -205,14 +207,17 @@ k8s-config/
 ├── apps/
 │   ├── api/{base,overlays/{staging,prod}}
 │   └── web/...
+
+# ingress, cert-manager, monitoring, external-secrets
 ├── platform/
+
 └── clusters/
+
+    # which apps/versions run here
     ├── staging/
+
     └── prod/
 ```
-
-- `├── platform/`: ingress, cert-manager, monitoring, external-secrets
-- `├── staging/`: which apps/versions run here
 
 Secrets do not go into this repo in plain form: use External Secrets, Sealed Secrets or SOPS.
 

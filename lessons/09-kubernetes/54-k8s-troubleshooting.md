@@ -6,17 +6,20 @@ Recognize every common pod failure by its status, find the cause in minutes, and
 ## The universal routine
 
 ```bash
+# STATUS, RESTARTS, NODE
 kubectl get pods -n NS -o wide
+
+# Events at the bottom; Last State; Reason; Exit Code
 kubectl describe pod POD -n NS
+
+# logs of the crashed container
 kubectl logs POD -n NS --previous
+
 kubectl get events -n NS --sort-by=.lastTimestamp | tail -20
+
+# is the rollout stuck?
 kubectl get deploy,rs -n NS
 ```
-
-- `kubectl get pods -n NS -o wide`: STATUS, RESTARTS, NODE
-- `kubectl describe pod POD -n NS`: Events at the bottom; Last State; Reason; Exit Code
-- `kubectl logs POD -n NS --previous`: logs of the crashed container
-- `kubectl get deploy,rs -n NS`: is the rollout stuck?
 
 90% of answers are in `describe` → **Events** and **Last State**.
 
@@ -71,12 +74,12 @@ kubectl logs POD --previous
 Debug a container that dies too fast to exec into:
 
 ```bash
+# copy of the pod with a shell
 kubectl debug POD -it --copy-to=dbg --container=api -- sh
+
 # or temporarily override the command in the Deployment:
 #   command: ["sleep", "infinity"]
 ```
-
-- `kubectl debug POD -it --copy-to=dbg --container=api -- sh`: copy of the pod with a shell
 
 ### OOMKilled
 
@@ -122,32 +125,36 @@ Usually a finalizer waiting for a controller, or a node that is gone. Investigat
 ## Networking problems
 
 ```bash
+# endpoints empty? → selector or readiness
 kubectl get svc,endpointslices -n NS
+
 kubectl run t --rm -it --image=nicolaka/netshoot --restart=Never -- bash
 #   inside: dig api.shop.svc.cluster.local; curl -v http://api.shop/health; nc -zv db 5432
+
+# a default-deny you forgot?
 kubectl get networkpolicy -n NS
+
+# CoreDNS errors
 kubectl -n kube-system logs -l k8s-app=kube-dns
+
+# 502/503 from ingress
 kubectl logs -n ingress deploy/ingress-nginx-controller | tail
 ```
-
-- `kubectl get svc,endpointslices -n NS`: endpoints empty? → selector or readiness
-- `kubectl get networkpolicy -n NS`: a default-deny you forgot?
-- `kubectl -n kube-system logs -l k8s-app=kube-dns`: CoreDNS errors
-- `kubectl logs -n ingress deploy/ingress-nginx-controller | tail`: 502/503 from ingress
 
 Ingress 502/503 usually means: Service has no ready endpoints, wrong `targetPort`, or the app listens on `127.0.0.1` instead of `0.0.0.0` inside the container.
 
 ## Node problems
 
 ```bash
+# NotReady?
 kubectl get nodes
+
+# Conditions: MemoryPressure, DiskPressure, PIDPressure
 kubectl describe node NODE
+
+# then chroot /host, journalctl -u kubelet, df -h, crictl ps
 kubectl debug node/NODE -it --image=ubuntu
 ```
-
-- `kubectl get nodes`: NotReady?
-- `kubectl describe node NODE`: Conditions: MemoryPressure, DiskPressure, PIDPressure
-- `kubectl debug node/NODE -it --image=ubuntu`: then `chroot /host`, `journalctl -u kubelet`, `df -h`, `crictl ps`
 
 DiskPressure is often images and container logs filling `/var/lib/containerd` or `/var/log`.
 
@@ -155,14 +162,16 @@ DiskPressure is often images and container logs filling `/var/lib/containerd` or
 
 ```bash
 kubectl rollout status deploy/api -n NS
+
+# "ProgressDeadlineExceeded"
 kubectl describe deploy api -n NS
+
+# new ReplicaSet pods failing?
 kubectl get rs -n NS
+
+# restore service first, investigate after
 kubectl rollout undo deploy/api -n NS
 ```
-
-- `kubectl describe deploy api -n NS`: "ProgressDeadlineExceeded"
-- `kubectl get rs -n NS`: new ReplicaSet pods failing?
-- `kubectl rollout undo deploy/api -n NS`: restore service first, investigate after
 
 ## Cheat sheet
 

@@ -16,11 +16,11 @@ Configure many servers the same way, repeatably, from code in Git.
 ## Setup
 
 ```bash
+# or sudo apt install ansible
 pipx install ansible-core
+
 ansible --version
 ```
-
-- `pipx install ansible-core`: or `sudo apt install ansible`
 
 Project layout:
 
@@ -75,12 +75,13 @@ db
 ```bash
 ansible all -m ping
 ansible web -a "uptime"
+
+# -b = become (sudo)
 ansible web -b -m apt -a "name=htop state=present update_cache=yes"
+
+# facts
 ansible all -m setup -a "filter=ansible_distribution*"
 ```
-
-- `ansible web -b -m apt -a "name=htop state=present update_cache=yes"`: `-b` = become (sudo)
-- `ansible all -m setup -a "filter=ansible_distribution*"`: facts
 
 ## Playbook
 
@@ -197,16 +198,20 @@ server {
 
 ```bash
 ansible-playbook playbooks/site.yml --syntax-check
+
+# dry run with diffs
 ansible-playbook playbooks/site.yml --check --diff
+
+# one host first
 ansible-playbook playbooks/site.yml --limit web1
+
 ansible-playbook playbooks/site.yml --tags nginx
+
+# everyone
 ansible-playbook playbooks/site.yml
+
 ansible-lint
 ```
-
-- `ansible-playbook playbooks/site.yml --check --diff`: dry run with diffs
-- `ansible-playbook playbooks/site.yml --limit web1`: one host first
-- `ansible-playbook playbooks/site.yml`: everyone
 
 For rolling changes across a fleet: `serial: 2` in the play (2 hosts at a time) and `max_fail_percentage`.
 
@@ -215,10 +220,10 @@ For rolling changes across a fleet: `serial: 2` in the play (2 hosts at a time) 
 ```bash
 ansible-vault create inventory/group_vars/db/vault.yml
 ansible-vault edit inventory/group_vars/db/vault.yml
+
+# or --vault-password-file
 ansible-playbook site.yml --ask-vault-pass
 ```
-
-- `ansible-playbook site.yml --ask-vault-pass`: or `--vault-password-file`
 
 Convention: `vault_db_password` in the vault file, `db_password: "{{ vault_db_password }}"` in plain vars, so you can grep for variable names.
 

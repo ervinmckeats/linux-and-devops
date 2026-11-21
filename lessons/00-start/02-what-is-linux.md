@@ -48,20 +48,24 @@ Pick based on the job: Ubuntu LTS or Debian for servers and learning, Rocky/Alma
 ## Commands
 
 ```bash
+# kernel version
 uname -r
+
+# distribution and version
 cat /etc/os-release
+
+# your login shell
 echo $SHELL
+
+# the shell you are in right now
 ps -p $$
+
+# the kernel exposes hardware as files
 cat /proc/cpuinfo | head
+
+# devices as files
 ls /dev | head
 ```
-
-- `uname -r`: kernel version
-- `cat /etc/os-release`: distribution and version
-- `echo $SHELL`: your login shell
-- `ps -p $$`: the shell you are in right now
-- `cat /proc/cpuinfo | head`: the kernel exposes hardware as files
-- `ls /dev | head`: devices as files
 
 ## Practice
 

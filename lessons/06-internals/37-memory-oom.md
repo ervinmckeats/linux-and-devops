@@ -42,44 +42,51 @@ Signs: exit code `137` (128 + 9), process gone without its own error log, kernel
 ```bash
 free -h
 cat /proc/meminfo | head -20
+
+# si/so = swap in/out per second; r = run queue
 vmstat 1 5
+
+# biggest by RSS
 ps aux --sort=-rss | head
+
+# or htop, press M
 top -o %MEM
+
+# PSS per process (package smem)
 smem -tk -s pss | tail
+
+# memory map summary of a process
 pmap -x PID | tail -1
+
 cat /proc/PID/status | grep -E 'VmRSS|VmSwap'
+
+# PSI: time tasks waited for memory (lesson 39)
 cat /proc/pressure/memory
 ```
-
-- `vmstat 1 5`: si/so = swap in/out per second; r = run queue
-- `ps aux --sort=-rss | head`: biggest by RSS
-- `top -o %MEM`: or htop, press M
-- `smem -tk -s pss | tail`: PSS per process (package smem)
-- `pmap -x PID | tail -1`: memory map summary of a process
-- `cat /proc/pressure/memory`: PSI: time tasks waited for memory (lesson 39)
 
 ### Investigating an OOM kill
 
 ```bash
 sudo dmesg -T | grep -i -E 'out of memory|oom-kill|killed process'
 journalctl -k | grep -i oom
+
+# systemd: "A process of this unit has been killed by the OOM killer"
 journalctl -u myapp | tail
+
+# oom, oom_kill counters
 cat /sys/fs/cgroup/system.slice/myapp.service/memory.events
 ```
-
-- `journalctl -u myapp | tail`: systemd: "A process of this unit has been killed by the OOM killer"
-- `cat /sys/fs/cgroup/system.slice/myapp.service/memory.events`: oom, oom_kill counters
 
 A kernel OOM report shows the memory state and a table of processes with their RSS at the time of the kill. Read it to see **who** was big, not only who was killed.
 
 ### Protecting important processes
 
 ```bash
+# never kill (e.g. sshd); +1000 = kill first
 echo -1000 | sudo tee /proc/PID/oom_score_adj
+
 cat /proc/PID/oom_score
 ```
-
-- `echo -1000 | sudo tee /proc/PID/oom_score_adj`: never kill (e.g. sshd); +1000 = kill first
 
 In systemd: `OOMScoreAdjust=-500`, and better, set `MemoryMax=` on the noisy service so **it** gets killed, not the database.
 

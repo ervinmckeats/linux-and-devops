@@ -22,15 +22,18 @@ Option A. Multipass (Linux, macOS, Windows): one command per VM:
 
 ```bash
 multipass launch --name lab --cpus 2 --memory 2G --disk 20G
+
+# open a shell inside
 multipass shell lab
+
+# save state (VM must be stopped: multipass stop lab)
 multipass snapshot lab
+
 multipass restore lab.snapshot1
+
+# remove completely
 multipass delete --purge lab
 ```
-
-- `multipass shell lab`: open a shell inside
-- `multipass snapshot lab`: save state (VM must be stopped: multipass stop lab)
-- `multipass delete --purge lab`: remove completely
 
 Option B. VirtualBox / UTM / VMware with an Ubuntu Server ISO:
 
@@ -47,13 +50,14 @@ wsl --install -d Ubuntu
 First commands in a fresh system:
 
 ```bash
+# update package lists and packages
 sudo apt update && sudo apt upgrade -y
+
 sudo apt install -y curl git vim tree htop tldr
+
+# what machine am I on?
 hostnamectl
 ```
-
-- `sudo apt update && sudo apt upgrade -y`: update package lists and packages
-- `hostnamectl`: what machine am I on?
 
 ## Study habits that work
 

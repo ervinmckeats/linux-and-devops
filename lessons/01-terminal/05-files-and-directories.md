@@ -17,48 +17,60 @@ Create, copy, move and delete files safely, and select many files with patterns.
 | `{jpg,png}` | brace expansion: generates both words, even if no files exist |
 
 ```bash
+# see what a glob expands to before using it
 echo *.conf
+
+# file1.txt ... file5.txt
 echo file{1..5}.txt
 ```
-
-- `echo *.conf`: see what a glob expands to before using it
-- `echo file{1..5}.txt`: `file1.txt` ... `file5.txt`
 
 **Always test a glob with `echo` or `ls` before `rm`.**
 
 ## Commands
 
 ```bash
+# create empty file / update its time
 touch notes.txt
+
+# create directory
 mkdir projects
+
+# create the whole path
 mkdir -p a/b/c
+
+# copy
 cp file.txt backup.txt
+
+# copy a directory
 cp -r dir/ dir-copy/
+
+# archive: keep owner, time, permissions, links
 cp -a src/ dst/
+
+# rename
 mv old.txt new.txt
+
+# move
 mv file.txt /tmp/
+
+# delete
 rm file.txt
+
+# ask before each
 rm -i *.txt
+
+# delete directory recursively
 rm -r dir/
+
+# delete only if empty
 rmdir empty-dir
+
+# detect real file type
 file /bin/ls
+
+# all metadata
 stat notes.txt
 ```
-
-- `touch notes.txt`: create empty file / update its time
-- `mkdir projects`: create directory
-- `mkdir -p a/b/c`: create the whole path
-- `cp file.txt backup.txt`: copy
-- `cp -r dir/ dir-copy/`: copy a directory
-- `cp -a src/ dst/`: archive: keep owner, time, permissions, links
-- `mv old.txt new.txt`: rename
-- `mv file.txt /tmp/`: move
-- `rm file.txt`: delete
-- `rm -i *.txt`: ask before each
-- `rm -r dir/`: delete directory recursively
-- `rmdir empty-dir`: delete only if empty
-- `file /bin/ls`: detect real file type
-- `stat notes.txt`: all metadata
 
 ### Safety habits
 

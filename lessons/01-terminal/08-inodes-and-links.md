@@ -41,28 +41,36 @@ A small file that contains a **path** to another file. Works across filesystems 
 ## Commands
 
 ```bash
+# inode number
 ls -i file
+
+# inode, links, times
 stat file
+
+# hard link
 ln file hardlink
+
+# symlink
 ln -s /path/target link
+
+# shows link -> target
 ls -l link
+
+# resolve full path
 readlink -f link
+
+# broken symlinks
 find . -xtype l
+
+# all names of an inode
 find / -inum 1234 2>/dev/null
+
+# inode usage per filesystem
 df -i
+
+# open files with zero links (deleted but held)
 lsof +L1
 ```
-
-- `ls -i file`: inode number
-- `stat file`: inode, links, times
-- `ln file hardlink`: hard link
-- `ln -s /path/target link`: symlink
-- `ls -l link`: shows link -> target
-- `readlink -f link`: resolve full path
-- `find . -xtype l`: broken symlinks
-- `find / -inum 1234 2>/dev/null`: all names of an inode
-- `df -i`: inode usage per filesystem
-- `lsof +L1`: open files with zero links (deleted but held)
 
 ## Practice
 
@@ -72,12 +80,13 @@ lsof +L1
 4. Reproduce the "deleted but open" problem:
    ```bash
    dd if=/dev/zero of=/tmp/big bs=1M count=200
+
+   # keep it open
    tail -f /tmp/big > /dev/null &
+
    rm /tmp/big; df -h /tmp; lsof +L1 | grep big
    kill %1; df -h /tmp
    ```
-
-   - `tail -f /tmp/big > /dev/null &`: keep it open
 
 ## Check yourself
 

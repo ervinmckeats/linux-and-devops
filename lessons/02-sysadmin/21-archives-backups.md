@@ -8,24 +8,30 @@ Pack, compress and copy data, and build backups that you have actually restored 
 `tar` packs many files into one; a compressor shrinks it. They are separate steps that `tar` can do in one go.
 
 ```bash
+# create, gzip
 tar -czf site.tar.gz /var/www/site
+
+# xz: smaller, slower
 tar -cJf site.tar.xz /var/www/site
+
+# zstd: fast and small, good default today
 tar --zstd -cf site.tar.zst dir/
+
+# list contents
 tar -tzf site.tar.gz | head
+
+# extract into a directory
 tar -xzf site.tar.gz -C /tmp/restore
+
+# one file
 tar -xzf site.tar.gz var/www/site/index.html
+
+# stream over SSH, no temp file
 tar -czf - dir | ssh host 'tar -xzf - -C /backup'
+
 zip -r site.zip dir/; unzip site.zip -d out/
 gzip big.log; gunzip big.log.gz; zcat big.log.gz
 ```
-
-- `tar -czf site.tar.gz /var/www/site`: create, gzip
-- `tar -cJf site.tar.xz /var/www/site`: xz: smaller, slower
-- `tar --zstd -cf site.tar.zst dir/`: zstd: fast and small, good default today
-- `tar -tzf site.tar.gz | head`: list contents
-- `tar -xzf site.tar.gz -C /tmp/restore`: extract into a directory
-- `tar -xzf site.tar.gz var/www/site/index.html`: one file
-- `tar -czf - dir | ssh host 'tar -xzf - -C /backup'`: stream over SSH, no temp file
 
 Memory trick: **c**reate, e**x**tract, lis**t**; **z** gzip, **J** xz; **f** file name follows.
 
@@ -40,20 +46,24 @@ Memory trick: **c**reate, e**x**tract, lis**t**; **z** gzip, **J** xz; **f** fil
 Copies only differences, resumes, keeps permissions.
 
 ```bash
+# trailing slash: copy CONTENTS of src
 rsync -avh src/ dst/
+
+# no slash: creates dst/src
 rsync -avh src dst/
+
+# mirror: delete extras in dst
 rsync -avh --delete src/ dst/
+
+# -n is a dry run, ALWAYS before --delete
 rsync -avhn --delete src/ dst/
+
+# over SSH, compress, progress
 rsync -avzP src/ user@host:/backup/
+
+# full system copy: hard links, ACL, xattrs
 rsync -aHAX --numeric-ids / /mnt/new/
 ```
-
-- `rsync -avh src/ dst/`: trailing slash: copy CONTENTS of src
-- `rsync -avh src dst/`: no slash: creates dst/src
-- `rsync -avh --delete src/ dst/`: mirror: delete extras in dst
-- `rsync -avhn --delete src/ dst/`: `-n` is a dry run, ALWAYS before `--delete`
-- `rsync -avzP src/ user@host:/backup/`: over SSH, compress, progress
-- `rsync -aHAX --numeric-ids / /mnt/new/`: full system copy: hard links, ACL, xattrs
 
 ## Backup strategy
 
@@ -74,12 +84,12 @@ Add: at least one copy **immutable or offline**, so ransomware or a stolen admin
 Copying the files of a running database gives a corrupt backup.
 
 ```bash
+# PostgreSQL
 pg_dump -Fc mydb > mydb-$(date +%F).dump
+
+# MySQL/MariaDB
 mysqldump --single-transaction mydb | zstd > mydb.sql.zst
 ```
-
-- `pg_dump -Fc mydb > mydb-$(date +%F).dump`: PostgreSQL
-- `mysqldump --single-transaction mydb | zstd > mydb.sql.zst`: MySQL/MariaDB
 
 Or stop writes / use an LVM or cloud snapshot of a consistent state.
 
@@ -104,10 +114,10 @@ DEST=/backup
 STAMP=$(date +%F_%H%M)
 tar --zstd -cf "$DEST/etc-$STAMP.tar.zst" /etc
 find "$DEST" -name 'etc-*.tar.zst' -mtime +14 -delete
+
+# verify it can be read
 tar --zstd -tf "$DEST/etc-$STAMP.tar.zst" > /dev/null
 ```
-
-- `tar --zstd -tf "$DEST/etc-$STAMP.tar.zst" > /dev/null`: verify it can be read
 
 ## A backup you have not restored is not a backup
 

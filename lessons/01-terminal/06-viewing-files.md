@@ -9,40 +9,54 @@ Opening a 5 GB log in an editor loads it into memory. Pagers and `head`/`tail` r
 ## Commands
 
 ```bash
+# print whole file (small files only)
 cat file
+
+# with line numbers
 cat -n file
+
+# pager: scroll, search
 less file
+
+# first 10 lines
 head file
+
+# first 50
 head -n 50 file
+
+# last 100
 tail -n 100 file
+
+# follow new lines live
 tail -f /var/log/syslog
+
+# follow even if the file is rotated
 tail -F app.log
+
+# count lines (also -w words, -c bytes)
 wc -l file
+
+# differences
 diff old.conf new.conf
+
+# unified format, like git
 diff -u old.conf new.conf
+
+# binary compare
 cmp a.bin b.bin
+
+# checksums
 md5sum file; sha256sum file
+
+# read compressed logs (also zless, zgrep)
 zcat app.log.1.gz | less
+
+# readable text inside binaries
 strings /usr/bin/ls | head
+
+# raw bytes
 hexdump -C file | head
 ```
-
-- `cat file`: print whole file (small files only)
-- `cat -n file`: with line numbers
-- `less file`: pager: scroll, search
-- `head file`: first 10 lines
-- `head -n 50 file`: first 50
-- `tail -n 100 file`: last 100
-- `tail -f /var/log/syslog`: follow new lines live
-- `tail -F app.log`: follow even if the file is rotated
-- `wc -l file`: count lines (also `-w` words, `-c` bytes)
-- `diff old.conf new.conf`: differences
-- `diff -u old.conf new.conf`: unified format, like git
-- `cmp a.bin b.bin`: binary compare
-- `md5sum file; sha256sum file`: checksums
-- `zcat app.log.1.gz | less`: read compressed logs (also zless, zgrep)
-- `strings /usr/bin/ls | head`: readable text inside binaries
-- `hexdump -C file | head`: raw bytes
 
 Inside `less`:
 

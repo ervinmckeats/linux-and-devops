@@ -24,29 +24,39 @@ Applications may also write their own files: `/var/log/nginx/`, `/var/log/postgr
 ## journalctl
 
 ```bash
+# one service
 journalctl -u nginx
+
+# follow
 journalctl -u nginx -f
+
 journalctl -u nginx -n 100 --no-pager
+
+# errors since this boot
 journalctl -p err -b
+
+# previous boot (needs persistent journal)
 journalctl -b -1
+
 journalctl --since "1 hour ago"
 journalctl --since "2026-01-10 10:00" --until "2026-01-10 10:30"
+
+# kernel messages (like dmesg)
 journalctl -k
+
 journalctl _PID=1234
+
+# all fields
 journalctl -u myapp -o json-pretty
+
+# grep inside journal
 journalctl -u myapp -g "timeout"
+
 journalctl --disk-usage
+
+# shrink
 sudo journalctl --vacuum-size=500M
 ```
-
-- `journalctl -u nginx`: one service
-- `journalctl -u nginx -f`: follow
-- `journalctl -p err -b`: errors since this boot
-- `journalctl -b -1`: previous boot (needs persistent journal)
-- `journalctl -k`: kernel messages (like dmesg)
-- `journalctl -u myapp -o json-pretty`: all fields
-- `journalctl -u myapp -g "timeout"`: grep inside journal
-- `sudo journalctl --vacuum-size=500M`: shrink
 
 Make the journal survive reboots (if `/var/log/journal` does not exist):
 
@@ -59,21 +69,21 @@ Limit its size in `/etc/systemd/journald.conf`: `SystemMaxUse=1G`.
 ## dmesg
 
 ```bash
+# readable timestamps
 sudo dmesg -T | tail -50
+
 sudo dmesg -T -l err,warn
 sudo dmesg -T | grep -i -E "oom|killed process|i/o error|segfault"
 ```
 
-- `sudo dmesg -T | tail -50`: readable timestamps
-
 ## Writing to logs
 
 ```bash
+# into syslog/journal
 logger -t backup "backup finished in 42s"
+
 journalctl -t backup
 ```
-
-- `logger -t backup "backup finished in 42s"`: into syslog/journal
 
 ## logrotate
 
@@ -100,12 +110,12 @@ Stops text logs from growing forever. Runs daily (timer or cron). Config: `/etc/
 - If the app cannot reopen files, use `copytruncate` (small risk of losing lines during the copy).
 
 ```bash
+# dry run
 sudo logrotate -d /etc/logrotate.d/myapp
+
+# force now
 sudo logrotate -f /etc/logrotate.d/myapp
 ```
-
-- `sudo logrotate -d /etc/logrotate.d/myapp`: dry run
-- `sudo logrotate -f /etc/logrotate.d/myapp`: force now
 
 ## Investigation routine
 

@@ -15,23 +15,29 @@ Look inside a running process to see what it is waiting for, what files it opens
 ## strace: system calls
 
 ```bash
+# every syscall and its result
 strace ls /nope
+
+# only file opens, follow children
 strace -f -e trace=openat,stat nginx -t
+
 strace -f -e trace=network curl -s example.com > /dev/null
+
+# attach to a running process
 strace -p PID
+
+# show 200 chars of data
 strace -f -p PID -e trace=read,write -s 200
+
+# summary: which syscalls, how many, how long (Ctrl+C)
 strace -c -p PID
+
+# timestamps and time spent in each call
 strace -tt -T -p PID
+
+# one log file per thread/process
 strace -o trace.log -ff ./app
 ```
-
-- `strace ls /nope`: every syscall and its result
-- `strace -f -e trace=openat,stat nginx -t`: only file opens, follow children
-- `strace -p PID`: attach to a running process
-- `strace -f -p PID -e trace=read,write -s 200`: show 200 chars of data
-- `strace -c -p PID`: summary: which syscalls, how many, how long (Ctrl+C)
-- `strace -tt -T -p PID`: timestamps and time spent in each call
-- `strace -o trace.log -ff ./app`: one log file per thread/process
 
 Typical findings:
 - `openat("/etc/app/config.yml", ...) = -1 ENOENT`: the app looks for config in a different place than you think.
@@ -48,35 +54,44 @@ Typical findings:
 
 ```bash
 cat /proc/PID/status | grep State
+
+# kernel stack (for D state)
 sudo cat /proc/PID/stack
+
+# kernel function it sleeps in
 cat /proc/PID/wchan; echo
+
+# open files and sockets
 ls -l /proc/PID/fd
+
+# native stacks (needs symbols)
 gdb -p PID -batch -ex 'thread apply all bt'
+
+# Python stacks
 py-spy dump --pid PID
+
+# Java threads
 jstack PID
 ```
-
-- `sudo cat /proc/PID/stack`: kernel stack (for D state)
-- `cat /proc/PID/wchan; echo`: kernel function it sleeps in
-- `ls -l /proc/PID/fd`: open files and sockets
-- `gdb -p PID -batch -ex 'thread apply all bt'`: native stacks (needs symbols)
-- `py-spy dump --pid PID`: Python stacks
-- `jstack PID`: Java threads
 
 ## perf: CPU profiling
 
 ```bash
 sudo apt install linux-tools-common linux-tools-$(uname -r)
+
+# live: hottest functions system-wide
 sudo perf top
+
 sudo perf top -p PID
+
+# cycles, instructions, cache misses, context switches
 sudo perf stat -p PID sleep 10
+
+# sample stacks 99 times/s for 30 s
 sudo perf record -F 99 -g -p PID -- sleep 30
+
 sudo perf report
 ```
-
-- `sudo perf top`: live: hottest functions system-wide
-- `sudo perf stat -p PID sleep 10`: cycles, instructions, cache misses, context switches
-- `sudo perf record -F 99 -g -p PID -- sleep 30`: sample stacks 99 times/s for 30 s
 
 ### Flame graphs
 
@@ -96,37 +111,45 @@ eBPF runs small verified programs on kernel events with very low overhead. It po
 ### BCC tools (ready-made)
 
 ```bash
+# tools end with -bpfcc on Debian/Ubuntu
 sudo apt install bpfcc-tools
+
+# every new process (catch short-lived ones top misses)
 sudo execsnoop-bpfcc
+
+# files opened
 sudo opensnoop-bpfcc -p PID
+
+# disk I/O latency histogram
 sudo biolatency-bpfcc
+
+# outgoing TCP connections
 sudo tcpconnect-bpfcc
+
+# TCP retransmits with addresses
 sudo tcpretrans-bpfcc
+
+# how long tasks wait for CPU
 sudo runqlat-bpfcc
+
+# OOM kills with details
 sudo oomkill-bpfcc
+
+# CPU profile, low overhead
 sudo profile-bpfcc -F 99 30
 ```
-
-- `sudo apt install bpfcc-tools`: tools end with `-bpfcc` on Debian/Ubuntu
-- `sudo execsnoop-bpfcc`: every new process (catch short-lived ones top misses)
-- `sudo opensnoop-bpfcc -p PID`: files opened
-- `sudo biolatency-bpfcc`: disk I/O latency histogram
-- `sudo tcpconnect-bpfcc`: outgoing TCP connections
-- `sudo tcpretrans-bpfcc`: TCP retransmits with addresses
-- `sudo runqlat-bpfcc`: how long tasks wait for CPU
-- `sudo oomkill-bpfcc`: OOM kills with details
-- `sudo profile-bpfcc -F 99 30`: CPU profile, low overhead
 
 ### bpftrace one-liners
 
 ```bash
+# syscalls per process
 sudo bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count(); }'
+
 sudo bpftrace -e 'tracepoint:syscalls:sys_enter_openat { printf("%s %s\n", comm, str(args->filename)); }'
+
+# read size histogram
 sudo bpftrace -e 'kprobe:vfs_read { @bytes[comm] = hist(arg2); }'
 ```
-
-- `sudo bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count(); }'`: syscalls per process
-- `sudo bpftrace -e 'kprobe:vfs_read { @bytes[comm] = hist(arg2); }'`: read size histogram
 
 ## Debugging recipe: "the app is slow sometimes"
 

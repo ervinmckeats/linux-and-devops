@@ -24,17 +24,19 @@ Clicking in a console is fast once and painful forever: nobody knows what exists
 ## Workflow
 
 ```bash
+# download providers, set up backend
 terraform init
+
 terraform fmt -recursive
 terraform validate
 terraform plan -out=tfplan
+
+# apply exactly what was reviewed
 terraform apply tfplan
+
+# careful
 terraform destroy
 ```
-
-- `terraform init`: download providers, set up backend
-- `terraform apply tfplan`: apply exactly what was reviewed
-- `terraform destroy`: careful
 
 Read every plan. Symbols: `+` create, `~` update in place, `-/+` **replace** (destroy then create: data loss for databases and disks!), `-` destroy.
 
@@ -171,14 +173,16 @@ terraform output public_ip
 ```bash
 terraform state list
 terraform state show aws_instance.web
+
+# adopt an existing resource
 terraform import aws_s3_bucket.logs my-existing-bucket
+
+# after refactoring
 terraform state mv aws_instance.web module.web.aws_instance.this
+
+# detect drift (manual console changes)
 terraform plan -refresh-only
 ```
-
-- `terraform import aws_s3_bucket.logs my-existing-bucket`: adopt an existing resource
-- `terraform state mv aws_instance.web module.web.aws_instance.this`: after refactoring
-- `terraform plan -refresh-only`: detect drift (manual console changes)
 
 Newer versions also support `import {}` and `moved {}` blocks in code, which go through normal review.
 

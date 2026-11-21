@@ -51,14 +51,17 @@ curl -vI https://example.com 2>&1 | grep -E 'expire|subject|issuer'
 
 ```bash
 sudo apt install nginx
+
+# test config - ALWAYS before reload
 sudo nginx -t
+
 sudo systemctl reload nginx
+
+# Debian layout
 ls /etc/nginx/sites-available /etc/nginx/sites-enabled
+
 tail -f /var/log/nginx/access.log /var/log/nginx/error.log
 ```
-
-- `sudo nginx -t`: test config - ALWAYS before reload
-- `ls /etc/nginx/sites-available /etc/nginx/sites-enabled`: Debian layout
 
 ### Reverse proxy for an app on port 3000
 
@@ -108,10 +111,10 @@ DNS must point to the server and port 80 must be open.
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d app.example.com
 sudo certbot renew --dry-run
+
+# auto-renewal
 systemctl list-timers | grep certbot
 ```
-
-- `systemctl list-timers | grep certbot`: auto-renewal
 
 certbot edits the server block: adds `listen 443 ssl`, certificate paths and a redirect from HTTP to HTTPS.
 

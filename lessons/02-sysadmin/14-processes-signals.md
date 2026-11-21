@@ -36,37 +36,51 @@ Always try `SIGTERM` first and wait. `SIGKILL` skips cleanup: half-written files
 ## Commands
 
 ```bash
+# all processes, BSD style
 ps aux
+
+# tree
 ps -ef --forest
+
 ps -eo pid,ppid,user,%cpu,%mem,stat,cmd --sort=-%mem | head
 pstree -p
+
+# find by name
 pgrep -a nginx
+
+# live: P=cpu M=mem k=kill 1=per-cpu q=quit
 top
+
+# friendlier top
 htop
+
+# SIGTERM
 kill PID
+
+# SIGKILL, last resort
 kill -9 PID
+
+# often: reload config
 kill -HUP PID
+
+# by full command line
 pkill -f "python app.py"
+
 killall nginx
+
+# start with lower priority (19 = lowest)
 nice -n 10 ./heavy.sh
+
 renice -n 5 -p PID
+
+# everything the kernel knows
 cat /proc/PID/status
+
+# open files
 ls -l /proc/PID/fd
+
 lsof -p PID
 ```
-
-- `ps aux`: all processes, BSD style
-- `ps -ef --forest`: tree
-- `pgrep -a nginx`: find by name
-- `top`: live: P=cpu M=mem k=kill 1=per-cpu q=quit
-- `htop`: friendlier top
-- `kill PID`: SIGTERM
-- `kill -9 PID`: SIGKILL, last resort
-- `kill -HUP PID`: often: reload config
-- `pkill -f "python app.py"`: by full command line
-- `nice -n 10 ./heavy.sh`: start with lower priority (19 = lowest)
-- `cat /proc/PID/status`: everything the kernel knows
-- `ls -l /proc/PID/fd`: open files
 
 ### Load average
 
@@ -75,33 +89,37 @@ lsof -p PID
 ## Jobs
 
 ```bash
+# run in background
 long_task &
+
+# list
 jobs
+
+# pause the foreground job
 Ctrl+Z
+
+# continue in background / bring back
 bg %1; fg %1
+
+# survive logout
 nohup ./backup.sh > backup.log 2>&1 &
+
+# detach a running job from the shell
 disown %1
 ```
-
-- `long_task &`: run in background
-- `jobs`: list
-- `Ctrl+Z`: pause the foreground job
-- `bg %1; fg %1`: continue in background / bring back
-- `nohup ./backup.sh > backup.log 2>&1 &`: survive logout
-- `disown %1`: detach a running job from the shell
 
 ## tmux: sessions that survive disconnects
 
 ```bash
+# new session
 tmux new -s work
+
 # Ctrl+b d                # detach (everything keeps running)
 tmux ls
 tmux attach -t work
 # Ctrl+b c  new window    Ctrl+b n/p  next/prev
 # Ctrl+b %  split vert.   Ctrl+b "    split horiz.   Ctrl+b arrows  move
 ```
-
-- `tmux new -s work`: new session
 
 Run every long operation on a remote server (upgrades, migrations, big copies) inside tmux.
 

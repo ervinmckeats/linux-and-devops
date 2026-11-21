@@ -27,27 +27,36 @@ Unit file locations (higher wins):
 ```bash
 systemctl status nginx
 sudo systemctl start | stop | restart nginx
+
+# re-read config without dropping connections (if supported)
 sudo systemctl reload nginx
+
+# start on boot + start now
 sudo systemctl enable --now nginx
+
 sudo systemctl disable nginx
 systemctl is-active nginx; systemctl is-enabled nginx
 systemctl list-units --type=service --state=running
+
+# what is broken
 systemctl --failed
+
+# the unit file and all overrides
 systemctl cat nginx
+
 systemctl show nginx -p MainPID,Restart,MemoryCurrent
+
+# forbid starting at all
 sudo systemctl mask bluetooth
+
+# after editing unit files
 sudo systemctl daemon-reload
+
+# what slows the boot
 systemd-analyze blame
+
 systemctl list-dependencies multi-user.target
 ```
-
-- `sudo systemctl reload nginx`: re-read config without dropping connections (if supported)
-- `sudo systemctl enable --now nginx`: start on boot + start now
-- `systemctl --failed`: what is broken
-- `systemctl cat nginx`: the unit file and all overrides
-- `sudo systemctl mask bluetooth`: forbid starting at all
-- `sudo systemctl daemon-reload`: after editing unit files
-- `systemd-analyze blame`: what slows the boot
 
 ## Your own service
 
@@ -86,10 +95,10 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable --now myapp
 journalctl -u myapp -f
+
+# score of hardening options
 systemd-analyze security myapp
 ```
-
-- `systemd-analyze security myapp`: score of hardening options
 
 `Type=`: `simple` (process stays in foreground: best for most apps), `exec`, `forking` (old daemons that fork), `oneshot` (scripts that finish), `notify` (app tells systemd when ready).
 
@@ -114,10 +123,10 @@ To replace `ExecStart`, clear it first: `ExecStart=` then `ExecStart=/new/comman
 ```bash
 mkdir -p ~/.config/systemd/user
 systemctl --user enable --now myjob.service
+
+# keep running after logout
 loginctl enable-linger $USER
 ```
-
-- `loginctl enable-linger $USER`: keep running after logout
 
 ## Practice
 

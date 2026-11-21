@@ -16,11 +16,12 @@ Run a multi-container application (app + database + cache + proxy) with persiste
 ```bash
 docker network create appnet
 docker run -d --name db --network appnet -e POSTGRES_PASSWORD=pw postgres:16
+
+# "db" resolves by name
 docker run --rm --network appnet postgres:16 pg_isready -h db
+
 docker network inspect appnet
 ```
-
-- `docker run --rm --network appnet postgres:16 pg_isready -h db`: "db" resolves by name
 
 Containers on the default `bridge` network cannot resolve each other by name. Create your own network.
 
@@ -116,23 +117,28 @@ DB_PASSWORD=change-me
 Compose creates a network for the project automatically, so `app` reaches `db` and `cache` by service name.
 
 ```bash
+# create and start everything
 docker compose up -d
+
 docker compose ps
 docker compose logs -f app
 docker compose exec db psql -U app
+
+# rebuild and replace one service
 docker compose build app && docker compose up -d app
+
+# update images
 docker compose pull && docker compose up -d
+
+# final config with variables resolved - check before up
 docker compose config
+
+# stop and remove containers and network (volumes stay)
 docker compose down
+
+# ALSO delete volumes = delete data
 docker compose down -v
 ```
-
-- `docker compose up -d`: create and start everything
-- `docker compose build app && docker compose up -d app`: rebuild and replace one service
-- `docker compose pull && docker compose up -d`: update images
-- `docker compose config`: final config with variables resolved - check before up
-- `docker compose down`: stop and remove containers and network (volumes stay)
-- `docker compose down -v`: ALSO delete volumes = delete data
 
 ### Overrides for dev and prod
 

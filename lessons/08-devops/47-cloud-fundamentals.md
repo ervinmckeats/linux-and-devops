@@ -83,18 +83,20 @@ A managed database gives backups, failover, patching and monitoring for a price.
 ## CLI basics
 
 ```bash
+# log in via SSO
 aws configure sso
+
+# who am I? run this first, always
 aws sts get-caller-identity
+
 aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,State.Name,PrivateIpAddress]' --output table
 aws s3 ls s3://example-bucket/
 aws s3 sync ./site s3://example-site --delete
 aws logs tail /aws/lambda/fn --follow
+
+# shell without SSH
 aws ssm start-session --target i-0123456789abcdef0
 ```
-
-- `aws configure sso`: log in via SSO
-- `aws sts get-caller-identity`: who am I? run this first, always
-- `aws ssm start-session --target i-0123456789abcdef0`: shell without SSH
 
 Inside an instance, the metadata service gives identity and temporary credentials at `169.254.169.254`. Require IMDSv2 (session tokens): it blocks a common SSRF credential theft.
 

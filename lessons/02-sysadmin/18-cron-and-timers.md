@@ -26,15 +26,17 @@ Run jobs on a schedule reliably, and know when the job silently failed.
 Check expressions at crontab.guru before trusting them.
 
 ```bash
+# edit your crontab
 crontab -e
+
+# list
 crontab -l
+
 sudo crontab -u app -e
+
+# system jobs (cron.d lines have a USER field)
 ls /etc/cron.d/ /etc/cron.daily/
 ```
-
-- `crontab -e`: edit your crontab
-- `crontab -l`: list
-- `ls /etc/cron.d/ /etc/cron.daily/`: system jobs (cron.d lines have a USER field)
 
 ### The classic cron traps
 
@@ -86,13 +88,15 @@ WantedBy=timers.target
 sudo systemctl daemon-reload
 sudo systemctl enable --now backup.timer
 systemctl list-timers
+
+# run once now, to test
 sudo systemctl start backup.service
+
 journalctl -u backup.service
+
+# check a schedule
 systemd-analyze calendar "Mon..Fri 09:00"
 ```
-
-- `sudo systemctl start backup.service`: run once now, to test
-- `systemd-analyze calendar "Mon..Fri 09:00"`: check a schedule
 
 Other forms: `OnCalendar=hourly`, `OnCalendar=*:0/15` (every 15 min), `OnBootSec=5min`, `OnUnitActiveSec=1h`.
 

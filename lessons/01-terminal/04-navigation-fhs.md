@@ -37,30 +37,39 @@ When something breaks: config is in `/etc`, logs are in `/var/log`, the binary i
 ## Commands
 
 ```bash
+# print working directory
 pwd
+
+# absolute
 cd /var/log
+
+# up one level
 cd ..
+
+# home (same as cd ~)
 cd
+
+# back to previous directory
 cd -
+
+# list
 ls
+
+# long format, include hidden
 ls -la
+
+# human-readable sizes
 ls -lh
+
+# sort by time, newest first
 ls -lt
+
+# recursive
 ls -R
+
+# tree view, 2 levels
 tree -L 2 /etc
 ```
-
-- `pwd`: print working directory
-- `cd /var/log`: absolute
-- `cd ..`: up one level
-- `cd`: home (same as `cd ~`)
-- `cd -`: back to previous directory
-- `ls`: list
-- `ls -la`: long format, include hidden
-- `ls -lh`: human-readable sizes
-- `ls -lt`: sort by time, newest first
-- `ls -R`: recursive
-- `tree -L 2 /etc`: tree view, 2 levels
 
 Reading `ls -l`:
 

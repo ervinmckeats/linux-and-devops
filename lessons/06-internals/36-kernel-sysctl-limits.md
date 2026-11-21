@@ -14,16 +14,18 @@ The kernel exposes its state as files:
 ## sysctl
 
 ```bash
+# all parameters
 sysctl -a | less
+
+# read
 sysctl net.ipv4.ip_forward
+
+# same thing
 cat /proc/sys/net/ipv4/ip_forward
+
+# change now (lost on reboot)
 sudo sysctl -w vm.swappiness=10
 ```
-
-- `sysctl -a | less`: all parameters
-- `sysctl net.ipv4.ip_forward`: read
-- `cat /proc/sys/net/ipv4/ip_forward`: same thing
-- `sudo sysctl -w vm.swappiness=10`: change now (lost on reboot)
 
 Persist in `/etc/sysctl.d/90-custom.conf`:
 
@@ -37,10 +39,9 @@ fs.inotify.max_user_watches = 524288
 ```
 
 ```bash
+# load all files
 sudo sysctl --system
 ```
-
-- `sudo sysctl --system`: load all files
 
 Parameters people actually touch:
 
@@ -64,15 +65,18 @@ Drivers and features loaded on demand.
 ```bash
 lsmod | head
 modinfo br_netfilter
+
+# load
 sudo modprobe br_netfilter
+
+# unload
 sudo modprobe -r module_name
+
+# load at boot
 echo br_netfilter | sudo tee /etc/modules-load.d/k8s.conf
+
 echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/blacklist-pcspkr.conf
 ```
-
-- `sudo modprobe br_netfilter`: load
-- `sudo modprobe -r module_name`: unload
-- `echo br_netfilter | sudo tee /etc/modules-load.d/k8s.conf`: load at boot
 
 Kubernetes nodes need `overlay` and `br_netfilter` plus `net.bridge.bridge-nf-call-iptables=1` (lesson 49).
 
@@ -80,11 +84,12 @@ Kubernetes nodes need `overlay` and `br_netfilter` plus `net.bridge.bridge-nf-ca
 
 ```bash
 cat /proc/cmdline
+
+# GRUB_CMDLINE_LINUX="... param=value"
 sudoedit /etc/default/grub
+
 sudo update-grub && sudo reboot
 ```
-
-- `sudoedit /etc/default/grub`: GRUB_CMDLINE_LINUX="... param=value"
 
 Examples: `systemd.unified_cgroup_hierarchy=1`, `mitigations=auto`, `console=ttyS0` (serial console on VMs).
 
@@ -93,18 +98,21 @@ Examples: `systemd.unified_cgroup_hierarchy=1`, `mitigations=auto`, `console=tty
 Every process has limits; the famous one is **open files** (`nofile`). A busy proxy or database needs tens of thousands of file descriptors (every socket is a file).
 
 ```bash
+# limits of this shell
 ulimit -a
+
+# open files (soft)
 ulimit -n
+
+# hard limit
 ulimit -Hn
+
+# limits of a running process - check THIS, not your shell
 cat /proc/PID/limits
+
+# how many it uses now
 ls /proc/PID/fd | wc -l
 ```
-
-- `ulimit -a`: limits of this shell
-- `ulimit -n`: open files (soft)
-- `ulimit -Hn`: hard limit
-- `cat /proc/PID/limits`: limits of a running process - check THIS, not your shell
-- `ls /proc/PID/fd | wc -l`: how many it uses now
 
 Where to raise them:
 
@@ -125,14 +133,15 @@ Where to raise them:
 ## Kernel messages and panics
 
 ```bash
+# follow kernel log
 sudo dmesg -T -w
+
+# kernel log of previous boot
 journalctl -k -b -1
+
+# seconds before auto-reboot on panic (0 = hang)
 cat /proc/sys/kernel/panic
 ```
-
-- `sudo dmesg -T -w`: follow kernel log
-- `journalctl -k -b -1`: kernel log of previous boot
-- `cat /proc/sys/kernel/panic`: seconds before auto-reboot on panic (0 = hang)
 
 Set `kernel.panic = 10` on servers so they reboot instead of hanging. For crash analysis configure `kdump`.
 
