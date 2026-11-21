@@ -27,18 +27,21 @@ The shell checks, in order:
 4. **Executable** found in a directory listed in `$PATH`
 
 ```bash
+# ls is aliased to ls --color=auto
 type ls
+
+# cd is a shell builtin
 type cd
+
+# all matches, in order
 type -a echo
+
+# path of the executable
 which python3
+
+# where the shell looks, left to right
 echo $PATH
 ```
-
-- `type ls`: `ls` is aliased to `ls --color=auto`
-- `type cd`: cd is a shell builtin
-- `type -a echo`: all matches, in order
-- `which python3`: path of the executable
-- `echo $PATH`: where the shell looks, left to right
 
 `cd` must be a builtin: a child process cannot change the directory of its parent shell.
 
@@ -59,20 +62,24 @@ Man sections you will use: `1` user commands, `5` file formats, `8` admin comman
 ## Commands
 
 ```bash
+# ; runs commands one after another
 whoami; hostname; date; uptime
+
+# where am I
 pwd
+
+# last commands
 history | tail
+
+# repeat last command
 !!
+
+# repeat last command as root
 sudo !!
+
+# or Ctrl+L
 clear
 ```
-
-- `whoami; hostname; date; uptime`: ; runs commands one after another
-- `pwd`: where am I
-- `history | tail`: last commands
-- `!!`: repeat last command
-- `sudo !!`: repeat last command as root
-- `clear`: or Ctrl+L
 
 ### Shortcuts that save hours
 

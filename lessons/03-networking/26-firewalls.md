@@ -33,18 +33,21 @@ Principles:
 ```bash
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
+
+# or sudo ufw allow 22/tcp
 sudo ufw allow OpenSSH
+
 sudo ufw allow 80,443/tcp
 sudo ufw allow from 10.0.0.0/24 to any port 5432 proto tcp
+
+# rate-limit brute force
 sudo ufw limit 22/tcp
+
 sudo ufw enable
 sudo ufw status numbered
 sudo ufw delete 3
 sudo ufw app list
 ```
-
-- `sudo ufw allow OpenSSH`: or `sudo ufw allow 22/tcp`
-- `sudo ufw limit 22/tcp`: rate-limit brute force
 
 Docker warning: Docker writes its own iptables rules, and published container ports (`-p 8080:80`) **bypass ufw**. Bind to localhost (`-p 127.0.0.1:8080:80`) or use the `DOCKER-USER` chain.
 
@@ -88,33 +91,34 @@ table inet filter {
 ```
 
 ```bash
+# check syntax
 sudo nft -c -f /etc/nftables.conf
+
+# apply
 sudo nft -f /etc/nftables.conf
+
 sudo nft list ruleset
 sudo systemctl enable nftables
 ```
-
-- `sudo nft -c -f /etc/nftables.conf`: check syntax
-- `sudo nft -f /etc/nftables.conf`: apply
 
 ## iptables (for reading old docs)
 
 ```bash
 sudo iptables -L -n -v --line-numbers
 sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+
+# persist with iptables-persistent
 sudo iptables-save > rules.v4
 ```
-
-- `sudo iptables-save > rules.v4`: persist with iptables-persistent
 
 ## Check from outside
 
 ```bash
+# from ANOTHER machine, only on hosts you own
 nmap -Pn -p 1-1000 your-server
+
 nc -zv your-server 5432
 ```
-
-- `nmap -Pn -p 1-1000 your-server`: from ANOTHER machine, only on hosts you own
 
 ## Practice
 

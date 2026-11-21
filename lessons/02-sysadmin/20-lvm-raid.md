@@ -23,21 +23,22 @@ sudo vgcreate vg_data /dev/sdb /dev/sdc
 sudo lvcreate -n lv_db -L 20G vg_data
 sudo lvcreate -n lv_logs -l 100%FREE vg_data
 sudo mkfs.xfs /dev/vg_data/lv_db
+
+# short status
 pvs; vgs; lvs
+
 sudo lvdisplay
 ```
-
-- `pvs; vgs; lvs`: short status
 
 ### Grow a volume (online)
 
 ```bash
+# -r resizes the filesystem too
 sudo lvextend -r -L +10G /dev/vg_data/lv_db
+
+# use all free space
 sudo lvextend -r -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 ```
-
-- `sudo lvextend -r -L +10G /dev/vg_data/lv_db`: `-r` resizes the filesystem too
-- `sudo lvextend -r -l +100%FREE /dev/ubuntu-vg/ubuntu-lv`: use all free space
 
 Ubuntu installs often leave half the VG unused. `vgs` shows it under `VFree`.
 
@@ -54,16 +55,17 @@ sudo lvextend -r -L +50G /dev/vg_data/lv_db
 A copy-on-write point-in-time view. Use it for backups of a consistent state or before a risky upgrade.
 
 ```bash
+# 5G for changes
 sudo lvcreate -s -n db_snap -L 5G /dev/vg_data/lv_db
+
+# nouuid needed for xfs
 sudo mount -o ro,nouuid /dev/vg_data/db_snap /mnt/snap
+
 # ... back up from /mnt/snap ...
 sudo umount /mnt/snap && sudo lvremove /dev/vg_data/db_snap
 # or roll back the origin to the snapshot:
 sudo lvconvert --merge /dev/vg_data/db_snap
 ```
-
-- `sudo lvcreate -s -n db_snap -L 5G /dev/vg_data/lv_db`: 5G for changes
-- `sudo mount -o ro,nouuid /dev/vg_data/db_snap /mnt/snap`: nouuid needed for xfs
 
 If the snapshot's space fills up, the snapshot becomes invalid. Snapshots also slow writes. Remove them after use.
 
@@ -83,14 +85,15 @@ If the snapshot's space fills up, the snapshot becomes invalid. Snapshots also s
 
 ```bash
 sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+
+# status and rebuild progress
 cat /proc/mdstat
+
 sudo mdadm --detail /dev/md0
 sudo mkfs.ext4 /dev/md0
 sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
 sudo update-initramfs -u
 ```
-
-- `cat /proc/mdstat`: status and rebuild progress
 
 Replace a failed disk:
 

@@ -70,17 +70,20 @@ DNS is a frequent cause of network failures. Check it early.
 ## Commands
 
 ```bash
+# my addresses
 ip -br addr
+
+# routing table, default gateway
 ip route
+
 cat /etc/resolv.conf; resolvectl status
+
+# resolve the same way apps do (hosts file + DNS)
 getent hosts example.com
+
+# subnet math (package ipcalc)
 ipcalc 10.20.0.0/20
 ```
-
-- `ip -br addr`: my addresses
-- `ip route`: routing table, default gateway
-- `getent hosts example.com`: resolve the same way apps do (hosts file + DNS)
-- `ipcalc 10.20.0.0/20`: subnet math (package ipcalc)
 
 ## Practice
 

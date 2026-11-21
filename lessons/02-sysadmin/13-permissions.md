@@ -57,38 +57,47 @@ Default permissions = `666` for files / `777` for dirs **minus** umask. umask `0
 When owner/group/others is not enough (two groups need different access):
 
 ```bash
+# give bob read
 setfacl -m u:bob:r report.txt
+
+# give group qa read+enter
 setfacl -m g:qa:rx /srv/app
+
+# default for new files inside
 setfacl -d -m g:qa:rx /srv/app
+
 getfacl report.txt
 ```
-
-- `setfacl -m u:bob:r report.txt`: give bob read
-- `setfacl -m g:qa:rx /srv/app`: give group qa read+enter
-- `setfacl -d -m g:qa:rx /srv/app`: default for new files inside
 `ls -l` shows `+` at the end of the mode when ACLs exist.
 
 ## Commands
 
 ```bash
 chmod 640 file
+
+# symbolic
 chmod u+x,g-w,o= script.sh
+
+# X = x only for directories (and already-executable files)
 chmod -R u=rwX,go=rX dir/
+
 chown alice:devs file
+
+# owner and its primary group
 chown -R www-data: /var/www/site
+
 chgrp devs file
 umask; umask 027
+
+# all SUID files (security audit)
 find / -perm -4000 -type f 2>/dev/null
+
+# permissions of every path component
 namei -l /var/www/site/index.html
+
+# immutable: even root cannot change it until -i
 lsattr; sudo chattr +i file
 ```
-
-- `chmod u+x,g-w,o= script.sh`: symbolic
-- `chmod -R u=rwX,go=rX dir/`: X = x only for directories (and already-executable files)
-- `chown -R www-data: /var/www/site`: owner and its primary group
-- `find / -perm -4000 -type f 2>/dev/null`: all SUID files (security audit)
-- `namei -l /var/www/site/index.html`: permissions of every path component
-- `lsattr; sudo chattr +i file`: immutable: even root cannot change it until `-i`
 
 ### Debugging "Permission denied"
 

@@ -23,44 +23,61 @@ Create and manage accounts, and give admin rights without sharing the root passw
 ## Commands
 
 ```bash
+# my UID, GID, groups
 id
+
 id alice
 whoami; groups
+
+# works with LDAP/SSSD too, not only local files
 getent passwd alice
+
+# low-level, all distros
 sudo useradd -m -s /bin/bash -c "Alice" alice
+
+# interactive, Debian/Ubuntu
 sudo adduser bob
+
+# set password
 sudo passwd alice
+
+# add to group (-a = append! without it you REPLACE groups)
 sudo usermod -aG sudo alice
+
 sudo usermod -aG docker alice
+
+# remove from group
 sudo gpasswd -d alice docker
+
 sudo groupadd devs
+
+# delete with home directory
 sudo userdel -r bob
+
+# password expiry info
 sudo chage -l alice
+
+# lock account
 sudo passwd -l alice
+
+# no interactive login
 sudo usermod -s /usr/sbin/nologin svc
+
+# switch user (needs alice's password)
 su - alice
+
+# root login shell
 sudo -i
+
+# run as another user
 sudo -u postgres psql
+
+# what am I allowed to run?
 sudo -l
+
+# who logged in, who is here now
 last; lastlog; who; w
 ```
-
-- `id`: my UID, GID, groups
-- `getent passwd alice`: works with LDAP/SSSD too, not only local files
-- `sudo useradd -m -s /bin/bash -c "Alice" alice`: low-level, all distros
-- `sudo adduser bob`: interactive, Debian/Ubuntu
-- `sudo passwd alice`: set password
-- `sudo usermod -aG sudo alice`: add to group (`-a` = append! without it you REPLACE groups)
-- `sudo gpasswd -d alice docker`: remove from group
-- `sudo userdel -r bob`: delete with home directory
-- `sudo chage -l alice`: password expiry info
-- `sudo passwd -l alice`: lock account
-- `sudo usermod -s /usr/sbin/nologin svc`: no interactive login
-- `su - alice`: switch user (needs alice's password)
-- `sudo -i`: root login shell
-- `sudo -u postgres psql`: run as another user
-- `sudo -l`: what am I allowed to run?
-- `last; lastlog; who; w`: who logged in, who is here now
 
 New group membership applies to **new** logins. Run `newgrp docker` or log out and in.
 

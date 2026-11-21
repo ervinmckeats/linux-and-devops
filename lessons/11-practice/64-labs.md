@@ -68,10 +68,9 @@ grep -v -E '^\s*(#|$)' app.conf
 <details><summary>Solution</summary>
 
 ```bash
+# or rm ./files/-strange-name.txt
 rm -- files/-strange-name.txt
 ```
-
-- `rm -- files/-strange-name.txt`: or `rm ./files/-strange-name.txt`
 `--` tells `rm` that what follows is a file name, not an option.
 </details>
 
@@ -265,12 +264,12 @@ exit $rc
 <details><summary>Solution</summary>
 
 ```bash
+# SIGTERM is ignored by the trap
 kill %1
+
+# SIGKILL cannot be caught or ignored
 kill -9 %1
 ```
-
-- `kill %1`: SIGTERM is ignored by the trap
-- `kill -9 %1`: SIGKILL cannot be caught or ignored
 </details>
 
 **3.5.** You deleted a 500 MB log, but `df` still shows the space as used. Reproduce and fix without a reboot.
@@ -281,13 +280,15 @@ kill -9 %1
 fallocate -l 500M /tmp/big.log
 tail -f /tmp/big.log > /dev/null &
 rm /tmp/big.log; df -h /tmp
+
+# the process still holds it
 sudo lsof +L1 | grep big.log
+
+# or restart the service; or truncate via /proc/PID/fd/N
 kill %1
+
 df -h /tmp
 ```
-
-- `sudo lsof +L1 | grep big.log`: the process still holds it
-- `kill %1`: or restart the service; or truncate via `/proc/PID/fd/N`
 </details>
 
 **3.6.** Turn `python3 -m http.server 8000` into a systemd service running as a dedicated user, starting on boot, restarting on failure, limited to 100 MB of memory.

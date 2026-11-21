@@ -30,20 +30,25 @@ On Ubuntu, `purge` also removes config files in `/etc`; `remove` keeps them.
 ## Debian/Ubuntu details
 
 ```bash
+# local file, resolves deps
 sudo apt install ./package.deb
+
+# candidate version and which repo
 apt-cache policy nginx
+
 apt list --upgradable
+
+# do not upgrade this package
 sudo apt-mark hold nginx
+
 sudo apt-mark unhold nginx
+
+# exact version
 sudo apt install nginx=1.24.0-1ubuntu1
+
+# repositories
 ls /etc/apt/sources.list.d/
 ```
-
-- `sudo apt install ./package.deb`: local file, resolves deps
-- `apt-cache policy nginx`: candidate version and which repo
-- `sudo apt-mark hold nginx`: do not upgrade this package
-- `sudo apt install nginx=1.24.0-1ubuntu1`: exact version
-- `ls /etc/apt/sources.list.d/`: repositories
 
 Adding a vendor repository (modern way, key scoped to one repo):
 
@@ -57,15 +62,17 @@ sudo apt update
 ## RHEL family details
 
 ```bash
+# extra packages repo
 sudo dnf install epel-release
+
 dnf repolist
+
+# roll back the last transaction
 sudo dnf history undo last
+
+# plugin: pin a version
 sudo dnf versionlock add nginx
 ```
-
-- `sudo dnf install epel-release`: extra packages repo
-- `sudo dnf history undo last`: roll back the last transaction
-- `sudo dnf versionlock add nginx`: plugin: pin a version
 
 ## Other formats
 

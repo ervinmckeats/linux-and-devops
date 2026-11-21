@@ -39,16 +39,18 @@ Protection: keep a second session open, use `netplan try`, schedule automatic ro
 ## System and resource killers
 
 ```bash
+# fork bomb: infinite processes  → limit with pids.max / TasksMax
 :(){ :|:& };:
+
+# wipe disk
 cat /dev/zero > /dev/sda
+
+# crash the kernel immediately
 echo c > /proc/sysrq-trigger
+
+# kill PID 1 → kernel panic
 kill -9 1
 ```
-
-- `:(){ :|:& };:`: fork bomb: infinite processes  → limit with pids.max / TasksMax
-- `cat /dev/zero > /dev/sda`: wipe disk
-- `echo c > /proc/sysrq-trigger`: crash the kernel immediately
-- `kill -9 1`: kill PID 1 → kernel panic
 
 ## Running code from the internet
 

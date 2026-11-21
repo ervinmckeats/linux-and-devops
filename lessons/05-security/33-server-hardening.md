@@ -18,23 +18,25 @@ Who attacks a random small server? Mostly **bots**: they scan the whole internet
 ```bash
 sudo apt update && sudo apt full-upgrade -y
 sudo apt install -y unattended-upgrades
+
+# security updates automatically
 sudo dpkg-reconfigure -plow unattended-upgrades
+
+# kernel updates need a reboot
 cat /var/run/reboot-required 2>/dev/null
+
 # RHEL: sudo dnf install dnf-automatic && sudo systemctl enable --now dnf-automatic.timer
 ```
-
-- `sudo dpkg-reconfigure -plow unattended-upgrades`: security updates automatically
-- `cat /var/run/reboot-required 2>/dev/null`: kernel updates need a reboot
 
 ## 2. A personal admin user
 
 ```bash
 sudo adduser admin
 sudo usermod -aG sudo admin
+
+# copy your authorized_keys
 sudo rsync -a --chown=admin:admin ~/.ssh/ /home/admin/.ssh/
 ```
-
-- `sudo rsync -a --chown=admin:admin ~/.ssh/ /home/admin/.ssh/`: copy your authorized_keys
 
 Log in as `admin` **in a new terminal** and check `sudo -v` before going on.
 
@@ -56,10 +58,9 @@ ClientAliveCountMax 2
 ```
 
 ```bash
+# unit is "sshd" on RHEL
 sudo sshd -t && sudo systemctl reload ssh
 ```
-
-- `sudo sshd -t && sudo systemctl reload ssh`: unit is "sshd" on RHEL
 
 Keep your current session open and test a **new** login before closing it.
 
@@ -119,23 +120,29 @@ Everything that does not need the internet should listen on `127.0.0.1` or a pri
 ## 8. Quick audit
 
 ```bash
+# failed logins
 sudo lastb | head
+
+# successful logins
 last -n 20
+
 sudo journalctl -u ssh --since today | grep -i -E "accepted|failed"
+
+# SUID files
 sudo find / -xdev -perm -4000 -type f 2>/dev/null
+
+# world-writable files
 sudo find / -xdev -perm -0002 -type f 2>/dev/null
+
+# only root should have UID 0
 awk -F: '$3 == 0' /etc/passwd
+
+# accounts without password
 sudo awk -F: '$2 == ""' /etc/shadow
+
+# full audit with suggestions
 sudo apt install -y lynis && sudo lynis audit system
 ```
-
-- `sudo lastb | head`: failed logins
-- `last -n 20`: successful logins
-- `sudo find / -xdev -perm -4000 -type f 2>/dev/null`: SUID files
-- `sudo find / -xdev -perm -0002 -type f 2>/dev/null`: world-writable files
-- `awk -F: '$3 == 0' /etc/passwd`: only root should have UID 0
-- `sudo awk -F: '$2 == ""' /etc/shadow`: accounts without password
-- `sudo apt install -y lynis && sudo lynis audit system`: full audit with suggestions
 
 ## 9. Time, logs, backups
 

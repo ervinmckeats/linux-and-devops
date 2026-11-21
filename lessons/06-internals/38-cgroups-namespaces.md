@@ -13,17 +13,20 @@ Understand the two kernel features that make containers possible, and use them d
 A single tree under `/sys/fs/cgroup`. systemd organizes it into **slices** (`system.slice`, `user.slice`), **services** and **scopes**.
 
 ```bash
+# check v2 is used
 mount | grep cgroup2
+
+# tree of cgroups and processes
 systemd-cgls
+
+# live usage per cgroup
 systemd-cgtop
+
+# my cgroup
 cat /proc/self/cgroup
+
 ls /sys/fs/cgroup/system.slice/nginx.service/
 ```
-
-- `mount | grep cgroup2`: check v2 is used
-- `systemd-cgls`: tree of cgroups and processes
-- `systemd-cgtop`: live usage per cgroup
-- `cat /proc/self/cgroup`: my cgroup
 
 Key files in a cgroup directory:
 
@@ -44,21 +47,21 @@ Key files in a cgroup directory:
 
 ```bash
 sudo systemctl set-property nginx.service MemoryMax=1G CPUQuota=200%
+
+# a limited shell
 sudo systemd-run --scope -p MemoryMax=200M -p CPUQuota=25% bash
+
 systemctl show nginx -p MemoryCurrent,CPUUsageNSec
 ```
-
-- `sudo systemd-run --scope -p MemoryMax=200M -p CPUQuota=25% bash`: a limited shell
 
 ### CPU throttling: the hidden latency killer
 
 With `cpu.max` (Kubernetes CPU **limits**), a process that uses its quota early in a 100 ms period is **paused** until the next period. Average CPU looks low, but latency spikes. Check:
 
 ```bash
+# nr_throttled growing = throttled
 cat /sys/fs/cgroup/<path>/cpu.stat
 ```
-
-- `cat /sys/fs/cgroup/<path>/cpu.stat`: nr_throttled growing = throttled
 
 That is why many teams set CPU **requests** but no CPU **limits** in Kubernetes (lesson 52).
 
@@ -76,36 +79,40 @@ That is why many teams set CPU **requests** but no CPU **limits** in Kubernetes 
 | `time` | clocks (rare) |
 
 ```bash
+# all namespaces on the host
 lsns
+
+# namespaces of my shell
 ls -l /proc/$$/ns
 ```
-
-- `lsns`: all namespaces on the host
-- `ls -l /proc/$$/ns`: namespaces of my shell
 
 ### Build a "container" with unshare
 
 ```bash
 sudo unshare --fork --pid --mount-proc --uts --net bash
+
+# changes only here
 hostname inside-box; hostname
+
+# only a few processes, bash is PID 1
 ps aux
+
+# only lo, and it is DOWN
 ip addr
+
 exit
 ```
-
-- `hostname inside-box; hostname`: changes only here
-- `ps aux`: only a few processes, bash is PID 1
-- `ip addr`: only lo, and it is DOWN
 
 Add a root filesystem and you are very close to Docker:
 
 ```bash
 mkdir -p /tmp/rootfs
+
+# or debootstrap
 docker export $(docker create alpine) | tar -x -C /tmp/rootfs
+
 sudo unshare --fork --pid --mount-proc --uts --net --root=/tmp/rootfs /bin/sh
 ```
-
-- `docker export $(docker create alpine) | tar -x -C /tmp/rootfs`: or debootstrap
 
 ### Enter a running container's namespaces
 
@@ -113,13 +120,15 @@ When a container image has no debugging tools, use the host's tools inside its n
 
 ```bash
 PID=$(docker inspect -f '{{.State.Pid}}' mycontainer)
+
+# network namespace only: host's ss, container's sockets
 sudo nsenter -t "$PID" -n ss -tlnp
+
 sudo nsenter -t "$PID" -n tcpdump -ni eth0 port 80
+
+# all namespaces
 sudo nsenter -t "$PID" -a sh
 ```
-
-- `sudo nsenter -t "$PID" -n ss -tlnp`: network namespace only: host's ss, container's sockets
-- `sudo nsenter -t "$PID" -a sh`: all namespaces
 
 ## Practice
 

@@ -21,19 +21,23 @@ Add a disk, format it, mount it permanently, and find what is eating space.
 ## Look before you touch
 
 ```bash
+# tree of disks, partitions, filesystems, mount points
 lsblk -f
+
+# UUIDs and types
 blkid
+
+# free space per mounted filesystem
 df -hT
+
+# free inodes
 df -i
+
+# mount tree
 findmnt
+
 sudo fdisk -l
 ```
-
-- `lsblk -f`: tree of disks, partitions, filesystems, mount points
-- `blkid`: UUIDs and types
-- `df -hT`: free space per mounted filesystem
-- `df -i`: free inodes
-- `findmnt`: mount tree
 
 ## Add a new disk
 
@@ -41,10 +45,10 @@ sudo fdisk -l
 sudo parted /dev/sdb --script mklabel gpt mkpart data ext4 0% 100%
 sudo mkfs.ext4 -L data /dev/sdb1
 sudo mkdir -p /data
+
+# copy the UUID
 sudo blkid /dev/sdb1
 ```
-
-- `sudo blkid /dev/sdb1`: copy the UUID
 
 `/etc/fstab`:
 
@@ -54,13 +58,14 @@ UUID=3f1c...-...                          /data  ext4  defaults,noatime 0    2
 ```
 
 ```bash
+# check fstab syntax
 sudo findmnt --verify
+
+# mount everything in fstab - test BEFORE reboot
 sudo mount -a
+
 df -h /data
 ```
-
-- `sudo findmnt --verify`: check fstab syntax
-- `sudo mount -a`: mount everything in fstab - test BEFORE reboot
 
 A broken fstab line can stop the boot in emergency mode. Always run `mount -a` after editing. For non-critical disks add `nofail` so the system still boots without them.
 
@@ -69,20 +74,24 @@ Useful options: `noatime` (fewer writes), `ro`, `noexec`, `nosuid`, `nodev` (sec
 ## Where did the space go?
 
 ```bash
+# which filesystem is full
 df -h
+
+# biggest dirs, stay on one fs (-x)
 sudo du -xh --max-depth=1 / | sort -h
+
 sudo du -sh /var/log/* | sort -h | tail
 sudo find / -xdev -type f -size +500M -exec ls -lh {} + 2>/dev/null
+
+# interactive
 sudo ncdu -x /
+
+# deleted but still open files (lesson 8)
 sudo lsof +L1
+
 sudo journalctl --vacuum-size=200M
 sudo apt clean; docker system df
 ```
-
-- `df -h`: which filesystem is full
-- `sudo du -xh --max-depth=1 / | sort -h`: biggest dirs, stay on one fs (`-x`)
-- `sudo ncdu -x /`: interactive
-- `sudo lsof +L1`: deleted but still open files (lesson 8)
 
 Also: ext4 reserves 5% for root by default: that is why a "full" disk still lets root write.
 
@@ -91,16 +100,18 @@ Also: ext4 reserves 5% for root by default: that is why a "full" disk still lets
 After increasing the disk size in the provider console:
 
 ```bash
+# disk bigger, partition not yet
 lsblk
+
+# grow partition 1 (package cloud-guest-utils)
 sudo growpart /dev/sda 1
+
+# ext4
 sudo resize2fs /dev/sda1
+
+# xfs (takes the mount point)
 sudo xfs_growfs /
 ```
-
-- `lsblk`: disk bigger, partition not yet
-- `sudo growpart /dev/sda 1`: grow partition 1 (package cloud-guest-utils)
-- `sudo resize2fs /dev/sda1`: ext4
-- `sudo xfs_growfs /`: xfs (takes the mount point)
 
 ## Swap
 
@@ -118,13 +129,14 @@ swapon --show; free -h
 ## Check and repair
 
 ```bash
+# ext4: only on UNMOUNTED fs
 sudo umount /data && sudo fsck -f /dev/sdb1
+
 sudo xfs_repair /dev/sdb1
+
+# disk health (smartmontools)
 sudo smartctl -a /dev/sda
 ```
-
-- `sudo umount /data && sudo fsck -f /dev/sdb1`: ext4: only on UNMOUNTED fs
-- `sudo smartctl -a /dev/sda`: disk health (smartmontools)
 
 ## Practice
 

@@ -26,28 +26,36 @@ Saturation is usually what users feel. 100% CPU with no queue is fine; 60% disk 
 Log in and run, in order:
 
 ```bash
+# load average trend: rising or falling?
 uptime
+
+# OOM kills, disk errors, network issues
 dmesg -T | tail
+
+# r (run queue), si/so (swap), wa (I/O wait), us/sy/id
 vmstat 1 5
+
+# one core at 100%? (single-threaded bottleneck)
 mpstat -P ALL 1 3
+
+# which processes use CPU
 pidstat 1 3
+
+# per disk: r/s w/s await aqu-sz %util
 iostat -xz 1 3
+
+# memory available, swap used
 free -h
+
+# network throughput per interface
 sar -n DEV 1 3
+
+# connections/s, retransmits
 sar -n TCP,ETCP 1 3
+
+# overview, sort by CPU (P) or memory (M)
 top
 ```
-
-- `uptime`: load average trend: rising or falling?
-- `dmesg -T | tail`: OOM kills, disk errors, network issues
-- `vmstat 1 5`: r (run queue), si/so (swap), wa (I/O wait), us/sy/id
-- `mpstat -P ALL 1 3`: one core at 100%? (single-threaded bottleneck)
-- `pidstat 1 3`: which processes use CPU
-- `iostat -xz 1 3`: per disk: r/s w/s await aqu-sz %util
-- `free -h`: memory available, swap used
-- `sar -n DEV 1 3`: network throughput per interface
-- `sar -n TCP,ETCP 1 3`: connections/s, retransmits
-- `top`: overview, sort by CPU (P) or memory (M)
 
 (`mpstat`, `pidstat`, `iostat`, `sar` come from the `sysstat` package.)
 
@@ -92,24 +100,27 @@ iostat -xz 1
 #  r_await/w_await   average latency in ms (SSD: < 1-2 ms; HDD: 5-15 ms)
 #  aqu-sz            average queue length
 #  %util             time the device was busy (misleading for SSD/NVMe with parallel queues)
+
+# processes doing I/O
 sudo iotop -oPa
+
 pidstat -d 1
+
+# benchmark
 fio --name=randread --rw=randread --bs=4k --size=1G --runtime=30 --time_based --direct=1
 ```
-
-- `sudo iotop -oPa`: processes doing I/O
-- `fio --name=randread --rw=randread --bs=4k --size=1G --runtime=30 --time_based --direct=1`: benchmark
 
 ## Network performance
 
 ```bash
 ss -s
+
+# per-connection rtt, cwnd, retrans
 ss -tin dst :443 | head
+
 nstat -az | grep -i -E 'retrans|drop|overflow'
 ip -s link show eth0
 ```
-
-- `ss -tin dst :443 | head`: per-connection rtt, cwnd, retrans
 
 ## Latency, not only throughput
 
@@ -120,13 +131,14 @@ Averages hide problems. Look at percentiles (p95, p99) from your app metrics (le
 Measure before and after a change:
 
 ```bash
+# apache bench, simple
 ab -n 10000 -c 100 http://localhost/
+
+# better, shows latency distribution
 wrk -t4 -c200 -d30s --latency http://localhost/
+
 hey -n 10000 -c 100 http://localhost/
 ```
-
-- `ab -n 10000 -c 100 http://localhost/`: apache bench, simple
-- `wrk -t4 -c200 -d30s --latency http://localhost/`: better, shows latency distribution
 
 ## Practice
 

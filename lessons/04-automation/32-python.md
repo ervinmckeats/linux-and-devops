@@ -23,10 +23,10 @@ source .venv/bin/activate
 pip install requests pyyaml
 pip freeze > requirements.txt
 deactivate
+
+# CLI tools in their own isolated envs
 pipx install httpie
 ```
-
-- `pipx install httpie`: CLI tools in their own isolated envs
 
 ## Basics
 
