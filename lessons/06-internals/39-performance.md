@@ -154,5 +154,11 @@ hey -n 10000 -c 100 http://localhost/
 - Load is 20, CPU is 90% idle. What is going on?
 - What does `full avg10=30` in `/proc/pressure/io` mean?
 
+---
+
+<p align="left">
+  <a href="media/39-performance.mp4"><img width="640" src="media/39-performance.gif" alt="Lesson 39 animation: Performance: USE method, first 60 seconds, PSI"></a>
+</p>
+
 ## Next
 [Lesson 40. Tracing](40-tracing.md)

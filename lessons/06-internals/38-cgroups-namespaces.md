@@ -144,5 +144,11 @@ sudo nsenter -t "$PID" -a sh
 - Why can a container be OOM-killed while the host has free memory?
 - What is CPU throttling and how do you detect it?
 
+---
+
+<p align="left">
+  <a href="media/38-cgroups-namespaces.mp4"><img width="640" src="media/38-cgroups-namespaces.gif" alt="Lesson 38 animation: cgroups v2 and namespaces"></a>
+</p>
+
 ## Next
 [Lesson 39. Performance analysis](39-performance.md)

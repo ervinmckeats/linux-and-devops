@@ -158,5 +158,11 @@ Set `kernel.panic = 10` on servers so they reboot instead of hanging. For crash 
 - How do you see the real limits of a running process?
 - Why is copying a big sysctl tuning list a bad idea?
 
+---
+
+<p align="left">
+  <a href="media/36-kernel-sysctl-limits.mp4"><img width="640" src="media/36-kernel-sysctl-limits.gif" alt="Lesson 36 animation: Kernel: sysctl, modules, limits"></a>
+</p>
+
 ## Next
 [Lesson 37. Memory and the OOM killer](37-memory-oom.md)
