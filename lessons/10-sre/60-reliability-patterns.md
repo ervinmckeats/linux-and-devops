@@ -126,5 +126,11 @@ check node pool limits, cloud quotas and DB connection limits (120 pods × pool 
 - Circuit breaker vs bulkhead: what does each protect against?
 - Name three capacity limits that are not CPU or memory.
 
+---
+
+<p align="left">
+  <a href="media/60-reliability-patterns.mp4"><img width="640" src="media/60-reliability-patterns.gif" alt="Lesson 60 animation: Reliability patterns and capacity planning"></a>
+</p>
+
 ## Next
 [Lesson 61. Troubleshooting playbook](../11-practice/61-troubleshooting-playbook.md)

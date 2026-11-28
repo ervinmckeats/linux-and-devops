@@ -145,5 +145,11 @@ Team payments on-call via pager after 30 min without mitigation, or immediately 
 - What makes a postmortem action item likely to be completed?
 - What must a runbook contain to be useful during an incident?
 
+---
+
+<p align="left">
+  <a href="media/59-postmortems-runbooks.mp4"><img width="640" src="media/59-postmortems-runbooks.gif" alt="Lesson 59 animation: Postmortems and runbooks"></a>
+</p>
+
 ## Next
 [Lesson 60. Reliability patterns and capacity planning](60-reliability-patterns.md)

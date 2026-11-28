@@ -113,5 +113,11 @@ Every non-actionable page gets a ticket: fix the alert or delete it.
 - Mitigation or root cause first? Why?
 - What is the first question to ask when something suddenly breaks?
 
+---
+
+<p align="left">
+  <a href="media/58-incident-response.mp4"><img width="640" src="media/58-incident-response.gif" alt="Lesson 58 animation: Incident response and on-call"></a>
+</p>
+
 ## Next
 [Lesson 59. Postmortems and runbooks](59-postmortems-runbooks.md)
