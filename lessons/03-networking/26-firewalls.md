@@ -134,5 +134,11 @@ nc -zv your-server 5432
 - What two firewalls does a cloud VM have?
 - Why can a Docker port be open even though ufw denies it?
 
+---
+
+<p align="left">
+  <a href="media/26-firewalls.mp4"><img width="640" src="media/26-firewalls.gif" alt="Lesson 26 animation: Firewalls: ufw, firewalld, nftables"></a>
+</p>
+
 ## Next
 [Lesson 27. HTTP, TLS, nginx](27-http-tls-nginx.md)

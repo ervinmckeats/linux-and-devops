@@ -144,5 +144,11 @@ Hardening the SSH server is in lesson 33.
 - What does the "REMOTE HOST IDENTIFICATION HAS CHANGED" warning mean and what do you do?
 - Local vs remote port forwarding: which direction is each?
 
+---
+
+<p align="left">
+  <a href="media/25-ssh.mp4"><img width="640" src="media/25-ssh.gif" alt="Lesson 25 animation: SSH: keys, config, scp, rsync, tunnels"></a>
+</p>
+
 ## Next
 [Lesson 26. Firewalls](26-firewalls.md)

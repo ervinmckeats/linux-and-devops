@@ -160,5 +160,11 @@ add_header X-Content-Type-Options nosniff always;
 - What is SNI and why does `openssl s_client` need `-servername`?
 - Why run `nginx -t` before every reload?
 
+---
+
+<p align="left">
+  <a href="media/27-http-tls-nginx.mp4"><img width="640" src="media/27-http-tls-nginx.gif" alt="Lesson 27 animation: HTTP, TLS, nginx reverse proxy"></a>
+</p>
+
 ## Next
 [Lesson 28. Advanced networking](28-advanced-networking.md)

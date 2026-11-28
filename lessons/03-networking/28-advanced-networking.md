@@ -146,5 +146,11 @@ MTU problems (VPN, overlay networks) look like "SSH logs in but hangs on big out
 - Why is `netplan try` safer than `netplan apply` over SSH?
 - Packets arrive on the server but the client times out. What do you check next?
 
+---
+
+<p align="left">
+  <a href="media/28-advanced-networking.mp4"><img width="640" src="media/28-advanced-networking.gif" alt="Lesson 28 animation: Advanced networking: netplan, namespaces, tcpdump"></a>
+</p>
+
 ## Next
 [Lesson 29. Bash scripting basics](../04-automation/29-bash-basics.md)
