@@ -1,11 +1,5 @@
 # Lesson 6. Viewing files
 
-<p align="center">
-  <a href="media/06-viewing-files.mp4"><img width="640" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
-</p>
-
----
-
 ## Goal
 Read files of any size, follow live logs, and compare files.
 
@@ -90,6 +84,12 @@ Inside `less`:
 - Why use `less` instead of `cat` for a big log?
 - What is the difference between `tail -f` and `tail -F`?
 - How do you read a `.gz` log without unpacking it?
+
+---
+
+<p align="center">
+  <a href="media/06-viewing-files.mp4"><img width="640" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
+</p>
 
 ## Next
 [Lesson 7. Editors](07-editors.md)
