@@ -151,5 +151,11 @@ Lightweight VMs (Firecracker, Kata Containers) combine both: VM isolation with c
 - What is a qcow2 backing file and why does it save space?
 - What does high steal time inside a VM tell you?
 
+---
+
+<p align="left">
+  <a href="media/48-kvm-qemu.mp4"><img width="640" src="media/48-kvm-qemu.gif" alt="Lesson 48 animation: Virtualization: KVM and QEMU"></a>
+</p>
+
 ## Next
 [Lesson 49. Kubernetes architecture and core objects](../09-kubernetes/49-k8s-architecture.md)

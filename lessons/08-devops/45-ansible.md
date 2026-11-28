@@ -249,5 +249,11 @@ Convention: `vault_db_password` in the vault file, `db_password: "{{ vault_db_pa
 - When does a handler run?
 - Why is `--check --diff` the first command you run against production?
 
+---
+
+<p align="left">
+  <a href="media/45-ansible.mp4"><img width="640" src="media/45-ansible.gif" alt="Lesson 45 animation: Ansible"></a>
+</p>
+
 ## Next
 [Lesson 46. Terraform and infrastructure as code](46-terraform.md)

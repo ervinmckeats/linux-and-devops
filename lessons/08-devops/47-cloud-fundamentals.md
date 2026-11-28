@@ -127,5 +127,11 @@ The provider secures the hardware, hypervisor and managed service internals. **Y
 - Why use roles instead of access keys on a VM?
 - Name three things that unexpectedly increase a cloud bill.
 
+---
+
+<p align="left">
+  <a href="media/47-cloud-fundamentals.mp4"><img width="640" src="media/47-cloud-fundamentals.gif" alt="Lesson 47 animation: Cloud fundamentals"></a>
+</p>
+
 ## Next
 [Lesson 48. Virtualization: KVM and QEMU](48-kvm-qemu.md)

@@ -236,5 +236,11 @@ resource "aws_db_instance" "main" {
 - What does `-/+` mean in a plan, and why is it dangerous for a database?
 - Terraform or Ansible for creating a VM? For configuring nginx on it?
 
+---
+
+<p align="left">
+  <a href="media/46-terraform.mp4"><img width="640" src="media/46-terraform.gif" alt="Lesson 46 animation: Terraform and infrastructure as code"></a>
+</p>
+
 ## Next
 [Lesson 47. Cloud fundamentals](47-cloud-fundamentals.md)
