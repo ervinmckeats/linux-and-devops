@@ -140,5 +140,11 @@ Verify downloaded binaries (kubectl, terraform) against published checksums.
 - Are Kubernetes Secrets encrypted by default?
 - What does SOPS encrypt, and why does that help code review?
 
+---
+
+<p align="left">
+  <a href="media/35-secrets-encryption.mp4"><img width="640" src="media/35-secrets-encryption.gif" alt="Lesson 35 animation: Secrets and encryption"></a>
+</p>
+
 ## Next
 [Lesson 36. Kernel: sysctl, modules, limits](../06-internals/36-kernel-sysctl-limits.md)

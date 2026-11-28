@@ -218,5 +218,11 @@ echo "done. Test a NEW ssh session as $ADMIN_USER on port $SSH_PORT before closi
 - Why keep the old SSH session open while changing sshd config?
 - Why ship logs off the server?
 
+---
+
+<p align="left">
+  <a href="media/33-server-hardening.mp4"><img width="640" src="media/33-server-hardening.gif" alt="Lesson 33 animation: Server hardening"></a>
+</p>
+
 ## Next
 [Lesson 34. SELinux, AppArmor, auditd, capabilities](34-mac-audit-capabilities.md)
