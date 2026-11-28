@@ -99,5 +99,11 @@ Reading `ls -l`:
 - What is the difference between `/usr/bin` and `/usr/local/bin`?
 - What does the first character in `ls -l` output mean?
 
+---
+
+<p align="left">
+  <a href="media/04-navigation-fhs.mp4"><img width="640" src="media/04-navigation-fhs.gif" alt="Lesson 4 animation: Navigating the filesystem"></a>
+</p>
+
 ## Next
 [Lesson 5. Files and directories](05-files-and-directories.md)

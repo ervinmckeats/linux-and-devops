@@ -135,5 +135,11 @@ diff <(sort a.txt) <(sort b.txt)
 - A container exited with code 137. What happened?
 - Why do we use `-print0 | xargs -0`?
 
+---
+
+<p align="left">
+  <a href="media/10-pipes-and-redirection.mp4"><img width="640" src="media/10-pipes-and-redirection.gif" alt="Lesson 10 animation: Redirection, pipes, exit codes, xargs"></a>
+</p>
+
 ## Next
 [Lesson 11. Text processing](11-text-processing.md)

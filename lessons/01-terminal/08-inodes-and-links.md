@@ -94,5 +94,11 @@ lsof +L1
 - Why can you not hard link a directory?
 - `df` shows 100% but `du` finds only 40%. First two things you check?
 
+---
+
+<p align="left">
+  <a href="media/08-inodes-and-links.mp4"><img width="640" src="media/08-inodes-and-links.gif" alt="Lesson 8 animation: Inodes, hard and symbolic links"></a>
+</p>
+
 ## Next
 [Lesson 9. Searching: find and grep](09-find-and-grep.md)

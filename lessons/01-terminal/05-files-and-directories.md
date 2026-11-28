@@ -97,5 +97,11 @@ stat notes.txt
 - What is the difference between `cp -r` and `cp -a`?
 - Why is `{a,b}` different from `[ab]`?
 
+---
+
+<p align="left">
+  <a href="media/05-files-and-directories.mp4"><img width="640" src="media/05-files-and-directories.gif" alt="Lesson 5 animation: Files and directories, globbing"></a>
+</p>
+
 ## Next
 [Lesson 6. Viewing files](06-viewing-files.md)

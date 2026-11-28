@@ -135,5 +135,11 @@ Quote patterns in single quotes so the shell does not expand them.
 - `find -delete` before or after the other tests? Why?
 - What is the difference between `find` and `locate`?
 
+---
+
+<p align="left">
+  <a href="media/09-find-and-grep.mp4"><img width="640" src="media/09-find-and-grep.gif" alt="Lesson 9 animation: Searching: find and grep"></a>
+</p>
+
 ## Next
 [Lesson 10. Redirection and pipes](10-pipes-and-redirection.md)

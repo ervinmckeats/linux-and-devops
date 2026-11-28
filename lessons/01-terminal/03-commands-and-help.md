@@ -107,5 +107,11 @@ clear
 - What does `--` do?
 - How do you read the format of `/etc/crontab` in the manual?
 
+---
+
+<p align="left">
+  <a href="media/03-commands-and-help.mp4"><img width="640" src="media/03-commands-and-help.gif" alt="Lesson 3 animation: Anatomy of a command and getting help"></a>
+</p>
+
 ## Next
 [Lesson 4. Navigating the filesystem](04-navigation-fhs.md)
