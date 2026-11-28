@@ -1,8 +1,6 @@
 # Lesson 6. Viewing files
 
-<table>
-<tr>
-<td valign="top">
+<a href="media/06-viewing-files.mp4"><img align="right" width="440" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
 
 ## Goal
 Read files of any size, follow live logs, and compare files.
@@ -91,14 +89,3 @@ Inside `less`:
 
 ## Next
 [Lesson 7. Editors](07-editors.md)
-
-</td>
-<td valign="top" width="360">
-
-<a href="media/06-viewing-files.mp4"><img src="media/06-viewing-files.gif" width="360" alt="Lesson 6 animation: viewing files"></a>
-
-<sub>Click the animation to open the MP4.</sub>
-
-</td>
-</tr>
-</table>
