@@ -1,6 +1,6 @@
 # Lesson 6. Viewing files
 
-<a href="media/06-viewing-files.mp4"><img align="right" width="440" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
+<a href="media/06-viewing-files.mp4"><img align="right" width="480" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
 
 ## Goal
 Read files of any size, follow live logs, and compare files.
