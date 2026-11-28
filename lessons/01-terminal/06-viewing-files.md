@@ -87,7 +87,7 @@ Inside `less`:
 
 ---
 
-<p align="center">
+<p align="left">
   <a href="media/06-viewing-files.mp4"><img width="640" src="media/06-viewing-files.gif" alt="Lesson 6 animation: viewing files"></a>
 </p>
 
