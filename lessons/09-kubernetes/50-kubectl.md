@@ -185,5 +185,11 @@ kubectl auth whoami
 - How do you see logs of a container that already crashed and restarted?
 - Why prefer `kubectl apply -f` from Git over `kubectl edit` in production?
 
+---
+
+<p align="left">
+  <a href="media/50-kubectl.mp4"><img width="640" src="media/50-kubectl.gif" alt="Lesson 50 animation: kubectl in daily work"></a>
+</p>
+
 ## Next
 [Lesson 51. Deployments, Services, Ingress, ConfigMaps, Secrets](51-workloads-networking-config.md)

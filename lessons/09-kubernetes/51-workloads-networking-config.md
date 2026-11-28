@@ -205,5 +205,11 @@ spec:
 - A Service exists but requests fail. What is the first thing you check?
 - Are Kubernetes Secrets encrypted? What do you do about it?
 
+---
+
+<p align="left">
+  <a href="media/51-workloads-networking-config.mp4"><img width="640" src="media/51-workloads-networking-config.gif" alt="Lesson 51 animation: Deployments, Services, Ingress, ConfigMaps, Secrets"></a>
+</p>
+
 ## Next
 [Lesson 52. Requests, limits, probes, autoscaling](52-resources-probes-autoscaling.md)
