@@ -139,5 +139,11 @@ sudo logrotate -f /etc/logrotate.d/myapp
 - How do you see logs from before the last reboot?
 - Where do you look first when a service fails to start?
 
+---
+
+<p align="left">
+  <a href="media/17-logs.mp4"><img width="640" src="media/17-logs.gif" alt="Lesson 17 animation: Logs: journalctl, syslog, logrotate"></a>
+</p>
+
 ## Next
 [Lesson 18. Scheduling](18-cron-and-timers.md)

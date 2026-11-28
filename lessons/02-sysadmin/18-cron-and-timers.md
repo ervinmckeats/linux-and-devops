@@ -127,5 +127,11 @@ A job that fails silently is worse than no job. Options:
 - What does `Persistent=true` do?
 - How do you find out that a nightly job has not run for a week?
 
+---
+
+<p align="left">
+  <a href="media/18-cron-and-timers.mp4"><img width="640" src="media/18-cron-and-timers.gif" alt="Lesson 18 animation: Scheduling: cron and systemd timers"></a>
+</p>
+
 ## Next
 [Lesson 19. Disks and filesystems](19-disks-filesystems.md)

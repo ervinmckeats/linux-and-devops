@@ -112,5 +112,11 @@ Least privilege: grant exact commands, not `ALL`. Note that some commands are an
 - Why use `visudo` instead of a normal editor?
 - Where are password hashes stored and who can read them?
 
+---
+
+<p align="left">
+  <a href="media/12-users-groups-sudo.mp4"><img width="640" src="media/12-users-groups-sudo.gif" alt="Lesson 12 animation: Users, groups, sudo"></a>
+</p>
+
 ## Next
 [Lesson 13. Permissions](13-permissions.md)

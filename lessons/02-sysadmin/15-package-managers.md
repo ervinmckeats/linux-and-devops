@@ -94,5 +94,11 @@ sudo dnf versionlock add nginx
 - What is the difference between `apt remove` and `apt purge`?
 - How do you stop one package from upgrading?
 
+---
+
+<p align="left">
+  <a href="media/15-package-managers.mp4"><img width="640" src="media/15-package-managers.gif" alt="Lesson 15 animation: Package managers: apt, dnf, pacman"></a>
+</p>
+
 ## Next
 [Lesson 16. systemd and services](16-systemd.md)

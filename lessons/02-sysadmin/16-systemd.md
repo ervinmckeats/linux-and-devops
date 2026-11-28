@@ -142,5 +142,11 @@ loginctl enable-linger $USER
 - What is the difference between `enable` and `start`?
 - When do you need `daemon-reload`?
 
+---
+
+<p align="left">
+  <a href="media/16-systemd.mp4"><img width="640" src="media/16-systemd.gif" alt="Lesson 16 animation: systemd and services"></a>
+</p>
+
 ## Next
 [Lesson 17. Logs](17-logs.md)

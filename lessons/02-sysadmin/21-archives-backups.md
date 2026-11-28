@@ -137,5 +137,11 @@ Schedule restore tests: restore into a temporary VM or directory, start the app 
 - What are RPO and RTO?
 - Why is copying `/var/lib/postgresql` of a running server not a backup?
 
+---
+
+<p align="left">
+  <a href="media/21-archives-backups.mp4"><img width="640" src="media/21-archives-backups.gif" alt="Lesson 21 animation: Archives and backups"></a>
+</p>
+
 ## Next
 [Lesson 22. Boot process and recovery](22-boot-and-recovery.md)

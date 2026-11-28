@@ -121,5 +121,11 @@ lsattr; sudo chattr +i file
 - What does `chmod -R 755` do wrong to files, and how does `X` fix it?
 - Which umask gives new files `640`?
 
+---
+
+<p align="left">
+  <a href="media/13-permissions.mp4"><img width="640" src="media/13-permissions.gif" alt="Lesson 13 animation: Permissions, special bits, umask, ACL"></a>
+</p>
+
 ## Next
 [Lesson 14. Processes and signals](14-processes-signals.md)

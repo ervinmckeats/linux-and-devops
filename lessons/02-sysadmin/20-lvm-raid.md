@@ -119,5 +119,11 @@ Monitor arrays: `mdadm --monitor` sends mail, or export `/proc/mdstat` to your m
 - Why is RAID not a backup?
 - What happens when an LVM snapshot runs out of space?
 
+---
+
+<p align="left">
+  <a href="media/20-lvm-raid.mp4"><img width="640" src="media/20-lvm-raid.gif" alt="Lesson 20 animation: LVM, RAID, snapshots"></a>
+</p>
+
 ## Next
 [Lesson 21. Archives and backups](21-archives-backups.md)
