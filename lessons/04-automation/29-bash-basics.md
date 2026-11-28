@@ -211,5 +211,11 @@ exit "$status"
 - What does `local` do in a function?
 - Why is `for line in $(cat file)` wrong?
 
+---
+
+<p align="left">
+  <a href="media/29-bash-basics.mp4"><img width="640" src="media/29-bash-basics.gif" alt="Lesson 29 animation: Bash scripting basics"></a>
+</p>
+
 ## Next
 [Lesson 30. Bash for professionals](30-bash-pro.md)

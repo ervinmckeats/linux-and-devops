@@ -227,5 +227,11 @@ main "$@"
 - What does `${DIR:?}` protect you from?
 - How do you guarantee a temp directory is removed even on Ctrl+C?
 
+---
+
+<p align="left">
+  <a href="media/30-bash-pro.mp4"><img width="640" src="media/30-bash-pro.gif" alt="Lesson 30 animation: Bash for professionals"></a>
+</p>
+
 ## Next
 [Lesson 31. Git for operations](31-git.md)
