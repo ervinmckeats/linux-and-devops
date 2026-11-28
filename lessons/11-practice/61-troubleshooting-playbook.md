@@ -171,5 +171,11 @@ Pending, ImagePullBackOff, CrashLoopBackOff, OOMKilled, not Ready. → [lesson 5
 
 Roll back first: `kubectl rollout undo`, revert in Git (GitOps), or redeploy the previous artifact. Then compare versions, configs and logs. → [lessons 44](../08-devops/44-cicd.md), [58](../10-sre/58-incident-response.md)
 
+---
+
+<p align="left">
+  <a href="media/61-troubleshooting-playbook.mp4"><img width="640" src="media/61-troubleshooting-playbook.gif" alt="Lesson 61 animation: Troubleshooting playbook: "what to do if...""></a>
+</p>
+
 ## Next
 [Lesson 62. Dangerous commands](62-dangerous-commands.md)

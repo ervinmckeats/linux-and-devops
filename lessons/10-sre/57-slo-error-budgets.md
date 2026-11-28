@@ -134,5 +134,11 @@ The SLO is useful only if it changes decisions. Agree in writing, with product o
 - How much downtime does 99.9% allow per month?
 - Why alert on burn rate instead of "error rate > 1%"?
 
+---
+
+<p align="left">
+  <a href="media/57-slo-error-budgets.mp4"><img width="640" src="media/57-slo-error-budgets.gif" alt="Lesson 57 animation: SLI, SLO, error budgets"></a>
+</p>
+
 ## Next
 [Lesson 58. Incident response and on-call](58-incident-response.md)

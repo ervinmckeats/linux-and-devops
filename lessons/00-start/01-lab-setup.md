@@ -80,5 +80,11 @@ hostnamectl
 - What is a snapshot and when do you take one?
 - Which distribution family uses `apt`, which uses `dnf`?
 
+---
+
+<p align="left">
+  <a href="media/01-lab-setup.mp4"><img width="640" src="media/01-lab-setup.gif" alt="Lesson 1 animation: How to use the course and set up a lab"></a>
+</p>
+
 ## Next
 [Lesson 2. What Linux is](02-what-is-linux.md)

@@ -170,5 +170,11 @@ Test with `logrotate -d`, then `-f`; check the app writes into the new file (`ls
 
 → Modules [9](../09-kubernetes/49-k8s-architecture.md) and [10](../10-sre/55-observability.md)
 
+---
+
+<p align="left">
+  <a href="media/63-real-world-scenarios.mp4"><img width="640" src="media/63-real-world-scenarios.gif" alt="Lesson 63 animation: Real-world scenarios"></a>
+</p>
+
 ## Next
 [Lesson 64. Labs with solutions](64-labs.md)

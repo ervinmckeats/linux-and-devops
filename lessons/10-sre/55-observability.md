@@ -115,5 +115,11 @@ Managed alternatives exist in every cloud and from vendors; the concepts are the
 - Why are averages bad for latency?
 - Why is `user_id` a bad metric label but a good log/trace attribute?
 
+---
+
+<p align="left">
+  <a href="media/55-observability.mp4"><img width="640" src="media/55-observability.gif" alt="Lesson 55 animation: Observability: metrics, logs, traces"></a>
+</p>
+
 ## Next
 [Lesson 56. Prometheus, Grafana, Alertmanager](56-prometheus-grafana.md)

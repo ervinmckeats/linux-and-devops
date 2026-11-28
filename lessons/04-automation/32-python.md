@@ -165,5 +165,11 @@ if __name__ == "__main__":
 - Why pass a list to `subprocess.run` instead of a string with `shell=True`?
 - Why sleep `2 ** i` between retries instead of a fixed time?
 
+---
+
+<p align="left">
+  <a href="media/32-python.mp4"><img width="640" src="media/32-python.gif" alt="Lesson 32 animation: Python for operations"></a>
+</p>
+
 ## Next
 [Lesson 33. Server hardening](../05-security/33-server-hardening.md)

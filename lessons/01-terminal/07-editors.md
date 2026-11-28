@@ -75,5 +75,11 @@ echo 'export EDITOR=vim' >> ~/.bashrc
 - What does `.` do in Normal mode?
 - Why is `sudoedit` safer than `sudo vim`?
 
+---
+
+<p align="left">
+  <a href="media/07-editors.mp4"><img width="640" src="media/07-editors.gif" alt="Lesson 7 animation: Editors: nano and vim"></a>
+</p>
+
 ## Next
 [Lesson 8. Inodes and links](08-inodes-and-links.md)

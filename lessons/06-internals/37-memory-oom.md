@@ -126,5 +126,11 @@ Useful for cold-cache benchmarks. Never as a "fix" in production: it only makes 
 - What is the difference between a host OOM and a cgroup OOM?
 - A container exits with 137 and no error in its logs. What happened and where do you confirm it?
 
+---
+
+<p align="left">
+  <a href="media/37-memory-oom.mp4"><img width="640" src="media/37-memory-oom.gif" alt="Lesson 37 animation: Memory: virtual memory, page cache, swap, OOM killer"></a>
+</p>
+
 ## Next
 [Lesson 38. cgroups and namespaces](38-cgroups-namespaces.md)

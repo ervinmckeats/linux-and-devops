@@ -128,5 +128,11 @@ You deleted pods, and the Deployment's controller created new ones. That is the 
 - Pod vs Deployment: why do you almost never create bare pods?
 - How does a Service know which pods to send traffic to?
 
+---
+
+<p align="left">
+  <a href="media/49-k8s-architecture.mp4"><img width="640" src="media/49-k8s-architecture.gif" alt="Lesson 49 animation: Kubernetes architecture and core objects"></a>
+</p>
+
 ## Next
 [Lesson 50. kubectl in daily work](50-kubectl.md)

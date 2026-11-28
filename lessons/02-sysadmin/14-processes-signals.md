@@ -137,5 +137,11 @@ Run every long operation on a remote server (upgrades, migrations, big copies) i
 - Why should `SIGKILL` be the last resort?
 - Load average is 6 on a 4-core box. Is that bad? What else do you check?
 
+---
+
+<p align="left">
+  <a href="media/14-processes-signals.mp4"><img width="640" src="media/14-processes-signals.gif" alt="Lesson 14 animation: Processes, signals, jobs, tmux"></a>
+</p>
+
 ## Next
 [Lesson 15. Package managers](15-package-managers.md)

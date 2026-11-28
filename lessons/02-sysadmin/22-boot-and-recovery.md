@@ -125,5 +125,11 @@ Do each in a snapshot:
 - Which boot stage failed if you see the GRUB menu but then a kernel panic "unable to mount root fs"?
 - Why must you bind-mount `/dev`, `/proc`, `/sys` before chroot?
 
+---
+
+<p align="left">
+  <a href="media/22-boot-and-recovery.mp4"><img width="640" src="media/22-boot-and-recovery.gif" alt="Lesson 22 animation: Boot process and recovery"></a>
+</p>
+
 ## Next
 [Lesson 23. Network basics](../03-networking/23-network-basics.md)

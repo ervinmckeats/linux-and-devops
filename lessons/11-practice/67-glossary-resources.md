@@ -131,4 +131,10 @@ All free unless noted.
 3. Optional certifications that are respected in the market: LFCS (Linux), CKA/CKAD/CKS (Kubernetes), a cloud associate-level certificate, Terraform Associate. They help pass HR filters; projects and interviews get you the job.
 4. Keep a public log of what you learn (blog, notes repo). Teaching is the fastest way to understand.
 
+---
+
+<p align="left">
+  <a href="media/67-glossary-resources.mp4"><img width="640" src="media/67-glossary-resources.gif" alt="Lesson 67 animation: Glossary and resources"></a>
+</p>
+
 [Back to the course overview](../../README.md)

@@ -173,5 +173,11 @@ sudo bpftrace -e 'kprobe:vfs_read { @bytes[comm] = hist(arg2); }'
 - What does the width of a box in a flame graph mean?
 - Which tool shows processes that live for 50 ms and disappear?
 
+---
+
+<p align="left">
+  <a href="media/40-tracing.mp4"><img width="640" src="media/40-tracing.gif" alt="Lesson 40 animation: Tracing: strace, ltrace, perf, eBPF"></a>
+</p>
+
 ## Next
 [Lesson 41. Docker basics](../07-containers/41-docker-basics.md)

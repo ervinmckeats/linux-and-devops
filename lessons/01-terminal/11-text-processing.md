@@ -152,5 +152,11 @@ done > access.log
 - When do you pick `cut` and when `awk`?
 - How do you make `sed -i` keep a backup?
 
+---
+
+<p align="left">
+  <a href="media/11-text-processing.mp4"><img width="640" src="media/11-text-processing.gif" alt="Lesson 11 animation: Text processing: cut, sort, uniq, sed, awk"></a>
+</p>
+
 ## Next
 [Lesson 12. Users, groups, sudo](../02-sysadmin/12-users-groups-sudo.md)

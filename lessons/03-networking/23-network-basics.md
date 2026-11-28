@@ -98,5 +98,11 @@ ipcalc 10.20.0.0/20
 - Why is `dig` not always the same as what your app sees?
 - What should you do with the TTL before moving a site to a new IP?
 
+---
+
+<p align="left">
+  <a href="media/23-network-basics.mp4"><img width="640" src="media/23-network-basics.gif" alt="Lesson 23 animation: Network basics: IP, ports, TCP/UDP, DNS"></a>
+</p>
+
 ## Next
 [Lesson 24. Network tools](24-network-tools.md)

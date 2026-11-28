@@ -152,5 +152,11 @@ sudo smartctl -a /dev/sda
 - What does `nofail` do, and when do you need it?
 - `df` says 100%, `du` disagrees. Two possible reasons?
 
+---
+
+<p align="left">
+  <a href="media/19-disks-filesystems.mp4"><img width="640" src="media/19-disks-filesystems.gif" alt="Lesson 19 animation: Disks, partitions, mount, fstab, swap"></a>
+</p>
+
 ## Next
 [Lesson 20. LVM, RAID, snapshots](20-lvm-raid.md)

@@ -178,5 +178,11 @@ git log -S "max_connections"
 - When is rebase dangerous?
 - You pushed a password. What are the steps, in order?
 
+---
+
+<p align="left">
+  <a href="media/31-git.mp4"><img width="640" src="media/31-git.gif" alt="Lesson 31 animation: Git for operations"></a>
+</p>
+
 ## Next
 [Lesson 32. Python for operations](32-python.md)

@@ -235,5 +235,11 @@ Secrets do not go into this repo in plain form: use External Secrets, Sealed Sec
 - Why is the pull model of GitOps more secure than CI running `kubectl apply`?
 - What happens to a manual `kubectl edit` with `selfHeal: true`?
 
+---
+
+<p align="left">
+  <a href="media/53-helm-gitops.mp4"><img width="640" src="media/53-helm-gitops.gif" alt="Lesson 53 animation: Helm and GitOps"></a>
+</p>
+
 ## Next
 [Lesson 54. Kubernetes troubleshooting](54-k8s-troubleshooting.md)

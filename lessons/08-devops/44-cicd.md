@@ -164,5 +164,11 @@ How to tell if delivery is healthy:
 - Canary vs blue-green: when do you choose which?
 - Why must DB migrations be backward compatible during a rolling deploy?
 
+---
+
+<p align="left">
+  <a href="media/44-cicd.mp4"><img width="640" src="media/44-cicd.gif" alt="Lesson 44 animation: CI/CD concepts and pipelines"></a>
+</p>
+
 ## Next
 [Lesson 45. Ansible](45-ansible.md)

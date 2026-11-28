@@ -224,5 +224,11 @@ Silences (`amtool silence add ...` or the UI) for planned maintenance.
 - What does `for: 10m` do in an alert rule?
 - Why page on error rate rather than on CPU usage?
 
+---
+
+<p align="left">
+  <a href="media/56-prometheus-grafana.mp4"><img width="640" src="media/56-prometheus-grafana.gif" alt="Lesson 56 animation: Prometheus, Grafana, Alertmanager"></a>
+</p>
+
 ## Next
 [Lesson 57. SLI, SLO, error budgets](57-slo-error-budgets.md)

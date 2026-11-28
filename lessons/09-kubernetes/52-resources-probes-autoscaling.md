@@ -150,5 +150,11 @@ spec:
 - What happens when a container exceeds its memory limit? Its CPU limit?
 - Why must a liveness probe not check the database?
 
+---
+
+<p align="left">
+  <a href="media/52-resources-probes-autoscaling.mp4"><img width="640" src="media/52-resources-probes-autoscaling.gif" alt="Lesson 52 animation: Requests, limits, probes, autoscaling"></a>
+</p>
+
 ## Next
 [Lesson 53. Helm and GitOps](53-helm-gitops.md)

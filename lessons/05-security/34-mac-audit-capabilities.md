@@ -165,5 +165,11 @@ In containers (lesson 42): `docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE
 - `chcon` vs `semanage fcontext`: which survives a relabel?
 - Why is `CAP_SYS_ADMIN` almost as dangerous as root?
 
+---
+
+<p align="left">
+  <a href="media/34-mac-audit-capabilities.mp4"><img width="640" src="media/34-mac-audit-capabilities.gif" alt="Lesson 34 animation: SELinux, AppArmor, auditd, capabilities"></a>
+</p>
+
 ## Next
 [Lesson 35. Secrets and encryption](35-secrets-encryption.md)

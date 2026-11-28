@@ -205,5 +205,11 @@ Write a one-line "symptom → cause → fix" note for each in your own runbook.
 - Exit code 137: how do you tell OOMKilled from a liveness-probe kill?
 - A Service has no endpoints. Name two possible reasons.
 
+---
+
+<p align="left">
+  <a href="media/54-k8s-troubleshooting.mp4"><img width="640" src="media/54-k8s-troubleshooting.gif" alt="Lesson 54 animation: Kubernetes troubleshooting: CrashLoopBackOff, OOMKilled, Pending and friends"></a>
+</p>
+
 ## Next
 [Lesson 55. Observability: metrics, logs, traces](../10-sre/55-observability.md)

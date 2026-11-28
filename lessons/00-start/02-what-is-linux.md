@@ -81,5 +81,11 @@ ls /dev | head
 - What is the difference between a terminal and a shell?
 - Why does a program crash not crash the whole system?
 
+---
+
+<p align="left">
+  <a href="media/02-what-is-linux.mp4"><img width="640" src="media/02-what-is-linux.gif" alt="Lesson 2 animation: What Linux is: kernel, distributions, shell"></a>
+</p>
+
 ## Next
 [Lesson 3. Anatomy of a command](../01-terminal/03-commands-and-help.md)

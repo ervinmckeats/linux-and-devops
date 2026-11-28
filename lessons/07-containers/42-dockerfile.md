@@ -182,5 +182,11 @@ docker run --read-only --tmpfs /tmp \
 - Why is `ENV API_KEY=...` in a Dockerfile a leak even if you delete it in a later layer?
 - What is the benefit of distroless images, and what do you lose?
 
+---
+
+<p align="left">
+  <a href="media/42-dockerfile.mp4"><img width="640" src="media/42-dockerfile.gif" alt="Lesson 42 animation: Dockerfile best practices"></a>
+</p>
+
 ## Next
 [Lesson 43. Docker Compose, networks, volumes](43-compose-networks-volumes.md)

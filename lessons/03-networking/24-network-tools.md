@@ -177,5 +177,11 @@ sudo tcpdump -ni eth0 port 443
 - Ping fails but `curl` works. How?
 - Which `curl` options show where a slow request spends its time?
 
+---
+
+<p align="left">
+  <a href="media/24-network-tools.mp4"><img width="640" src="media/24-network-tools.gif" alt="Lesson 24 animation: Network tools: ip, ss, ping, traceroute, dig, curl"></a>
+</p>
+
 ## Next
 [Lesson 25. SSH](25-ssh.md)
