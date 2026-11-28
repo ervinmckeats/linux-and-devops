@@ -168,5 +168,11 @@ Inside the container your app is PID 1. PID 1 does not get default signal handle
 - What does exit code 137 with `OOMKilled=true` mean?
 - Why is being in the `docker` group equivalent to root?
 
+---
+
+<p align="left">
+  <a href="media/41-docker-basics.mp4"><img width="640" src="media/41-docker-basics.gif" alt="Lesson 41 animation: Docker basics"></a>
+</p>
+
 ## Next
 [Lesson 42. Dockerfile best practices](42-dockerfile.md)
