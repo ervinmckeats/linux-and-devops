@@ -93,5 +93,11 @@ Small, useful, tested, documented. Bonus: someone else uses it.
 - On your CV: one line per project with the result ("GitOps platform for 3 services, rebuilt from Git in 12 minutes").
 - In interviews: be ready to explain one trade-off and one thing that broke and how you fixed it.
 
+---
+
+<p align="left">
+  <a href="media/65-capstone-projects.mp4"><img width="640" src="media/65-capstone-projects.gif" alt="Lesson 65 animation: Capstone projects"></a>
+</p>
+
 ## Next
 [Lesson 66. Interview questions](66-interview-questions.md)

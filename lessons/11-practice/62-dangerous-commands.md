@@ -100,5 +100,11 @@ In a VM with a snapshot:
 - What three things do you check before `dd`?
 - Name two ways to avoid locking yourself out when changing a firewall over SSH.
 
+---
+
+<p align="left">
+  <a href="media/62-dangerous-commands.mp4"><img width="640" src="media/62-dangerous-commands.gif" alt="Lesson 62 animation: Dangerous commands"></a>
+</p>
+
 ## Next
 [Lesson 63. Real-world scenarios](63-real-world-scenarios.md)

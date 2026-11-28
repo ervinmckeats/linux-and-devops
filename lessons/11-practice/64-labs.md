@@ -385,5 +385,11 @@ resources:
 4. Write a Prometheus alert for "more than 3 container restarts in 15 minutes" and test it with a crashing pod.
 5. Take one real incident (yours or a public postmortem from a well-known company) and write a 1-page summary: impact, cause, contributing factors, fixes.
 
+---
+
+<p align="left">
+  <a href="media/64-labs.mp4"><img width="640" src="media/64-labs.gif" alt="Lesson 64 animation: Labs with solutions"></a>
+</p>
+
 ## Next
 [Lesson 65. Capstone projects](65-capstone-projects.md)

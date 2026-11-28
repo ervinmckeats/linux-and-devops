@@ -150,5 +150,11 @@ For each, structure your answer: **clarify** (who is affected, since when, what 
 
 Use STAR: Situation, Task, Action, Result. Have numbers ready ("deploy time from 40 to 8 minutes", "pages per week from 30 to 4").
 
+---
+
+<p align="left">
+  <a href="media/66-interview-questions.mp4"><img width="640" src="media/66-interview-questions.gif" alt="Lesson 66 animation: Interview questions"></a>
+</p>
+
 ## Next
 [Lesson 67. Glossary and resources](67-glossary-resources.md)
